@@ -1,0 +1,179 @@
+body {
+	margin:0;
+	padding:0;
+	width:100%;
+
+}
+img {
+	max-width:100%;
+}
+#header {
+	width:100%;
+	height:60px;
+	background-color:white;
+}
+#main-screen {
+	width:100%;
+	height:100%;
+	padding:0;
+}
+#main-screen img {
+	background-size:100% auto;
+}
+#left-bar {
+	height:450px;
+	width:200px;
+	margin:20px;
+	background-color:green;
+	opacity: .75;
+	position: absolute;
+	left:0;
+	top:100px;
+	margin:0;
+	border-radius:10px;
+}
+#left-bar:hover {
+	opacity: 1;
+}
+#left-bar h1 {
+	padding:0px 0 10px 50px;
+}
+/**#main-view {
+	position: absolute;
+	background-image:url('wineryfront.jpg');
+	background-size:100% auto;
+	width:100%;
+	height:100%;
+
+}
+*/
+#view1 {
+	position: absolute;
+	height: 198px;
+	width: 264px;
+	top: 20px;
+	right: 10px;
+	background-color:black;
+	border-radius:3px;
+}
+#view2 {
+	position: absolute;
+	height: 198px;
+	width: 264px;
+	top: 270px;
+	right: 10px;
+	background-color:black;
+	border-radius:3px;
+}
+#controlBox {
+	position: absolute;
+	height:50px;
+	width:175px;
+	top:290px;
+	right:95px;
+	background-color: black;
+	opacity: .75;
+	border-radius:3px;
+	border: 1px solid white;
+}
+#controlBox:hover {
+	opacity: 1;
+}
+.player-control {
+	position: absolute;
+	height:40px;
+	width:100px;
+	bottom:0;
+	background-color:blue;
+	border-radius: 3px;
+	border:1px solid white;
+	opacity: .3
+}
+.player-control:hover {
+	opacity: .9;
+}
+-----------------------
+
+#panel {
+	position:absolute;
+	height:500px;
+	width:100px;
+	background-color: green;
+	display: none;
+}
+
+#right-menu {
+	display:block;
+    position:absolute;
+    right:0px;
+    top:235px;
+    width:20px;
+    height:150px;
+	font-family:arial,sans-serif;
+    font-size:14px;
+	color:#ffffff;
+    background:#cc0000;
+	text-decoration:none;
+    -moz-border-bottom-left-radius:5px;
+    -moz-border-bottom-right-radius:5px;
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
+}
+#left-panel {
+	display:block;
+    position:absolute;
+    left:0px;
+    top:235px;
+    width:20px;
+    height:150px;
+	font-family:arial,sans-serif;
+    font-size:14px;
+	color:#ffffff;
+    background:#0000ff;
+	text-decoration:none;
+    -moz-border-bottom-left-radius:5px;
+    -moz-border-bottom-right-radius:5px;
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
+}
+.pull-me p {
+    text-align:center;
+}
+
+#toggle {
+    width: 250px;
+    height: 300px;
+    background: #ccc;
+    position:absolute;
+    top:220;
+  }
+
+ #showLeft {
+height: 40px;
+left: 0;
+position: fixed;
+top: 0px;
+width: 40px;
+border: 1px solid black;			 }
+
+#showBottom {
+	right:0;
+	bottom:0;
+    position:fixed;
+    z-index:150;
+    _position:absolute;
+    _top:expression(eval(document.documentElement.scrollTop+
+        (document.documentElement.clientHeight-this.offsetHeight)));
+    height: 40px; width: 40px;
+    border: 1px solid black;
+			}
+
+
+#showRightPush {
+        height: 40px;
+right:0px;
+position: fixed;
+top: 0px;
+width: 40px;
+border: 1px solid black;
+			}

@@ -1,0 +1,1379 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="javascripts/all.js"></script>
+    <script src="javascripts/modernizr.custom.js"></script>
+    <script type="text/javascript" src="javascripts/bootstrap.js"></script>
+    <script src="javascripts/opentok_helper.js" type="text/javascript"></script>
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/hmac-sha1.js"></script>
+    <link rel="stylesheet" href="stylesheets/wisdom1.css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" href="stylesheets/jquery.sidr.light.css">
+    <link rel="stylesheet" href="stylesheets/default.css">
+    <link rel="stylesheet" href="stylesheets/component.css">
+    <link rel="stylesheet" href="stylesheets/all.css">
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="stylesheets/font-awesome.min.css">
+    <script type="text/javascript" src="javascripts/jquery.idTabs.min.js"></script>
+    <script src="http://static.opentok.com/webrtc/v2.0/js/TB.min.js"></script>
+    
+
+      <style>
+        .carousel {
+
+        margin-bottom: 0px!important;
+        }
+
+        .triangle-border.left {
+        margin-left: 30px;
+        }
+        .triangle-border {
+        position: relative;
+        padding: 15px;
+        margin: 1em 0 3em;
+        border: 5px solid #2B4492;
+        color: #333;
+        background: #fff;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        float:right;
+        }
+
+
+        .triangle-border.left:before {
+        top: 10px;
+        bottom: auto;
+        left: -30px;
+        border-width: 15px 30px 15px 0;
+        border-color: transparent #fff;
+        }
+
+
+        .triangle-border:before {
+        content: "";
+        position: absolute;
+        bottom: -20px;
+        left: 40px;
+        border-width: 20px 20px 0;
+        border-style: solid;
+        border-color: #2B4492 transparent;
+        display: block;
+        width: 0;
+        }
+/**
+        .triangle-border:after {
+        content: "";
+        position: absolute;
+        bottom: -13px;
+        left: 47px;
+        border-width: 13px 13px 0;
+        border-style: solid;
+        border-color: #2B4492 transparent;
+        display: block;
+        width: 0;
+        }
+
+        .triangle-border.left:after {
+        top: 16px;
+        bottom: auto;
+        left: -21px;
+        border-width: 9px 21px 9px 0;
+        border-color: transparent #fff;
+        }
+**/
+            #header {
+              width: 100%;
+              height: 80px;
+              background-color: #3498DB;
+              border-bottom: 2px solid black;
+              text-align: center;
+              color: #fff;
+              font-family: "Lato", sans-serif;
+              text-rendering: optimizelegibility;
+              font-size: 35px;
+              font-weight: 500;
+              letter-spacing: 1px;
+              line-height: 100px;
+              text-transform: uppercase;
+
+            }
+
+      hr.examplefour {
+      border: 0;
+      height: 1px;
+      width: 275px;
+      background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+      background-image: -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+      background-image: -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+      background-image: -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
+      position: absolute;
+      right: 10px;
+      top: 223px;
+      }
+      .ch-item {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        position: relative;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        cursor: default;
+      }
+
+      .ch-info-wrap, 
+      .ch-info{
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+      }
+
+      .ch-info-wrap {
+        top: 0px;
+        left: 0px;
+        background: #f9f9f9 url(http://tympanus.net/Tutorials/CircleHoverEffects/images/bg.jpg);
+        box-shadow: 
+          0 0 0 20px rgba(255,255,255,0.2), 
+          inset 0 0 3px rgba(115,114, 23, 0.8);
+
+      }
+
+      .ch-info > div {
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-position: center center;
+        
+        -webkit-backface-visibility: hidden; /*Just for webkit to have a smooth font*/
+      }
+
+      .ch-info .ch-info-front {
+        -webkit-transition: all 0.6s ease-in-out;
+        -moz-transition: all 0.6s ease-in-out;
+        -o-transition: all 0.6s ease-in-out;
+        -ms-transition: all 0.6s ease-in-out;
+        transition: all 0.6s ease-in-out;
+      }
+
+      .ch-info .ch-info-back {
+        opacity: 0;
+
+        background: #223e87;
+        pointer-events: none;
+        
+        -webkit-transform: scale(1.5);
+        -moz-transform: scale(1.5);
+        -o-transform: scale(1.5);
+        -ms-transform: scale(1.5);
+        transform: scale(1.5);
+        
+        -webkit-transition: all 0.4s ease-in-out 0.2s;
+        -moz-transition: all 0.4s ease-in-out 0.2s;
+        -o-transition: all 0.4s ease-in-out 0.2s;
+        -ms-transition: all 0.4s ease-in-out 0.2s;
+        transition: all 0.4s ease-in-out 0.2s;
+      }
+
+      .ch-img-1 {
+      background-image: url(avatars/1.jpg);
+      background-size: 100%;
+      }
+
+      .ch-img-2 {
+      background-image: url(avatars/10.png);
+      background-size: 100%;
+      }
+
+      .ch-img-3 {
+      background-image: url(avatars/12.jpg);
+      background-size: 100%;
+      }
+
+      .ch-img-4 {
+      background-image: url(avatars/9.jpg);
+      background-size: 100%;
+      }
+
+      .ch-img-5 {
+      background-image: url(avatars/2.jpg);
+      background-size: 100%;
+      }
+
+      .ch-img-6 {
+      background-image: url(avatars/3.jpg);
+      background-size: 100%;
+      }
+
+      .ch-img-7 {
+      background-image: url(avatars/5.png);
+      background-size: 100%;
+      }
+
+      .ch-img-8 {
+      background-image: url(avatars/6.gif);
+      background-size: 100%;
+      }
+
+      .ch-img-9 {
+      background-image: url(avatars/17.jpg);
+      background-size: 100%;
+      }
+
+
+      .ch-img-10 {
+      background-image: url(avatars/8.jpg);
+      background-size: 100%;
+      }
+
+
+      .ch-info h3 {
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 18px;
+        margin: 0 15px;
+        padding: 40px 0 0 0;
+        height: 80px;
+        font-family: 'Open Sans', Arial, sans-serif;
+        text-shadow: 
+          0 0 1px #fff, 
+          0 1px 2px rgba(0,0,0,0.3);
+      }
+
+      .ch-info p {
+        color: #fff;
+        padding: 10px 5px 0;
+        font-style: italic;
+        margin: 0 30px;
+        font-size: 12px;
+        border-top: 1px solid rgba(255,255,255,0.5);
+      }
+
+      .ch-info p a {
+        display: block;
+        color: #e7615e;
+        font-style: normal;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 9px;
+        letter-spacing: 1px;
+        padding-top: 4px;
+        font-family: 'Open Sans', Arial, sans-serif;
+      }
+
+      .ch-info p a:hover {
+        color: #fff;
+      }
+
+      .ch-item:hover .ch-info-front {
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -o-transform: scale(0);
+        -ms-transform: scale(0);
+        transform: scale(0);
+        
+        opacity: 0;
+      } 
+
+      .ch-item:hover .ch-info-back {
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -o-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+        
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+
+  .ch-item {
+   width: 150px;
+  height: 59%;
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  cursor: default;
+  }
+
+  .ch-info-wrap, 
+  .ch-info{
+   position: absolute;
+  width: 108px;
+  height: 109px;
+  border-radius: 50%;
+  }
+
+  .ch-info-wrap {
+  top: 11px;
+  left: 11px;
+  background: #f9f9f9 url(../images/bg.jpg);
+  box-shadow: 0 0 0 10px rgba(255,255,255,0.2), inset 0 0 3px rgba(115,114, 23, 0.8);
+
+  }
+
+  .ch-info > div {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-position: center center;
+    
+    -webkit-backface-visibility: hidden; /*Just for webkit to have a smooth font*/
+  }
+
+  .ch-info .ch-info-front {
+    -webkit-transition: all 0.6s ease-in-out;
+    -moz-transition: all 0.6s ease-in-out;
+    -o-transition: all 0.6s ease-in-out;
+    -ms-transition: all 0.6s ease-in-out;
+    transition: all 0.6s ease-in-out;
+  }
+
+  .ch-info .ch-info-back {
+    opacity: 0;
+
+    background: #223e87;
+    pointer-events: none;
+    
+    -webkit-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    transform: scale(1.5);
+    
+    -webkit-transition: all 0.4s ease-in-out 0.2s;
+    -moz-transition: all 0.4s ease-in-out 0.2s;
+    -o-transition: all 0.4s ease-in-out 0.2s;
+    -ms-transition: all 0.4s ease-in-out 0.2s;
+    transition: all 0.4s ease-in-out 0.2s;
+  }
+
+
+
+  .ch-info h3 {
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 17px;
+    margin: 0px 0 0 0;
+    padding: 20px 0 0 0;
+    height: 80px;
+    font-family: 'Open Sans', Arial, sans-serif;
+    text-shadow: 0 0 1px #fff, 0 1px 2px rgba(0,0,0,0.3);
+    line-height: 18px;
+    padding-left: 14px;
+    text-align: center;
+  }
+
+  .ch-info p {
+    color: #fff;
+    padding: 10px 5px 0;
+    font-style: italic;
+    margin: 0 30px;
+    font-size: 12px;
+    border-top: 1px solid rgba(255,255,255,0.5);
+  }
+
+  .ch-info p a {
+    display: block;
+    color: #e7615e;
+    font-style: normal;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding-top: 4px;
+    font-family: 'Open Sans', Arial, sans-serif;
+  }
+
+  .ch-info p a:hover {
+    color: #fff;
+  }
+
+  .ch-item:hover .ch-info-front {
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -o-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0);
+    
+    opacity: 0;
+  } 
+
+  .ch-item:hover .ch-info-back {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -o-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+    
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .main {
+  width: 100%;
+  margin: -15px auto;
+  position: relative;
+  }
+
+
+  .ch-grid {
+  margin: 0px 0 0 0;
+  padding: 0;
+  list-style: none;
+  display: block;
+  text-align: center;
+  width: 100%;
+  }
+
+  .ch-grid:after,
+  .ch-item:before {
+    content: '';
+      display: table;
+  }
+
+  .ch-grid:after {
+    clear: both;
+  }
+
+  .ch-grid li {
+   width: 1200px;
+  height: 220px;
+  display: inline-block;
+  margin: 10px;
+  }
+
+
+      </style>
+
+   <!-- <script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js'></script> -->
+    <script type="text/javascript">
+
+        function genToken(){
+
+          var secondsInDay = 86400;
+
+          // Credentials
+          var apiKey = '31460052';
+          var secret = '4355ee2b64cd86df1e05cab9b05a3d818bcd7eb1';
+          var sessionId = '1_MX4zMTQ2MDA1Mn4xMjcuMC4wLjF-U3VuIEp1bCAxNCAxNjowMjoyMyBQRFQgMjAxM34wLjA5NTYxOTJ-';
+
+          // Token Params
+          var timeNow = Math.floor(Date.now()/1000);
+          var expire = timeNow+secondsInDay;
+          var role = "publisher";
+          var data = "name"
+
+          TB.setLogLevel(TB.DEBUG);
+
+          // Calculation
+          data = escape(data);
+          var rand = Math.floor(Math.random()*999999);
+          var dataString =  "session_id="+sessionId+"&create_time="+timeNow+"&expire_time="+expire+"&role="+role+"&connection_data="+data+"&nonce="+rand;
+
+          // Encryption
+          var hmac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA1, secret);
+          hmac.update( dataString );
+          hash = hmac.finalize();
+
+          preCoded = "partner_id="+apiKey+"&sig="+hash+":"+dataString;
+          token = "T1=="+$.base64.encode( preCoded )
+          // Token Achieved. The End
+
+          return token;
+
+        }
+
+        // Not using var here to make it global scoped.
+        currentSlideNumber = 1;
+        prevSlideNumber = 1;
+        var sessionId = "1_MX4zMTQ2MDA1Mn4xMjcuMC4wLjF-U3VuIEp1bCAxNCAxNjowMjoyMyBQRFQgMjAxM34wLjA5NTYxOTJ-";
+        var apiKey = "31460052";
+        var token = genToken();
+        var flashSlidePlayer;
+
+        TB.setLogLevel(TB.DEBUG);
+
+        // Initialize session, set up event listeners, and connect
+        var session = TB.initSession(sessionId);
+        session.addEventListener('sessionConnected', sessionConnectedHandler);
+        session.addEventListener('streamCreated', streamCreatedHandler);
+        session.connect(apiKey, token);
+        
+
+        function sessionConnectedHandler(event) {
+          var publisher = TB.initPublisher(apiKey, 'view2');
+          session.publish(publisher);
+
+          subscribeToStreams(event.streams);
+        }
+
+        function streamCreatedHandler(event) {
+          // Subscribe to any new streams that are created
+          subscribeToStreams(event.streams);
+        }
+
+        function subscribeToStreams(streams) {
+            for(var i=0; i<streams.length; i++){
+
+              if (streams[i].connection.connectionId == session.connection.connectionId) {
+              continue;
+              }
+
+              if (streams[i].connection.data == "expert" ){
+                var div = document.createElement('div');
+                div.setAttribute('id', 'stream' + streams[i].streamId);
+                document.getElementById('view1').appendChild(div);
+                session.subscribe(streams[i], div.id);
+              }
+              else{
+                var div = document.createElement('div');
+                div.setAttribute('id', 'stream' + streams[i].streamId);
+                div.setAttribute('class', 'participantview');
+                div.setAttribute('style','top:0px; ');
+                document.getElementById('tabs-1').appendChild(div);
+                session.subscribe(streams[i], div.id);         
+              } 
+            }
+          }
+
+        
+        ws = new WebSocket("ws://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8000/websocket");
+        
+        ws.onmessage = function(msg) {
+          var message = msg.data;
+          if (message.slice(0,3) === "<b>"){
+            $("#chat").prepend("<div style='height:100px;'><i class='icon-user' style='color: rgb(20, 24, 128);font-size:45px;text-decoration:none;float:left;position:relative;width:50px;margin-top: 15px;'></i><div class='triangle-border' style='width:140px;height:50px;'>" + message + "<div></div>");
+
+          } 
+          else if (message.slice(0,1) === "1") {
+            $("#ha1").html(" " + message)
+          }
+          else if (message.slice(0,1) === "2") {
+            $("#ha2").html(" " + message)
+          }
+          else if (message.slice(0,1) === "3") {
+            $("#ha3").html(" " + message)
+          }
+          else if (message.slice(0,1) === "4") {
+            $("#ha4").html(" " + message)
+          }
+          else if (message.slice(0,1) === "5") {
+            $("#ha5").html(" " + message)
+          }
+          else if (message.slice(0,1) === "6") {
+            $("#ha6").html(" " + message)
+          }
+          else if (message.slice(0,1) === "7") {
+            $("#ha7").html(" " + message)
+          }
+          else if (message.slice(0,1) === "8") {
+            $("#ha8").html(" " + message)
+          }
+
+                else if (message.slice(0,11) === "!!SLIDENUM:") {
+          var slideNum = message.split(/:/).pop();
+          flashSlidePlayer.jumpTo(Number(slideNum));
+         }
+          
+        };
+        ws.onerror = function(evt) {
+          alert("ERROR: "+evt.data);
+        };
+
+        function send_message1() {
+          msg = $("#st").val();
+          ws.send(msg);
+        }
+        function send_message2() {
+          msg = "<b>" + $("#message").val() + "</b>";
+          ws.send(msg);
+        }
+      
+
+ 
+      </script> 
+
+      <style type="text/css">
+          .ui-tabs-vertical { width: 100px;  }
+          .ui-tabs-vertical .ui-tabs-nav {  float: left;  }
+          .ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; margin: 0 0px 0em 0; background:rgb(0, 43, 90)!important;}
+          .ui-tabs-vertical .ui-tabs-nav li a { display:block; }
+          .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { border:0px; }
+          .ui-tabs-vertical .ui-tabs-panel { float: right; width: 40em;}
+
+      </style>
+
+      <script type="text/javascript">
+      $(function() {
+        $( "#verticalTabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
+        $( "#verticalTabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
+      });
+
+
+      </script>
+
+  </head>
+  <body class="cbp-spmenu-push" style="background: url(images/textures/15.png)">
+  
+    <div id='main-screen'>
+      <div id='slide-wrapper' style="max-height:650px; float:left; ">
+      <div id="myCarousel" class="carousel slide" style="max-height:inherit;">
+            <ol class="carousel-indicators">
+              <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+              <li data-target="#myCarousel" data-slide-to="1"></li>
+              <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+            
+            <!-- Carousel items -->
+            <div class="carousel-inner" style="max-height:inherit;" >
+              <div class="item active" style="margin-bottom: -40px; margin-left: -2px;">
+                    <img src="images/slides/slide1.png" alt="">
+                  </div>
+                  <div class="item">
+                    <img src="images/slides/slide2.png" alt="">
+                  </div>
+                  <div class="item">
+                    <img src="images/slides/slide3.png" alt="">
+                  </div>
+                  <div class="item">
+                    <img src="images/slides/slide4.png" alt="">
+                  </div>
+                  <div class="item">
+                    <img src="images/slides/slide5.png" alt="">
+                  </div>
+                  <div class="item">
+                    <img src="images/slides/slide6.png" alt="">
+                  </div>
+                  <div class="item">
+                    <img src="images/slides/slide7.png" alt="">
+                  </div>
+                  <div class="item">
+                    <img src="images/slides/slide8.png" alt="">
+                  </div>
+                  <div class="item">
+                    <img src="images/slides/slide9.png" alt="">
+                  </div>
+                  <div class="item">
+                    <img src="images/slides/slide10.png" alt="">
+                  </div>
+                  <div class="item">
+                    <img src="images/slides/slide11.png" alt="">
+                  </div>
+                  <div class="item">
+                    <img src="images/slides/slide12.png" alt="">
+                  </div>
+                  <div class="item">
+                    <img src="images/slides/slide13.png" alt="">
+                  </div>
+                  <div class="item">
+                    <img src="images/slides/slide14.png" alt="">
+                  </div>
+            </div>
+        <!-- Carousel nav -->
+
+
+        <a style="height: 40px;
+
+position: fixed;
+bottom: 0px;
+padding: 10px;
+width: 100%;
+border: 1px solid black;border: none;
+background: rgb(0, 43, 90);
+color: #fff;
+padding: 0em;
+display: block;
+text-decoration:none;
+cursor: pointer;
+margin: 0px 0;
+font-size: 0.8em;
+padding: 5px;" class="" href="#myCarousel" data-slide="prev"></a>
+        <a style="height: 40px;
+
+position: fixed;
+bottom: 0px;
+padding: 10px;
+width: 40px;
+border: 1px solid black;border: none;
+background: rgb(0, 43, 90);
+color: #fff;
+padding: 0em;
+display: block;
+text-decoration:none;
+cursor: pointer;
+margin: 0px 0;
+font-size: 0.8em;
+padding: 5px;" class="" href="#myCarousel" data-slide="prev"><i class="icon-chevron-sign-left" style="color: rgb(55, 240, 106);font-size:30px;text-decoration:none;"></i></a>
+        <a style="height: 40px;
+
+position: fixed;
+bottom: 0px;
+left:40px;
+width: 40px;
+border: 1px solid black;border: none;
+background: rgb(0, 43, 90);
+color: #fff;
+padding: 0em;
+display: block;
+text-decoration:none;
+cursor: pointer;
+margin: 0px 0;
+font-size: 0.8em;
+padding: 5px;" href="#myCarousel" data-slide="next"><i class="icon-chevron-sign-right" style="color: rgb(55, 240, 106);font-size:30px;text-decoration:none;"></i></a>
+      </div>
+           <a style="height: 40px;
+
+position: fixed;
+bottom: 0px;
+left:80px;
+width: 40px;
+border: 1px solid black;border: none;
+background: rgb(0, 43, 90);
+color: #fff;
+padding: 0em;
+display: block;
+text-decoration:none;
+cursor: pointer;
+margin: 0px 0;
+font-size: 0.8em;
+padding: 5px;" href="#myCarousel" data-slide="next"><i class="icon-heart" style="color: rgb(255, 50, 50);font-size:30px;text-decoration:none;"></i></a>
+      </div>
+           <a style="height: 40px;
+
+position: fixed;
+bottom: 0px;
+left:120px;
+width: 40px;
+border: 1px solid black;border: none;
+background: rgb(0, 43, 90);
+color: #fff;
+padding: 0em;
+display: block;
+text-decoration:none;
+cursor: pointer;
+margin: 0px 0;
+font-size: 0.8em;
+padding: 5px;" href="#myCarousel" data-slide="next"><i class="icon-microphone" style="color: rgb(207, 207, 255);font-size:30px;text-decoration:none;"></i></a>
+      </div>
+           <a style="height: 40px;
+
+position: fixed;
+bottom: 0px;
+left:160px;
+width: 40px;
+border: 1px solid black;border: none;
+background: rgb(0, 43, 90);
+color: #fff;
+padding: 0em;
+display: block;
+text-decoration:none;
+cursor: pointer;
+margin: 0px 0;
+font-size: 0.8em;
+padding: 5px;" href="#myCarousel" data-slide="next"><i class="icon-tag" style="color: orange;font-size:30px;text-decoration:none;"></i></a>
+ <a style="height: 40px;
+
+position: fixed;
+bottom: 0px;
+left:200px;
+width: 40px;
+border: 1px solid black;border: none;
+background: rgb(0, 43, 90);
+color: #fff;
+padding: 0em;
+display: block;
+text-decoration:none;
+cursor: pointer;
+margin: 0px 0;
+font-size: 0.8em;
+padding: 5px;" href="#myCarousel" data-slide="next"><i class="icon-fullscreen" style="color: rgb(0, 184, 255);font-size:30px;text-decoration:none;"></i></a>
+      </div>
+
+      
+        <script>
+        $(function() {
+          $( ".view" ).draggable();
+          $( "#view1" ).dblclick(function() {
+          var main = $('#slide-wrapper').html();
+          var view = $('#view1').html();
+          $('#slide-wrapper').html(view);
+          $('#view1').html(main);
+        });
+        });
+
+
+        $(function() {
+          $('.carousel').carousel();
+        });    
+
+        $(function() {
+          $( ".drag" ).draggable();
+        });
+        
+        </script>
+    <div class="drag" style="">
+      <div class='view' id='view1'> 
+        <img src="images/tim-ferriss.jpg">
+      </div>
+    </div>
+      <hr class="examplefour"></hr>
+    <div class="drag">
+      <div class='view' id='view2'>
+      </div>
+    </div>
+    </div>
+
+<script src="http://www.appelsiini.net/download/jquery.jeditable.mini.js"></script>
+     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1" style="border:1px solid black;">
+      <script>
+      $(document).ready(function() {
+     $(".edit").editable('/')
+     $('.edit').click(function() {
+      $('#button1').css('display','block')
+      $('#button1').click(function(){
+        $('#button1').css('display','none')
+      });
+     });
+ });
+      </script>
+        <script src="js/bootstrap-select.js"></script>
+        <script src="js/application.js"></script>
+
+
+                                <div class="todo mrm" style="width: 220px;">
+                                   <h4 class="todo-name" style="font-size: 31px;
+text-align: center;
+color: white;
+padding-top: 10px;
+padding-bottom: 20px;">
+                                       Agenda
+                                        </h4>
+                                  <ul>
+                                    <li class="todo-done">
+                                      <div class="todo-content">
+                                        <h4 class="todo-name">
+                                          Future of AGI
+                                        </h4>
+                                      </div>
+                                    </li>
+
+                                    <li>
+                                      <div class="todo-content">
+                                    <h4 class="todo-name">
+                                          AGI on the Rise
+                                        </h4>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <div class="todo-content">
+                                       <h4 class="todo-name">
+                                          Approach to AGI: OpenCog
+                                        </h4>
+                                      </div>
+                                    </li>
+
+                                    <li>
+                                      <div class="todo-content">
+                                     <h4 class="todo-name">
+                                          Rise of Robotic Children
+                                        </h4>
+                                      </div>
+                                    </li>
+
+                                     <li>
+                                      <div class="todo-content">
+                                     <h4 class="todo-name">
+                                          Rise of AI Scientists
+                                        </h4>
+                                      </div>
+                                    </li>
+
+                                     <li>
+                                      <div class="todo-content">
+                                        <h4 class="todo-name">
+                                           One Big AI Network
+                                        </h4>
+                                      </div>
+                                    </li>
+
+                                     <li>
+                                      <div class="todo-content">
+                                       <h4 class="todo-name">
+                                         Singularity
+                                        </h4>
+                                      </div>
+                                    </li>
+
+                                  </ul>
+                                </div>
+                              </div>
+
+
+        </nav>
+
+      <!--
+      Right Menu - Chat
+      -->
+
+        <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right" id="cbp-spmenu-s2"style="border-left: 1px solid black;">
+
+
+                          <div class="span4">
+
+
+                                   
+    
+    <div id='tbox' style='background-image:url(static/css/images/5.png);
+background-position-x: repeat-x;
+background-position-y: repeat-y;
+height:70%;
+width:190px;margin:15px;position:relative'>
+
+ <h4 class="todo-name" style="font-size: 31px;
+text-align: center;
+color: black;
+padding-top: 10px;
+padding-bottom: 20px;">
+                                       Chat
+                                        </h4>
+
+          <div id='chat' style='color:black;'>
+
+
+          </div>
+    </div>
+
+       <form>
+      <dl>
+        <dt style="padding-left:10px;color:black;font-family: Lato, sans-serif;font-weight: 500;margin: 1px 0 3px;font-size: 18px;text-transform: uppercase;text-rendering: optimizelegibility;">Message Box</dt><dd><textarea id="message"></textarea>
+      </dl>
+        <button style="margin-left: 15px;
+          width: 190px;
+          background: rgb(0, 43, 90);font-family: Lato, sans-serif;font-weight: 900;line-height: 15px;margin: 1px 0 3px;font-size: 18px;text-transform: uppercase;text-rendering: optimizelegibility;" class="btn btn-large btn-block btn-primary;width:100px!important;" onclick="send_message2(); return false;">Send</button>
+    </form>
+  </a>
+                                    </li>
+
+                                  </ul>
+                                </div>
+                              </div>
+        </nav>
+
+
+      <!--
+      Bottom Menu - Participants
+      -->
+
+      <style type="text/css">
+
+      }
+
+      </style>
+
+      <div class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-bottom" id="cbp-spmenu-s4" style="border-top: 1px solid black;
+            background: -moz-linear-gradient(top, #ffffff 1%, #2989d8 46%, #1e5799 100%)!important;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#ffffff), color-stop(46%,#2989d8), color-stop(100%,#1e5799))!important;
+            background: -webkit-linear-gradient(top, #ffffff 1%,#2989d8 46%,#1e5799 100%)!important;
+            background: -o-linear-gradient(top, #ffffff 1%,#2989d8 46%,#1e5799 100%)!important;
+            background: -ms-linear-gradient(top, #ffffff 1%,#2989d8 46%,#1e5799 100%)!important;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, -31) 0%,rgba(0, 95, 173, 0.82) 78%,#1e5799 100%)!important;
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#1e5799',GradientType=0 )!important;
+
+            ">
+          
+          <div id="verticalTabs" style="width:0px; height:inherit;">
+              <ul style="position:relative; border:0px;left:-5px; top:-5px; height:inherit;background: rgb(0, 43, 90)!important ">
+                <li style="border:0px;"><a 
+                  style="
+                          -webkit-backface-visibility: hidden;
+                          -webkit-transition-delay: 0s;
+                          -webkit-transition-duration: 0.25s;
+                          -webkit-transition-property: all;
+                          -webkit-transition-timing-function: ease;
+                          border-left-color: rgb(37, 142, 205);
+                          border-left-style: solid;
+                          border-left-width: 0px;
+                          box-sizing: border-box;
+                          color:white;
+                          cursor: auto;
+                          display: block;
+                          float: left;
+                          font-family: sans-serif;
+                          font-weight: 200;
+                          height: 20px;
+                          line-height: 20px;
+                          list-style-type: disc;
+                          transition-delay: 0s;
+                          transition-duration: 0.25s;
+                          transition-property: all;
+                          transition-timing-function: ease;
+                          width: 100px;
+                          height:50%;
+                          text-transform: uppercase;
+                          text-rendering: optimizelegibility;
+                          font-weight: 500;
+                          color: white;
+                          text-decoration: none;
+                          padding: 5px;
+                          font-size: 14px;
+
+                  "
+                 href="#tabs-1"><center><i class="icon-user" style="font-size:44px;"></i><br>Presenters</center></a></li>
+                <li style="border:0px;"><a style="
+                          -webkit-backface-visibility: hidden;
+                          -webkit-transition-delay: 0s;
+                          -webkit-transition-duration: 0.25s;
+                          -webkit-transition-property: all;
+                          -webkit-transition-timing-function: ease;
+                          border-left-color: rgb(37, 142, 205);
+                          border-left-style: solid;
+                          border-left-width: 0px;
+                          box-sizing: border-box;
+                          color: white;
+                          cursor: auto;
+                          display: block;
+                          float: left;
+                          font-family: sans-serif;
+                          font-weight: 200;
+                          height: 20px;
+                          line-height: 20px;
+                          list-style-type: disc;
+                          text-align: left;
+                          transition-delay: 0s;
+                          transition-duration: 0.25s;
+                          transition-property: all;
+                          transition-timing-function: ease;
+                          width: 100px;
+                          height:50%;
+                          text-transform: uppercase;
+                          text-rendering: optimizelegibility;
+                          font-weight: 500;
+                          color: white;
+                          text-decoration: none;
+                          padding: 5px;
+                          font-size: 14px;
+                          " href="#tabs-2"><center><i class="icon-group" style="font-size:44px;"></i><br>Spectators</center></a></li>
+              </ul>
+              <div id="tabs-1" style="position:fixed; left:100px; width:1000px;" >
+
+              </div>
+              <div id="tabs-2" style="position:fixed; left:100px; width:1000px;">
+                    
+        <section class="main" style="">
+      
+              <ul class="ch-grid">
+                <li>
+
+                        <div class="ch-item" style="float:left;">
+                          <div class="ch-info-wrap">
+                            <div class="ch-info">
+                              <div class="ch-info-front ch-img-1"></div>
+                              <div class="ch-info-back">
+                               <center><h3>Alison Wright
+                                <br><i class="icon-linkedin-sign" style="float: left;position: absolute;left: 25px;"></i>
+                                <i class="icon-twitter-sign" style="float: left;position: absolute;left: 45;"></i>
+                                <i class="icon-facebook-sign" style="float: left; position: absolute;left: 65px;"></i>
+                                  </h3></center>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="ch-item"  style="float:left;">
+                          <div class="ch-info-wrap">
+                            <div class="ch-info">
+                              <div class="ch-info-front ch-img-2"></div>
+                              <div class="ch-info-back">
+                               <h3>Chris Abram
+                                <br><i class="icon-linkedin-sign" style="float: left;position: absolute;left: 25px;"></i>
+                                <i class="icon-twitter-sign" style="float: left;position: absolute;left: 45;"></i>
+                                <i class="icon-facebook-sign" style="float: left; position: absolute;left: 65px;"></i>
+                                  </h3>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="ch-item"  style="float:left;">
+                          <div class="ch-info-wrap">
+                            <div class="ch-info">
+                              <div class="ch-info-front ch-img-3"></div>
+                              <div class="ch-info-back">
+                               <h3>Kenn Collins
+                                <br><i class="icon-linkedin-sign" style="float: left;position: absolute;left: 25px;"></i>
+                                <i class="icon-twitter-sign" style="float: left;position: absolute;left: 45;"></i>
+                                <i class="icon-facebook-sign" style="float: left; position: absolute;left: 65px;"></i>
+                                  </h3>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="ch-item"  style="float:left;">
+                          <div class="ch-info-wrap">
+                            <div class="ch-info">
+                              <div class="ch-info-front ch-img-4"></div>
+                              <div class="ch-info-back">
+                               <h3>Cynthia Miller
+                                <br><i class="icon-linkedin-sign" style="float: left;position: absolute;left: 25px;"></i>
+                                <i class="icon-twitter-sign" style="float: left;position: absolute;left: 45;"></i>
+                                <i class="icon-facebook-sign" style="float: left; position: absolute;left: 65px;"></i>
+                                  </h3>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+
+                        <div class="ch-item"  style="float:left;">
+                          <div class="ch-info-wrap">
+                            <div class="ch-info">
+                              <div class="ch-info-front ch-img-5"></div>
+                              <div class="ch-info-back">
+                               <h3>Robert Johnson
+                                <br><i class="icon-linkedin-sign" style="float: left;position: absolute;left: 25px;"></i>
+                                <i class="icon-twitter-sign" style="float: left;position: absolute;left: 45;"></i>
+                                <i class="icon-facebook-sign" style="float: left; position: absolute;left: 65px;"></i>
+                                  </h3>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+
+                        <div class="ch-item"  style="float:left;">
+                          <div class="ch-info-wrap">
+                            <div class="ch-info">
+                              <div class="ch-info-front ch-img-6"></div>
+                              <div class="ch-info-back">
+                               <h3>Carrol Kim
+                                <br><i class="icon-linkedin-sign" style="float: left;position: absolute;left: 25px;"></i>
+                                <i class="icon-twitter-sign" style="float: left;position: absolute;left: 45;"></i>
+                                <i class="icon-facebook-sign" style="float: left; position: absolute;left: 65px;"></i>
+                                  </h3>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+
+                        <div class="ch-item"  style="float:left;">
+                          <div class="ch-info-wrap">
+                            <div class="ch-info">
+                              <div class="ch-info-front ch-img-7"></div>
+                              <div class="ch-info-back">
+                               <h3>Drake Siller
+                                <br><i class="icon-linkedin-sign" style="float: left;position: absolute;left: 25px;"></i>
+                                <i class="icon-twitter-sign" style="float: left;position: absolute;left: 45;"></i>
+                                <i class="icon-facebook-sign" style="float: left; position: absolute;left: 65px;"></i>
+                                  </h3>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+
+
+                        <div class="ch-item"  style="float:left;">
+                          <div class="ch-info-wrap">
+                            <div class="ch-info">
+                              <div class="ch-info-front ch-img-8"></div>
+                              <div class="ch-info-back">
+                               <h3>Matt Martinez
+                                <br><i class="icon-linkedin-sign" style="float: left;position: absolute;left: 25px;"></i>
+                                <i class="icon-twitter-sign" style="float: left;position: absolute;left: 45;"></i>
+                                <i class="icon-facebook-sign" style="float: left; position: absolute;left: 65px;"></i>
+                                  </h3>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+
+                        <div class="ch-item"  style="float:left;">
+                          <div class="ch-info-wrap">
+                            <div class="ch-info">
+                              <div class="ch-info-front ch-img-9"></div>
+                              <div class="ch-info-back">
+                               <h3>Kathy Perdue
+                                <br><i class="icon-linkedin-sign" style="float: left;position: absolute;left: 25px;"></i>
+                                <i class="icon-twitter-sign" style="float: left;position: absolute;left: 45;"></i>
+                                <i class="icon-facebook-sign" style="float: left; position: absolute;left: 65px;"></i>
+                                  </h3>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+                        <div class="ch-item"  style="float:left;">
+                          <div class="ch-info-wrap">
+                            <div class="ch-info">
+                              <div class="ch-info-front ch-img-10"></div>
+                              <div class="ch-info-back">
+                               <h3>Ronald McNish
+                                <br><i class="icon-linkedin-sign" style="float: left;position: absolute;left: 25px;"></i>
+                                <i class="icon-twitter-sign" style="float: left;position: absolute;left: 45;"></i>
+                                <i class="icon-facebook-sign" style="float: left; position: absolute;left: 65px;"></i>
+                                  </h3>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </section>
+              </div>
+            </div>
+
+<!--
+          <div style="width:100px;height:100px;float:left;">
+            <section class="main">
+              
+              <ul class="ch-grid">
+                <li>
+                  <div class="ch-item ch-img-2">
+                    <div class="ch-info-wrap">
+                      <div class="ch-info">
+
+                        <div class="ch-info-front ch-img-2"></div>
+                        
+                        <div class="ch-info-back">
+                          <h3>Eugene Joseph</h3>
+                        </div>
+                      
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+          
+          </section>
+
+        </div>
+-->
+
+
+        </div>
+
+      <!--
+      Left, Right, Bottom Menu Buttons
+      -->
+     <div class="main">
+        <section>
+    
+        <button id="showLeft" style="z-index:10000;">
+            <span id="leftbuttontext" ><h4><i class="icon-list"></i></h4></span>
+        </button>
+        
+        <button id="showBottom" style="z-index:10000;">
+            <span id="bottombuttontext"><h4><i class="icon-group"></i></h4></span>
+        </button>
+
+        <button id="showRightPush" style="z-index:10000;margin-top: 0%;">
+            <span id="rightbuttontext"><h4 style=""><i class="icon-comments"></i></h4></span>
+        </button>
+
+            </section>
+    </div>
+
+      <!--
+      Javascript for having Sliding Menus 
+      -->
+    <script src="js/modernizr.custom.js"></script>
+    <script src="js/classie.js"></script>
+
+    <script>
+      var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
+          menuRight = document.getElementById( 'cbp-spmenu-s2' ),
+          menuBottom = document.getElementById( 'cbp-spmenu-s4' ),
+          showLeft = document.getElementById( 'showLeft' ),
+          showRight = document.getElementById( 'showRight' ),
+          showBottom = document.getElementById( 'showBottom' ),
+          showLeftPush = document.getElementById( 'showLeftPush' ),
+          showRightPush = document.getElementById( 'showRightPush' ),
+          body = document.body;
+
+      showLeft.onclick = function() {
+        classie.toggle( this, 'active' );
+        classie.toggle( menuLeft, 'cbp-spmenu-open' );
+      };
+    
+    
+      showBottom.onclick = function() {
+        classie.toggle( this, 'active' );
+        classie.toggle( menuBottom, 'cbp-spmenu-open' );
+        $( "#verticalTabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
+        $( "#verticalTabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
+      };
+    
+      showRightPush.onclick = function() {
+        classie.toggle( this, 'active' );
+        classie.toggle( body, 'cbp-spmenu-push-toleft' );
+        classie.toggle( menuRight, 'cbp-spmenu-open' );
+        
+      };
+      </script>
+
+      <!--
+      Javascript for having Sliding Buttons along with the Menus 
+      -->
+
+
+      <script>
+
+      $('#showLeft').click(function() {
+       var newMargin = parseInt($(this).css('marginLeft')) > 0 ? 0 : 200;
+          $(this).animate({
+              marginLeft: newMargin
+          },235); 
+      });
+
+
+      $('#showBottom').click(function() {
+       var newMargin = parseInt($(this).css('marginBottom')) > 0 ? 0:110;
+          $(this).animate({
+              marginBottom: newMargin
+          },235); 
+      });
+
+      $('#showRightPush').click(function() {
+       var newMargin = parseInt($(this).css('marginRight')) > 0 ? 0 : 200;
+          $(this).animate({
+              marginRight: newMargin
+          },235); 
+      });
+      
+      </script>
+
+
+
+    </div>
+  </a>
+    </nav>
+    
+    
+ 
+      
+    </body>
+
+</html>
+
+
+
+
