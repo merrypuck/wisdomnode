@@ -1,4 +1,0 @@
-wisdomnode
-==========
-
-Wisdom on node.
