@@ -1,0 +1,91 @@
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script>
+	var socket = io.connect('http://localhost:3000');
+
+	// on connection to server, ask for user's name with an anonymous callback
+	socket.on('connect', function(){
+	});
+/*
+	// listener, whenever the server emits 'updatechat', this updates the chat body
+	socket.on('updatechat', function (username, data) {
+		$('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
+	});
+
+	// listener, whenever the server emits 'updateusers', this updates the username list
+	socket.on('updateusers', function(data) {
+		$('#users').empty();
+		$.each(data, function(key, value) {
+			$('#users').append('<div>' + key + '</div>');
+		});
+	});
+
+	// on load of page
+	$(function(){
+		// when the client clicks SEND
+		$('#datasend').click( function() {
+			var message = $('#data').val();
+			$('#data').val('');
+			// tell server to execute 'sendchat' and send along one parameter
+			socket.emit('sendchat', message);
+		});
+
+		// when the client hits ENTER on their keyboard
+		$('#data').keypress(function(e) {
+			if(e.which == 13) {
+				$(this).blur();
+				$('#datasend').focus().click();
+			}
+		});
+	});
+**/
+$(function(){
+		// when the client clicks SEND
+		$('.agenda-item').click( function() {
+			var agendaItem = 'agenda-li1';
+			socket.emit('newAgenda', agendaItem)
+		});
+		socket.on('updateAgenda', function(agendaItem) {
+			alert(agendaItem)
+		})
+	});
+
+</script>
+
+			var agendaItem = 'agenda-li1';
+			socket.emit('newAgenda', agendaItem);
+
+		});
+		socket.on('updateAgenda', function(agendaItem) {
+			$('#' + agendaItem).css({'background-color','green'})
+		}
+	});
+
+<style>
+	ul {
+		list-style: none;
+	}
+	li {
+		height:100px;
+		width:100px;
+		background-color: red;
+		margin:10px;
+	}
+</style>
+<div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">
+	<b>USERS</b>
+	<div id="users"></div>
+</div>
+<div style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;">
+	<div id="conversation"></div>
+	<input id="data" style="width:200px;" />
+	<input type="button" id="datasend" value="send" />
+</div>
+
+<ul>
+	<li id='agenda-li1' class='agenda-item'></li>
+	<li id='agenda-li2' class='agenda-item'></li>
+	<li id='agenda-li3' class='agenda-item'></li>
+	<li id='agenda-li4' class='agenda-item'></li>
+	<li id='agenda-li5' class='agenda-item'></li>
+</ul>

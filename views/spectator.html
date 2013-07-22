@@ -1,0 +1,180 @@
+<html lang="en">
+
+<head>
+
+<title>Wastewise Page</title>
+
+	<!--Javascript Components for Wisdom.ly-->
+
+	<!--CSS Stylesheets for Wisdom.ly-->
+
+		<link rel="stylesheet" href="css/style.css"/>
+		<link href='http://fonts.googleapis.com/css?family=Droid+Sans|Lato:100,300,400,700|Open+Sans:400,600,300,700|Oswald:400,300|Roboto:400,100,300,500' rel='stylesheet' type='text/css'>
+
+
+	<!--Begin Tab Components (CSS, JQuery)-->
+		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		<script src="js/script.js"></script>
+	
+	<!--End Tab Components-->
+
+</head>
+
+
+<div id="presentorstream">
+	<img class="samplepresentor" src="images/avatar.jpg">
+</div>
+
+<div id="left-nav">
+
+
+		<div class="tabs">
+
+		  <ul>
+		 
+		    <li><a href="#agenda">Agenda</a></li>
+		    <li><a href="#notes">Notes</a></li>
+		 
+		  </ul>
+
+
+	  		  <div id="agenda" style="height:100%;">
+			    <p>
+				
+
+			    </p>
+			  </div>
+
+			  <div id="notes"  style="height: 100%;">
+			    <p>
+			    	Information: 
+			    </p>
+			  </div>
+
+
+		</div>
+
+</div>
+
+<div id="right-nav" >
+
+		<div class="tabs">
+
+		  <ul>
+		 
+		    <li><a href="#chat">Chat</a></li>
+		    <li><a href="#qa">Q&A</a></li>
+		 
+		  </ul>
+
+
+	  		  <div id="chat" style="height: 700;">
+			    <script src="/socket.io/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script>
+	var socket = io.connect('http://localhost:3000');
+
+	// on connection to server, ask for user's name with an anonymous callback
+	socket.on('connect', function(){
+		// call the server-side function 'adduser' and send one parameter (value of prompt)
+		socket.emit('adduser', prompt("What's your name?"));
+	});
+
+	// listener, whenever the server emits 'updatechat', this updates the chat body
+	socket.on('updatechat', function (username, data) {
+		$('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
+	});
+
+	// listener, whenever the server emits 'updateusers', this updates the username list
+	socket.on('updateusers', function(data) {
+		$('#users').empty();
+		$.each(data, function(key, value) {
+			$('#users').append('<div>' + key + '</div>');
+		});
+	});
+
+	// on load of page
+	$(function(){
+		// when the client clicks SEND
+		$('#datasend').click( function() {
+			var message = $('#data').val();
+			$('#data').val('');
+			// tell server to execute 'sendchat' and send along one parameter
+			socket.emit('sendchat', message);
+		});
+
+		// when the client hits ENTER on their keyboard
+		$('#data').keypress(function(e) {
+			if(e.which == 13) {
+				$(this).blur();
+				$('#datasend').focus().click();
+			}
+		});
+	});
+
+</script>
+
+			<div id="conversation"></div>
+			<input id="data" style="width:200px;" />
+			<input type="button" id="datasend" value="send" />
+			f
+			<div id="users"></div>
+			  </div>
+
+			  <div id="qa" style="height: 700;">
+			    <p>
+			    	Information: 
+			    </p>
+			  </div>
+
+			
+
+		</div>
+
+</div>
+
+<div id="bottom-nav">
+
+		<div class="tabs">
+
+		  <ul>
+		 
+		    <li><a href="#spectatorview">Spectators</a></li>
+		    <li><a href="#infoview">Information</a></li>
+		 
+		  </ul>
+
+
+	  		  <div id="spectatorview">
+			    
+			    	<div id="spectator"></div>
+			    	<div id="spectator"></div>
+			    	<div id="spectator"></div>
+			    	<div id="spectator"></div>
+			    	<div id="spectator"></div>
+			    	<div id="spectator"></div>
+			    	<div id="spectator"></div>
+			    	<div id="spectator"></div>
+
+			    
+			  </div>
+
+			  <div id="infoview">
+			    <p>
+			    	Information: 
+			    </p>
+			  </div>
+
+			
+
+		</div>
+
+</div>
+
+
+</body>
+
+
+
+</html>
