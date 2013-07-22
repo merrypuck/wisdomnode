@@ -1,5 +1,6 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<<<<<<< HEAD
 <script>
 	var socket = io.connect('http://localhost:3000');
 
@@ -81,6 +82,31 @@ $(function(){
 	<input id="data" style="width:200px;" />
 	<input type="button" id="datasend" value="send" />
 </div>
+=======
+
+<script>
+	var socket = io.connect('http://localhost:3000');
+		socket.on('updateAgenda', function (agendaItem) {
+		$(agendaItem).css({'background-color','green'})
+	});
+
+	$('.agenda-item').click( function() {
+		var item = this.attr("id");
+		socket.emit('newAgenda', item);
+	});
+
+
+</script>
+
+<style>
+	.agenda-item {
+		height:100px;
+		width:100px;
+		margin:10px;
+		background-color:red;
+	}
+</style>
+>>>>>>> 580b8f7ab4c6d1b3e40c839ddb99cd23a9d19db8
 
 <ul>
 	<li id='agenda-li1' class='agenda-item'></li>

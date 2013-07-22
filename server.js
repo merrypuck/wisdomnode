@@ -71,7 +71,6 @@ app.get('/find', function(req, res) {
 
 app.get('/spec', function(req, res) {
 	res.render('spectator');
-});
 
 app.get('/agenda', function(req, res) {
 	res.render('agenda');
@@ -120,3 +119,9 @@ io.sockets.on('connection', function (socket) {
 	})
 	console.log('A socket is connected!')
 }); 
+
+	socket.on('newAgenda', function(itemId) {
+		socket.broadcast.emit('updateAgenda', itemId)
+	});
+	console.log('A socket is connected!')
+});
