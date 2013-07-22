@@ -2,7 +2,6 @@ var express = require('express');
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
-var $ = require('jquery');
 var mongoose = require('mongoose');
 var mime  = require('mime');
 var io = require('socket.io');
@@ -46,6 +45,7 @@ var testSchema = new Schema({
 var Test = mongoose.model('Test', testSchema);
 
 app.get('/', function(req, res){
+	console.log("Reading the main file.");
 	res.render('chat', {sid:'hey'})
 });
 app.post('/', function(req, res) {
@@ -71,6 +71,7 @@ app.get('/find', function(req, res) {
 
 app.get('/spec', function(req, res) {
 	res.render('spectator');
+});
 
 app.get('/agenda', function(req, res) {
 	res.render('agenda');
@@ -117,8 +118,7 @@ io.sockets.on('connection', function (socket) {
 	socket.on('moreNotes', function(notes) {
 		socket.emit('updateNotes', notes)
 	})
-	console.log('A socket is connected!')
-}); 
+	console.log('A socket is connected!');
 
 	socket.on('newAgenda', function(itemId) {
 		socket.broadcast.emit('updateAgenda', itemId)
