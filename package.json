@@ -9,8 +9,10 @@
     "express": "3.3.4",
     "jade": "*",
     "mongoose":"latest",
+    "mime":"latest",
     "socket.io":"latest",
-    "connect":"latest"
+    "connect":"latest",
+    "connect-flash":"latest"
 
   }
 }

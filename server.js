@@ -2,15 +2,15 @@ var express = require('express');
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
-var $ = require('jquery');
 var mongoose = require('mongoose');
 var mime  = require('mime');
 var io = require('socket.io');
 var parseCookie = require('connect').utils.parseCookie;
+var flash = require('connect-flash');
 var app = express();
 var server = http.createServer(app);
 
-mongoose.connect('mongodb://localhost/node');
+mongoose.connect('mongodb://localhost/wisdom');
 
 var db = mongoose.connection;
 
@@ -26,7 +26,9 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser('secret-code'));
-  app.use(express.session({secret: 'secret', key: 'express.sid'}));
+  app.use(express.session({secret: 'secret-code'}));
+  app.use(flash());
+  //app.use(express.session({key: 'express.sid', cookie: { maxAge: hour * 24, secure: true }}));
   app.use(app.router);
   app.use(require('stylus').middleware(__dirname + '/public'));
   app.use(express.static(path.join(__dirname, 'public')));
@@ -38,55 +40,92 @@ app.configure('development', function(){
 
 var Schema = mongoose.Schema;
 
-var testSchema = new Schema({
+var userSchema= new Schema({
 	firstName: String,
-	lastName: String
-}, {collection: 'test' });
+	lastName: String,
+	username: String,
+	email : String,
+	organization : String,
+	orgtitle : String,
+	notes : String,
+}, {collection: 'user' });
 
-var Test = mongoose.model('Test', testSchema);
+var User = mongoose.model('User', userSchema);
 
 app.get('/', function(req, res){
-	res.render('chat', {sid:'hey'})
+	res.render('signup', {title:'a'})
 });
+
 app.post('/', function(req, res) {
-	var user = new Test();
-	user.firstName = req.param('firstName');
-	user.lastName = req.param('lastName');
-	user.save(function(err) {
-		if (err)
-			console.log('meow')
+	if(User.findOne({'username':req.param('username')}) != null) {
+		if(User.findOne({'email':req.param('email')}) != null) {
+			var user = new User();
+			user.firstName = req.param('firstName');
+			user.lastName = req.param('lastName');
+			user.username = req.param('username');
+			user.email = req.param('email');
+			user.organization = req.param('organization');
+			user.orgtitle = req.param('title');
+			user.save(function(err) {
+			if (err)
+				console.log('meow')
 	});
-	res.render('index',{
-		title: userData.first
-		})
-});
-app.get('/chat', function(req, res) {
-	res.render('chat');
-});
-app.get('/find', function(req, res) {
-	res.render('find', {
-		title: userData
-	})
-	});
+	res.render('chat',{
+	`	firstName : user.firstName,
+		title: req.session.user
+		});
+	res.cookie('remember', '1', { maxAge: 120000 })
+	req.session.username = user.username;
+	
 
-app.get('/spec', function(req, res) {
-	res.render('spectator');
+		}
+		else {
+			res.render('signup', {
+			title : 'Sorry, your email has already been used.'
+		});
+		}
+	}
 
-app.get('/agenda', function(req, res) {
-	res.render('agenda');
+	else {
+		res.render('signup', {
+			title : 'Sorry, your username is already taken'
+		});
+	}
 });
+
+function restrict(req, res, next) {
+	if(req.session.user) {
+		next();
+	}
+	else {
+		res.render('signup', {
+			title:'Sorry, you must be signed in to see this page.'
+			
+		});
+	}
+}
+
+app.get('/chat', restrict, function(req, res) {
+	res.render('chat', {title: req.session.user});
+});
+
+
+
 server.listen(3000);
 
 var io = require('socket.io').listen(server);
 
 usernames = {};
+notes = {};
 var chatData = [];
 var rooms = ['room1', 'room2', 'room3']
 io.sockets.on('connection', function (socket) {
 	for(var i = 0; i < chatData.length; i = i + 2) {
     socket.emit('updatechat', chatData[i], chatData[i+1])
   }
-
+  	socket.on('conn', function() {
+  		socket.emit('first-name', chatData);
+  	});
 	socket.on('sendchat', function (data) {
 		chatData.push(socket.username);
     	chatData.push(data);
@@ -118,10 +157,10 @@ io.sockets.on('connection', function (socket) {
 		socket.emit('updateNotes', notes)
 	})
 	console.log('A socket is connected!')
-}); 
+
 
 	socket.on('newAgenda', function(itemId) {
 		socket.broadcast.emit('updateAgenda', itemId)
 	});
 	console.log('A socket is connected!')
-});
+}); 

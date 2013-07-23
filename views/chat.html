@@ -2,7 +2,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <script>
 	var socket = io.connect('http://localhost:3000');
-
+	socket.emit('conn')
 	// on connection to server, ask for user's name with an anonymous callback
 	socket.on('connect', function(){
 		// call the server-side function 'adduser' and send one parameter (value of prompt)
@@ -27,6 +27,9 @@
 	socket.on('updateNotes', function(notes) {
 		$('#updatedNotes').html("<p>" + notes + "<p>")
 	});	
+	socket.on('first-name', function(firstName) {
+		$('#first').html("<h1>" + firstName + "</h1>")
+	});
 
 
 	// on load of page
@@ -50,11 +53,11 @@
 			item = $(this).attr('id');
 			socket.emit('newAgenda', item);
 		})
-		$('#noteButton').click(function() {
+		$('#notes').click(function() {
 			setInterval(function() {
       			var notes = $('#notes').val()
 				socket.emit('moreNotes', notes)
-				}, 2000);
+				}, 60000);
 			
 		});
 	});
@@ -74,7 +77,7 @@
 <div style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;">
 	<div id="conversation"></div>
 	<input id="data" style="width:200px;" />
-	<input type="button" id="datasend" value="send" />
+	<input type="button" id="enterchat" value="send" />
 	<ul>
 		<li id='agenda-li1' class='agenda-item'></li>
 		<li id='agenda-li2' class='agenda-item'></li>
@@ -95,3 +98,6 @@
 
 <div id='updatedNotes'> </div>
 </div>
+<%= title %>
+
+<div id='first'></div>
