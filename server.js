@@ -17,7 +17,7 @@ var db = mongoose.connection;
 app.engine('html', require('ejs').renderFile);
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', process.env.PORT || 4000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'html');
   app.set('view options', {layout: false});
@@ -53,7 +53,7 @@ var userSchema= new Schema({
 var User = mongoose.model('User', userSchema);
 
 app.get('/', function(req, res){
-	res.render('signup', {title:'a'})
+	res.render('index', {title:'a'})
 });
 
 app.post('/', function(req, res) {
@@ -71,7 +71,7 @@ app.post('/', function(req, res) {
 				console.log('meow')
 	});
 	res.render('chat',{
-	`	firstName : user.firstName,
+		firstName : user.firstName,
 		title: req.session.user
 		});
 	res.cookie('remember', '1', { maxAge: 120000 })
@@ -92,7 +92,12 @@ app.post('/', function(req, res) {
 		});
 	}
 });
-
+app.get('/expert', function(req, res) {
+	res.render('expert')
+});
+app.get('/ej', function(req, res) {
+	res.render('spectator')
+});
 function restrict(req, res, next) {
 	if(req.session.user) {
 		next();
@@ -111,7 +116,7 @@ app.get('/chat', restrict, function(req, res) {
 
 
 
-server.listen(3000);
+server.listen(4000);
 
 var io = require('socket.io').listen(server);
 
@@ -123,9 +128,7 @@ io.sockets.on('connection', function (socket) {
 	for(var i = 0; i < chatData.length; i = i + 2) {
     socket.emit('updatechat', chatData[i], chatData[i+1])
   }
-  	socket.on('conn', function() {
-  		socket.emit('first-name', chatData);
-  	});
+
 	socket.on('sendchat', function (data) {
 		chatData.push(socket.username);
     	chatData.push(data);
@@ -146,21 +149,22 @@ io.sockets.on('connection', function (socket) {
 		io.sockets.emit('updateusers', usernames)
 		socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
 	});
-
 	socket.on('newAgenda', function(agendaItem) {
 		console.log('reached server.')
 		socket.emit('updateAgenda', agendaItem)
 		socket.broadcast.emit('updateAgenda', agendaItem)
 	});
-
-	socket.on('moreNotes', function(notes) {
-		socket.emit('updateNotes', notes)
-	})
-	console.log('A socket is connected!')
-
-
-	socket.on('newAgenda', function(itemId) {
-		socket.broadcast.emit('updateAgenda', itemId)
+	
+	socket.on('editAgenda', function(item, data) {
+		socket.emit('editTopic', item, data)
 	});
-	console.log('A socket is connected!')
+
+	socket.on('saveNotes', function(notes) {
+		notes[session.username] = userNotes;
+		socket.emit('updateNotes', userNotes)
+		socket.emit('timestampNote', notes)
+	});
+	socket.on('editTopic', function() {
+
+	})
 }); 

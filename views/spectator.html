@@ -8,7 +8,7 @@
 
 	<!--CSS Stylesheets for Wisdom.ly-->
 
-		<link rel="stylesheet" href="css/style.css"/>
+		<link rel="stylesheet" href="stylesheets/css/style.css"/>
 		<link href='http://fonts.googleapis.com/css?family=Droid+Sans|Lato:100,300,400,700|Open+Sans:400,600,300,700|Oswald:400,300|Roboto:400,100,300,500' rel='stylesheet' type='text/css'>
 
 
@@ -19,162 +19,261 @@
 	
 	<!--End Tab Components-->
 
+	<!--Begin Agenda Components -->
+	<link rel="stylesheet" type="text/css" href="plugins/simpledropdowneffects/css/style6.css" />
+	<script src="plugins/simpledropdowneffects/js/jquery.dropdown.js"></script>
+	<script src="plugins/simpledropdowneffects/js/modernizr.custom.63321.js"></script>
+	<script type="text/javascript">
+			
+			$( function() {
+				
+				$( '#cd-dropdown' ).dropdown( {
+					gutter : 5,
+					stack : false,
+					delay : 100,
+					slidingIn : 100
+				} );
+
+			});
+
+	</script>
+	<!--End Agenda Components -->
+
 </head>
 
 
-<div id="presentorstream">
-	<img class="samplepresentor" src="images/avatar.jpg">
+
+<body style="background-color:#000;">
+	<center>
+		<div id="presentorstream">
+			<img id="samplepresentor">
+		</div>
+	</center>
+
+<div id="top-nav">
+	<img id="branding" src="images/wastewiselogo.png">
+		<center>
+			<span id="presentationtitle">Title of Roundtable
+			<span id="presentorname">By: Presentor</span></span>
+		</center>
 </div>
+<div>
+<div id="divider">
+</div>
+<span id="time"><span style="text-transform:uppercase;text-align:center;">Time Left:</span> 59:30:10</span>
 
 <div id="left-nav">
-
-
 		<div class="tabs">
+			  <ul>
+				    <li class="tab-unit"><a href="#agenda" >Agenda</a></li>
+				    <li class="tab-unit"><a href="#notes">Notes</a></li>
+			  </ul>
 
-		  <ul>
-		 
-		    <li><a href="#agenda">Agenda</a></li>
-		    <li><a href="#notes">Notes</a></li>
-		 
-		  </ul>
-
-
-	  		  <div id="agenda" style="height:100%;">
-			    <p>
-				
-
-			    </p>
+	  		  <div id="agenda">
+			  	<div class="fleft">
+					<select id="cd-dropdown" class="cd-select">
+						<option value="-1" selected>Agenda</option>
+						<option value="1" class="icon-star">Agenda Item 1</option>
+						<option value="2" class="icon-star">Agenda Item 2</option>
+						<option value="3" class="icon-star">Agenda Item 3</option>
+						<option value="4" class="icon-star">Agenda Item 4</option>
+						<option value="5" class="icon-star">Agenda Item 5</option>
+						<option value="5" class="icon-star">Agenda Item 6</option>
+						<option value="5" class="icon-star">Agenda Item 7</option>
+					</select>
+				</div>
 			  </div>
 
-			  <div id="notes"  style="height: 100%;">
-			    <p>
-			    	Information: 
-			    </p>
+			
+
+
+			  <div id="notes">
+			  	<textarea name="content" class="awesome-text-box" rows=30 cols=34></textarea>
 			  </div>
-
-
 		</div>
-
 </div>
 
-<div id="right-nav" >
+<div id="right-nav" class="tabs-right">
+		<div class="tabs">
+		  <ul>
+		    <li class="tab-unit"><a href="#chat">Chat</a></li>
+		    <li class="tab-unit"><a href="#qa">Q&A</a></li>
+		  </ul>
 
+		<div id="chat">
+			<input id="chatdata" style="width:200px;" />
+			<input type="button" id="enterchat" value="send" />
+			<div id="conversation"></div>
+		</div>
+
+		<div id="qa">
+			<p></p> 
+	    </div>
+
+		</div>
+</div>
+
+<div id="bottom-nav">
 		<div class="tabs">
 
 		  <ul>
-		 
-		    <li><a href="#chat">Chat</a></li>
-		    <li><a href="#qa">Q&A</a></li>
-		 
+		    <li class="tab-unit"><a href="#spectatorview">Spectators</a></li>
+		    <li class="tab-unit"><a href="#infoview">Information</a></li>		 		
 		  </ul>
 
+	  		  <div id="spectatorview">
 
-	  		  <div id="chat" style="height: 700;">
-			    <script src="/socket.io/socket.io.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+
+			  
+				    	<div class="spectatorbox">
+				    		<div class="spectatorcircle"></div>
+				    		<div class="circleview">
+					    		<div class="mask">  
+							    </div>  
+							</div>
+				    		<div class="spectatortext">
+						    	<div class="spectatorname">Name</div>
+						    	<div class="spectatortitle">Title</div>
+						    	<div class="spectatorcompany">Company</div>
+					    	</div>
+					    </div>
+
+					   	<div class="spectatorbox">
+				    		<div class="spectatorcircle"></div>
+				    		<div class="spectatortext">
+						    	<div class="spectatorname">Name</div>
+						    	<div class="spectatortitle">Title</div>
+						    	<div class="spectatorcompany">Company</div>
+					    	</div>
+					    </div>
+
+					 	<div class="spectatorbox">
+				    		<div class="spectatorcircle"></div>
+				    		<div class="spectatortext">
+						    	<div class="spectatorname">Name</div>
+						    	<div class="spectatortitle">Title</div>
+						    	<div class="spectatorcompany">Company</div>
+					    	</div>
+					    </div>
+
+					    <div class="spectatorbox">
+				    		<div class="spectatorcircle"></div>
+				    		<div class="spectatortext">
+						    	<div class="spectatorname">Name</div>
+						    	<div class="spectatortitle">Title</div>
+						    	<div class="spectatorcompany">Company</div>
+					    	</div>
+					    </div>
+
+					    <div class="spectatorbox">
+				    		<div class="spectatorcircle"></div>
+				    		<div class="spectatortext">
+						    	<div class="spectatorname">Name</div>
+						    	<div class="spectatortitle">Title</div>
+						    	<div class="spectatorcompany">Company</div>
+					    	</div>
+					    </div>
+
+					    <div class="spectatorbox">
+				    		<div class="spectatorcircle"></div>
+				    		<div class="spectatortext">
+						    	<div class="spectatorname">Name</div>
+						    	<div class="spectatortitle">Title</div>
+						    	<div class="spectatorcompany">Company</div>
+					    	</div>
+					    </div>
+
+					    <div class="spectatorbox">
+				    		<div class="spectatorcircle"></div>
+				    		<div class="spectatortext">
+						    	<div class="spectatorname">Name</div>
+						    	<div class="spectatortitle">Title</div>
+						    	<div class="spectatorcompany">Company</div>
+					    	</div>
+					    </div>
+
+					   	<div class="spectatorbox">
+				    		<div class="spectatorcircle"></div>
+				    		<div class="spectatortext">
+						    	<div class="spectatorname">Name</div>
+						    	<div class="spectatortitle">Title</div>
+						    	<div class="spectatorcompany">Company</div>
+					    	</div>
+					    </div>
+
+					    <div class="spectatorbox">
+				    		<div class="spectatorcircle"></div>
+				    		<div class="spectatortext">
+						    	<div class="spectatorname">Name</div>
+						    	<div class="spectatortitle">Title</div>
+						    	<div class="spectatorcompany">Company</div>
+					    	</div>
+					    </div>
+
+					    <div class="spectatorbox">
+				    		<div class="spectatorcircle"></div>
+				    		<div class="spectatortext">
+						    	<div class="spectatorname">Name</div>
+						    	<div class="spectatortitle">Title</div>
+						    	<div class="spectatorcompany">Company</div>
+					    	</div>
+					    </div>
+
+					    <div class="spectatorbox">
+				    		<div class="spectatorcircle"></div>
+				    		<div class="spectatortext">
+						    	<div class="spectatorname">Name</div>
+						    	<div class="spectatortitle">Title</div>
+						    	<div class="spectatorcompany">Company</div>
+					    	</div>
+					    </div>
+
+					   	<div class="spectatorbox">
+				    		<div class="spectatorcircle"></div>
+				    		<div class="spectatortext">
+						    	<div class="spectatorname">Name</div>
+						    	<div class="spectatortitle">Title</div>
+						    	<div class="spectatorcompany">Company</div>
+					    	</div>
+					    </div>
+			  </div>
+
+			  <div id="infoview">
+			 		<div>
+			 		</div>
+
+			 		<div>
+			 		</div>
+
+			 		<div>
+			 		</div>
+			  </div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+
+
+<script src="/socket.io/socket.io.js"></script>
+
 <script>
-	var socket = io.connect('http://localhost:3000');
-
-	// on connection to server, ask for user's name with an anonymous callback
-	socket.on('connect', function(){
-		// call the server-side function 'adduser' and send one parameter (value of prompt)
-		socket.emit('adduser', prompt("What's your name?"));
-	});
-
-	// listener, whenever the server emits 'updatechat', this updates the chat body
-	socket.on('updatechat', function (username, data) {
-		$('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
-	});
-
-	// listener, whenever the server emits 'updateusers', this updates the username list
-	socket.on('updateusers', function(data) {
-		$('#users').empty();
-		$.each(data, function(key, value) {
-			$('#users').append('<div>' + key + '</div>');
-		});
-	});
-
-	// on load of page
 	$(function(){
-		// when the client clicks SEND
-		$('#datasend').click( function() {
-			var message = $('#data').val();
+		$('#enterchat').click( function() {
+			console.log('clicked enterchats')
+			var message = $('#chatdata').val();
 			$('#data').val('');
-			// tell server to execute 'sendchat' and send along one parameter
 			socket.emit('sendchat', message);
-		});
-
-		// when the client hits ENTER on their keyboard
-		$('#data').keypress(function(e) {
-			if(e.which == 13) {
-				$(this).blur();
-				$('#datasend').focus().click();
-			}
-		});
+		})
 	});
 
 </script>
 
-			<div id="conversation"></div>
-			<input id="data" style="width:200px;" />
-			<input type="button" id="datasend" value="send" />
-			f
-			<div id="users"></div>
-			  </div>
+<script>
+	var socket = io.connect('http://localhost:4000');
 
-			  <div id="qa" style="height: 700;">
-			    <p>
-			    	Information: 
-			    </p>
-			  </div>
+	socket.on('updatechat', function (username, data) {
+		$('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
+	});
 
-			
-
-		</div>
-
-</div>
-
-<div id="bottom-nav">
-
-		<div class="tabs">
-
-		  <ul>
-		 
-		    <li><a href="#spectatorview">Spectators</a></li>
-		    <li><a href="#infoview">Information</a></li>
-		 
-		  </ul>
-
-
-	  		  <div id="spectatorview">
-			    
-			    	<div id="spectator"></div>
-			    	<div id="spectator"></div>
-			    	<div id="spectator"></div>
-			    	<div id="spectator"></div>
-			    	<div id="spectator"></div>
-			    	<div id="spectator"></div>
-			    	<div id="spectator"></div>
-			    	<div id="spectator"></div>
-
-			    
-			  </div>
-
-			  <div id="infoview">
-			    <p>
-			    	Information: 
-			    </p>
-			  </div>
-
-			
-
-		</div>
-
-</div>
-
-
-</body>
-
-
-
-</html>
+</script>

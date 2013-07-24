@@ -1,3 +1,5 @@
+// Tabs
+
 $(function() {
 	var tabs = $( ".tabs" ).tabs({collapsible: true});
 	tabs.find( ".ui-tabs-nav" ).sortable({
@@ -18,3 +20,7 @@ $(function() {
 	// move the nav to the bottom
 	$( ".tabs-bottom .ui-tabs-nav" ).appendTo( ".tabs-bottom" );
 });
+
+
+// Scroll a Div
+
