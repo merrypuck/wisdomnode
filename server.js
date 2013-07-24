@@ -160,8 +160,6 @@ io.sockets.on('connection', function (socket) {
 	});
 
 	socket.on('saveNotes', function(notes) {
-		notes[session.username] = userNotes;
-		socket.emit('updateNotes', userNotes)
 		socket.emit('timestampNote', notes)
 	});
 	socket.on('editTopic', function() {
