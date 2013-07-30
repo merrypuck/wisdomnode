@@ -1,50 +1,30 @@
 <script src="/socket.io/socket.io.js"></script>
+<script src="js/clientside_groupchat.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 
 <script>
 var socket = io.connect('http://localhost:4000');
-	// on connection to server, ask for user's name with an anonymous callback
-	socket.on('connect', function(){
-		// call the server-side function 'adduser' and send one parameter (value of prompt)
-		socket.emit('adduser', prompt("What's your name?"));
-	});
-	// listener, whenever the server emits 'updatechat', this updates the chat body
-	socket.on('updatechat', function (username, data) {
-		$('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
-	});
-	// listener, whenever the server emits 'updateusers', this updates the username list
-	socket.on('updateusers', function(data) {
-		$('#users').empty();
-		$.each(data, function(key, value) {
-			$('#users').append('<div>' + key + '</div>');
-		});
-	});
-	// listener, for updateAgenda, this changes agenda item color to green
-	socket.on('updateAgenda', function(data) {
-		$('#' + data).css('background-color', 'green')
-	});
-	socket.on('changeTopic', function(topic, data) {
-		alert(topic + " " + data)
-	})
-	
-	socket.on('timestampNote', function(notes) {
-  		$('#timestamp').text("Saved.");
-		setTimeout(function() {
-		$('#timestamp').text("Saved less than a minute ago.")
-		}, 10000);
-		setTimeout(function() {
-			$('#timestamp').text("Saved about a minute ago.")
-		}, 60000);
-	});
 
-	// on load of page
+socket.on('connectionAlert', function(alertMessage) {
+	//var newChat = ChatClient;
+	//newChat.init(socket);
+		alert(alertMessage);
+});
+var newChat = ChatClient();
+newChat.init(socket);
+
+
 	$(function(){
+
 		// when the client clicks SEND
 		$('#enterchat').click( function() {
+			console.log("button pressed");
 			var message = $('#chatdata').val();
 			$('#chatdata').val('');
 			// tell server to execute 'sendchat' and send along one parameter
-			socket.emit('sendchat', message);
+			newChat.sendMessage(message);
 		});
 
 		// when the client hits ENTER on their keyboard
@@ -54,24 +34,19 @@ var socket = io.connect('http://localhost:4000');
 				$('#chatdata').focus().click();
 			}
 		});
-		$('button.edit').click(function() {
-			button = $(this).attr('id');
-			topic = '#topic' + button[4];
-			data = $('#et' + button[4]).val();
-			socket.emit('editTopic', data)
-		});
-		// when client clicks on agenda item, emit newAgenda to server with item as param
-		$('.done').click(function() {
-			item = $(this).parent().attr('id');
-			socket.emit('newAgenda', item);
-		});
-		//when client stops typing for 5 seconds, send notes to server
-		$('#notesarea').keyup(function() {
-			var notes = $('#notesarea').val();
-			setTimeout(socket.emit('saveNotes', notes), 5000)
-		});
 
 	});
+
+	newChat.joinChat = function(chatlog) {
+		alert('joinChat sucesss! Chatlog is:' + JSON.stringify(chatlog));
+		for(var i = 0; i < chatlog.length; i++) {
+			$('#conversation').append('<b>'+ chatlog[i].username + ':</b> ' + chatlog[i].messageData + '<br>');
+		}
+	}
+	newChat.displayChat = function(username, message) {
+		console.log("displaying chat");
+		$('#conversation').append('<b>'+ username + ':</b> ' + message + '<br>');
+	}
 
 
 </script>
@@ -142,12 +117,17 @@ var socket = io.connect('http://localhost:4000');
 			}
 		</style>
 	</head>
+	 <script>
+  $(function() {
+    $( "#tabs" ).tabs();
+  });
+  </script>
 
 	<body>
-		<div id='header'></div>
+		<div id='header'> <%= username %></div>
 		<div id='agenda'>
-			<h3>Agenda</h3>
-			<ul>
+			<h3 id='tabs'><a href="#tabs-1">Agenda</a></h3>
+			<ul id="tabs-1">
 				<li id='agenda-li1' class='agenda-item'>
 					<div id='topic1'>Topic 1</div>
 					<input id='et1' />
@@ -172,7 +152,9 @@ var socket = io.connect('http://localhost:4000');
 
 		<div id='video'><iframe width="100%" height="100%" src="//www.youtube.com/embed/RAJgGIQ3JHk" frameborder="0" allowfullscreen></iframe></div>
 
-		<div id='qa'></div>
+		<div id='qa'>
+			<h3>Chatroom</h3>
+		</div>
 
 		<div id='chatroom'>
 			<h3>Chatroom</h3>

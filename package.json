@@ -13,7 +13,7 @@
     "mime":"latest",
     "socket.io":"latest",
     "connect":"latest",
-    "connect-flash":"latest",
-    "ntwitter":"latest"
+    "connect-flash":"latest"
+
   }
 }
