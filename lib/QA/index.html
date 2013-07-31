@@ -4,7 +4,7 @@
   <script src="http://localhost:8000/socket.io/socket.io.js"></script>
   <script type="text/javascript" scr="jquery.js"></script>
 
-  <script src="qamodule.js"></script>
+  <script src="QnAClient.js"></script>
   <script type="text/javascript">
     var wisdom = {
       global : {
@@ -87,7 +87,7 @@
   wisdom.global.userid = prompt("Please enter your userID: ", " UserID");
 
 
-  var QnAModule = QnA();
+  var QnAModule = QnAClient();
   QnAModule.initialize(samplesocket,wisdom.global.confid,wisdom.global.userid,'kamiller',renderQnA);
 
 
