@@ -1,0 +1,113 @@
+<html>
+<head>
+  <title></title>
+  <script src="http://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002/socket.io/socket.io.js"></script>
+  <script type="text/javascript" scr="jquery.js"></script>
+
+  <script src="QnAClient.js"></script>
+  <script type="text/javascript">
+  var wisdom = {
+    global : {
+      userid: "123456",
+      confid: "666",
+    }
+  };
+
+  </script>
+
+  <style type="text/css">
+
+  .disableVote {
+    background-color : black;
+  }
+
+  </style>
+
+</head>
+<body>
+
+  <script type="text/javascript">
+
+  var samplesocket = io.connect('http://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002/socket.io/socket.io.js');
+
+  var renderQnA  = function(qDict, rankList) {
+
+    var qDiv = document.getElementById('questionDiv');
+
+    while (qDiv.hasChildNodes()) {
+      qDiv.removeChild(qDiv.lastChild);
+    }
+
+    for (var i = 0; i < rankList.length; i++) {
+      if(qDict[rankList[i]].state !== QnAModule.QSTATE.DELETED)
+       renderQuestion(qDict[rankList[i]], i+1);
+
+   };
+
+ }
+
+ var renderQuestion = function(question, numQ) {
+  var divID = "q-" + question.questionID;
+  var qDiv = document.getElementById('questionDiv');
+  var qBtnDiv = document.createElement("div");
+
+  if(question.userID === wisdom.global.userid){
+
+    qBtnDiv.innerHTML = '<input id=\"rmvBtn-' + divID +'\" type=\"button\" value=\"Remove Question\" onClick=\"javascript:QnAModule.delQ(\'' + question.questionID + '\');\">';  
+  }
+  else if((question.listOfUp.indexOf(wisdom.global.userid)>-1) ||
+    (question.listOfDown.indexOf(wisdom.global.userid)>-1)){
+
+    qBtnDiv.innerHTML = '<input class=\"disableVote\" id=\"upVote-' + divID + '\" type=\"button\" value=\"Upvote\" onClick=\"javascript:QnAModule.upVote(\'' + question.questionID + '\');\" disabled=\"disabled\"> ' + '<input class=\"disableVote\" id=\"downVote-' + divID + '\" type=\"button\" value=\"Downvote\" onClick=\"javascript:QnAModule.downVote(\'' + question.questionID + '\');  \" disabled=\"disabled\"">';
+}
+else{
+  qBtnDiv.innerHTML = '<input id=\"upVote-' + divID + '\" type=\"button\" value=\"Upvote\" onClick=\"javascript:QnAModule.upVote(\'' + question.questionID + '\');\"> ' + '<input id=\"downVote-' + divID + '\" type=\"button\" value=\"Downvote\" onClick=\"javascript:QnAModule.downVote(\'' + question.questionID + '\');  \">';
+
+}
+
+
+var qnaHTML = '<div class=\"QnAquestion\" id=\"' + divID + '\">' + numQ + '. ' + question.question + 
+'</div> <div id=\"btn-' + divID + '\">' + qBtnDiv.innerHTML + '</div> <div> Number of Votes: ' + (question.numupvotes-question.numdownvotes) + ' </div> <br>';
+
+var newDiv = document.createElement("div");
+
+newDiv.id =  divID;
+
+newDiv.innerHTML = qnaHTML;
+qDiv.appendChild(newDiv);
+
+
+
+};
+
+var proposeQuestion = function(){
+  console.log("reaching proposeQuestion!");
+  QnAModule.proposeNewQ(document.getElementById('newquestionbox').value);
+};
+
+wisdom.global.userid = prompt("Please enter your userID: ", " UserID");
+
+
+var QnAModule = QnAClient();
+QnAModule.initialize(samplesocket,wisdom.global.confid,wisdom.global.userid,'kamiller',renderQnA);
+
+
+</script>
+
+<div id="q1"></div>
+<br>
+<h3>Questions</h3>
+<div id="questionDiv">
+
+</div>
+
+
+<div align="center">
+  <br><br>
+  <input type="text" id="newquestionbox" size="25" value="Enter your Question here!">
+  <br><input type="button" value="Propose Question" onclick='javascript:proposeQuestion();'><br>
+</div>
+
+
+</body>
+</html>

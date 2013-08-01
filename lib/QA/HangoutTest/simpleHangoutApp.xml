@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="Wise App">
+    <Require feature="rpc" />
+    <Require feature="views" />
+  </ModulePrefs>
+  <Content type="html"><![CDATA[     
+
+    <html>
+      <head>
+        <title></title>
+        <script src="https://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002/socket.io/socket.io.js"></script>  
+        <script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
+
+
+
+        <script type="text/javascript">
+          var wisdom = {
+          global : {
+          userid: "123456",
+          confid: "666",
+          }
+          };
+
+        </script>
+
+        <style type="text/css">
+
+          .disableVote {
+          background-color : black;
+          }
+
+        </style>
+
+      </head>
+      <body>
+
+        <script type="text/javascript">
+          var QnAClient = function(){
+
+          return {
+          QEVENTS : {
+          NEWQSEND : "qa-newquestionsend",
+          UPDATEQUESTION : "qa-updatequestion",
+          UPVOTE: "qa-upvote",
+          DOWNVOTE : "qa-downvote",
+          DELQ : "qa-deletequestion",
+          ANSWERINGQ : "qa-answeringquestion",
+          ANSWEREDQ : "qa-answeredquestion",
+          REMOVEQ : "qa-removequestion",
+          SUBSCRIBE : "qa-subscribe",
+          QALREADYASKED : "qa-qalreadyasked"
+          },
+
+          QSTATE : {
+          DEFAULT : 0,
+          DELETED : 1,
+          ANSWERED : 2,
+          ANSWERING : 3
+          },
+
+          //QnA attributes
+          qaThis : undefined,
+          qaSocket : undefined,
+          userID : undefined,
+          userName : undefined,
+          sessionID : undefined,
+          roomID : undefined,
+          renderingCallback : undefined,
+
+
+          initialize : function (socket, sessionID, userID, userName, renderQA) {
+          console.log("Initializing QA Module Clientside...");
+
+          qaThis =  this;     
+          qaThis.qaSocket = socket; 
+          qaThis.renderingCallback = renderQA; 
+          qaThis.sessionID = sessionID;
+          qaThis.userID = userID;
+          qaThis.userName = userName;
+          qaThis.roomID = "qa-" + sessionID;
+
+          qaThis.initListeners();
+
+          qaThis.qaEmit(qaThis.QEVENTS.SUBSCRIBE, qaThis.userID);
+
+          },
+
+          proposeNewQ : function (question) {
+          console.log("QnAModule..." + question);
+          var self = qaThis;
+          if(!question){
+          console.log("Error in QA.proposeNewQ: Variables not passed correctly");
+          return false
+          }
+          else{
+          var questionObj = {
+          questionID : undefined, //assign index at server level
+          rank : undefined, //assign rank at server
+          sessionID : qaThis.sessionID, 
+          userID : qaThis.userID,
+          userName : qaThis.userName,
+          question : question,
+          numupvotes :0,
+          numdownvotes :0,
+          state : self.QEVENTS.DEFAULT,
+          listOfUp : [],
+          listOfDown : []
+          };
+          qaThis.qaEmit(qaThis.QEVENTS.NEWQSEND, questionObj);
+          return true            
+          }
+          },
+
+          qaEmit : function(signal, data){
+          console.log("Attempting to EMIT from proposedQ");
+          qaThis.qaSocket.emit(signal, data);
+
+          },
+
+
+          initListeners : function() {
+          qaThis.qaSocket.on(qaThis.QEVENTS.UPDATEQUESTION, function(data){
+          qaThis.renderingCallback(data['qDict'], data['rankList']);
+          });
+          qaThis.qaSocket.on(qaThis.QEVENTS.QALREADYASKED, function(data){
+          alert("THIS QUESTION WAS ALREADY PROPOSED IDIOT."); 
+
+          });
+          },
+
+          upVote : function(qID){
+          console.log("Upvoting...");
+          qaThis.qaEmit(qaThis.QEVENTS.UPVOTE, {
+          questionID: qID,
+          userID : qaThis.userID,
+          sessionID : qaThis.sessionID 
+          }) ;
+          },
+
+          downVote : function (qID) {
+          qaThis.qaEmit(qaThis.QEVENTS.DOWNVOTE, {
+          questionID: qID,
+          userID : qaThis.userID,
+          sessionID : qaThis.sessionID 
+          });
+          },
+
+          delQ : function (qID) {
+          qaThis.qaEmit(qaThis.QEVENTS.DELQ, {
+          questionID: qID,
+          userID : qaThis.userID,
+          sessionID : qaThis.sessionID 
+          });
+
+          },
+
+          answeringQ : function () {
+          //Change state of question in spectator view
+
+          },
+
+          answeredQ : function () {
+          //Remove question from voting queue in spectator view
+          //Gray out question in moderator list
+
+          },
+
+          removedQ : function () {
+          //Remove question from voting queue in spectator view
+          //Gray out question in moderator list
+
+          }
+
+
+          }
+
+          };
+          var samplesocket = io.connect('https://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002/socket.io/socket.io.js');
+
+          var renderQnA  = function(qDict, rankList) {
+
+          var qDiv = document.getElementById('questionDiv');
+
+          while (qDiv.hasChildNodes()) {
+          qDiv.removeChild(qDiv.lastChild);
+          }
+
+          for (var i = 0; i < rankList.length; i++) {
+          if(qDict[rankList[i]].state !== QnAModule.QSTATE.DELETED)
+          renderQuestion(qDict[rankList[i]], i+1);
+
+          };
+
+          }
+
+          var renderQuestion = function(question, numQ) {
+          var divID = "q-" + question.questionID;
+          var qDiv = document.getElementById('questionDiv');
+          var qBtnDiv = document.createElement("div");
+
+          if(question.userID === wisdom.global.userid){
+
+          qBtnDiv.innerHTML = '<input id=\"rmvBtn-' + divID +'\" type=\"button\" value=\"Remove Question\" onClick=\"javascript:QnAModule.delQ(\'' + question.questionID + '\');\">';  
+          }
+          else if((question.listOfUp.indexOf(wisdom.global.userid)>-1) ||
+          (question.listOfDown.indexOf(wisdom.global.userid)>-1)){
+
+          qBtnDiv.innerHTML = '<input class=\"disableVote\" id=\"upVote-' + divID + '\" type=\"button\" value=\"Upvote\" onClick=\"javascript:QnAModule.upVote(\'' + question.questionID + '\');\" disabled=\"disabled\"> ' + '<input class=\"disableVote\" id=\"downVote-' + divID + '\" type=\"button\" value=\"Downvote\" onClick=\"javascript:QnAModule.downVote(\'' + question.questionID + '\');  \" disabled=\"disabled\"">';
+          }
+          else{
+          qBtnDiv.innerHTML = '<input id=\"upVote-' + divID + '\" type=\"button\" value=\"Upvote\" onClick=\"javascript:QnAModule.upVote(\'' + question.questionID + '\');\"> ' + '<input id=\"downVote-' + divID + '\" type=\"button\" value=\"Downvote\" onClick=\"javascript:QnAModule.downVote(\'' + question.questionID + '\');  \">';
+
+          }
+
+
+          var qnaHTML = '<div class=\"QnAquestion\" id=\"' + divID + '\">' + numQ + '. ' + question.question + 
+          '</div> <div id=\"btn-' + divID + '\">' + qBtnDiv.innerHTML + '</div> <div> Number of Votes: ' + (question.numupvotes-question.numdownvotes) + ' </div> <br>';
+
+          var newDiv = document.createElement("div");
+
+          newDiv.id =  divID;
+
+          newDiv.innerHTML = qnaHTML;
+          qDiv.appendChild(newDiv);
+
+
+
+          };
+
+          var proposeQuestion = function(){
+          console.log("proposing question!")
+          QnAModule.proposeNewQ(document.getElementById('newquestionbox').value);
+          };
+
+          wisdom.global.userid = prompt("Please enter your userID: ", " UserID");
+
+
+          var QnAModule = QnAClient();
+          QnAModule.initialize(samplesocket,wisdom.global.confid,wisdom.global.userid,'kamiller',renderQnA);
+
+        </script>
+
+        <div id="q1"></div>
+        <br>
+          <h3>Questions</h3>
+          <div id="questionDiv">
+
+          </div>
+
+
+          <div align="center">
+            <br><br>
+              <input type="text" id="newquestionbox" size="25" value="Enter your Question here!">
+                <br><input type="button" value="Propose Question" onclick='javascript:proposeQuestion();'><br>
+                </div>
+
+
+              </body>
+              <script type="text/javascript">
+                function init() {
+                // When API is ready...                                                         
+                gapi.hangout.onApiReady.add(
+                function(eventObj) {
+                if (eventObj.isApiReady) {
+                document.getElementById('removeQuestion').style.visibility = 'visible';
+                }
+                });
+                }
+
+                // Wait for gadget to load.                                                       
+                gadgets.util.registerOnLoadHandler(init);
+              </script>
+
+              ]]>
+            </Content>
+          </Module>
