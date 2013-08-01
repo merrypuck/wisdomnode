@@ -157,7 +157,7 @@ body {
 	position: absolute;
 	top:70px;
 	left:185px;
-	height:150px;
+	height:0px;
 	width:100px;
 	border:3px solid orange;
 	z-index: 1;
@@ -177,9 +177,16 @@ body {
 #qa {
 	height:360px;
 	width:100%;
-	background-color:blue;
+	border:3px solid black;
 	display:block;
+	overflow: auto;
 }
+
+-------------- /*qna*/
+.disableVote {
+	background-color: black;
+}
+-------------
 
 ::-webkit-scrollbar {
     -webkit-appearance: none;

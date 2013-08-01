@@ -135,7 +135,7 @@
                 qaThis.renderingCallback(data['qDict'], data['rankList']);
             });
             qaThis.qaSocket.on(qaThis.QEVENTS.QALREADYASKED, function(data){
-                alert("THIS QUESTION WAS ALREADY PROPOSED IDIOT."); 
+                alert("This question has already been purposed."); 
 
             });
             //TESTING

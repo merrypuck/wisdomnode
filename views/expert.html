@@ -2,6 +2,8 @@
 <script src="js/clientside_groupchat.js"></script>
 <script src="js/clientside_notes.js"></script>
 <script src="js/clientside_agenda.js"></script>
+<script src="js/clientside_qna.js"></script>
+<script src="js/script.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code
@@ -19,6 +21,17 @@ notebook.init(socket)
 
 var agenda = AgendaClient();
 agenda.init(socket);
+
+var wisdom = {
+	global : {
+		userid : "123",
+		sesssionid: "666"
+
+	}
+};
+
+var QnAModule = QnAClient();
+QnAModule.initialize(socket,wisdom.global.sessionid,wisdom.global.userid,'kamiller',renderQnA);
 
 	$(function(){
 		/**
@@ -51,6 +64,11 @@ agenda.init(socket);
 			if($('#chatroom').css('display') === 'none' ) {
 				$('#qa').css({'display':'none'});
 				$('#chatroom').css({'display':'block'});
+				$('#newquestionbox').css({'display' : 'none'
+				});
+				$('#submitnewquestion').css({'display' : 'none'
+				});
+
 			}
 		});
 
@@ -58,6 +76,10 @@ agenda.init(socket);
 			if($('#qa').css('display') === 'none') {
 				$('#chatroom').css({'display':'none'});
 				$('#qa').css({'display':'block'});
+				$('#newquestionbox').css({'display' : 'block'
+				});
+				$('#submitnewquestion').css({'display' : 'block'
+				});
 			}
 		});
 		// when the client clicks SEND
@@ -150,19 +172,6 @@ agenda.init(socket);
 
 		</div>
 
-		<!--<div id='agenda'>
-			<h3>Agenda</h3>
-			<ul id='topicList'>
-			
-			</ul>
-		</div>
-		<div id='notes'>
-			<h3>Notes</h3>
-			<textarea id="notesarea"style='width:100%; height:320px'></textarea>
-			<div id='timestamp'></div>
-		</div>
-	-->
-
 		<div id='video'><iframe src="//www.youtube.com/embed/RAJgGIQ3JHk" frameborder="0" allowfullscreen></iframe></div>
 
 		<div id='rightBar'>
@@ -173,19 +182,25 @@ agenda.init(socket);
 				<input id='chatdata' />
 				<input id='enterchat' type='button' value='send' />
 			</div>
-			<div id='qa'></div>
+			<div id='qa'>
+				<div id="q1"></div>
+			<br>
+				<h3>Questions</h3>
+			<div id="questionDiv"></div>
+
+			<div align="center">
+		    <br/>
+		    </div>
+
+					</div>
+				<input type="text" id="newquestionbox" size="25" value="Enter your Question here!">
+		      <br><input type="button" id='submitnewquestion' value="Propose Question" onclick='proposeQuestion();'><br>
+
+				</div>
+
 		</div>
-		<!--
-		<div id='chatroom'>
-			<h3>Chatroom</h3>
-			<input id="chatdata" style="width:100px;" />
-			<input type="button" id="enterchat" value="send" />
-			<div id="conversation"></div>
-			<div id="users"></div>
-		</div> -->
 
-	</div>
-
+		<div id='participants-tab'></div>
 	</body>
 
 </html>

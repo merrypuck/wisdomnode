@@ -12,6 +12,8 @@ var notes = require('./lib/notes');
 var agenda = require('./lib/agenda');
 var mongooseWrapper = require('./lib/mongooseWrapper');
 var authentication = require('./lib/authentication');
+var authentication = require('./lib/authentication');
+var qnaModule = require('./lib/QnAModule');
 var app = express();
 var server = http.createServer(app);
 
@@ -63,14 +65,6 @@ var io = require('socket.io').listen(server);
 //User.findOne({'firstName' : firstName}, function(err, obj) {
 //	console.log(JSON.stringify(obj))
 //});
-
-
-
-var findDoc = function(key, value) {
-	User.findOne({key : value}, function(err, obj) {
-		return obj;
-	});
-}
 
 app.get('/', function(req, res){
 	//var mobj = mongooseW.findFirst(User, 'firstName','aaron');
@@ -129,6 +123,9 @@ app.get('/expert', function(req, res) {
 	var thisAgendaSession = wAgenda.newAgenda(req.param('sessionNum'));
 	thisAgendaSession.init(io, 'blankForNow', req.param('sessionNum'));
 
+	//initialze qa session
+	qnaModule.initialize(req.param('sessionNum'), io, 'blankForNow');
+
 		for(var i = 0; i < req.param('topicAmt'); i++) {
 			topic = req.param('topic' + i.toString());
 			thisAgendaSession.addTopic(topic);
@@ -144,6 +141,9 @@ app.get('/expert', function(req, res) {
 
 		//Connect to Agena with username and socket
 		thisAgendaSession.joinAgenda(socket);
+
+		//Connect 
+		qnaModule.subscribe(socket);
 		
 	});
 
