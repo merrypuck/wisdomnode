@@ -8,7 +8,6 @@ var NoteClient = (function() {
 			this.mySocket = socket;
 			var self = this;
 			this.mySocket.on(self.TIMESTAMP_NOTES, function(message) {
-				console.log(message);
 				self.clientNoteStamp();
 			})
 		},

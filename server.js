@@ -7,9 +7,11 @@ var mime  = require('mime');
 var io = require('socket.io');
 var parseCookie = require('connect').utils.parseCookie;
 var flash = require('connect-flash');
-var groupchat = require('./lib/groupchat')
-var notes = require('./lib/notes')
-var agenda = require('./lib/agenda')
+var groupchat = require('./lib/groupchat');
+var notes = require('./lib/notes');
+var agenda = require('./lib/agenda');
+var mongooseWrapper = require('./lib/mongooseWrapper');
+var authentication = require('./lib/authentication');
 var app = express();
 var server = http.createServer(app);
 
@@ -43,22 +45,70 @@ app.configure('development', function(){
 
 var Schema = mongoose.Schema;
 
-var userSchema= new Schema({
-	firstName: String,
-	lastName: String,
+var userSchema = new Schema({
+	firstName : String,
+	lastName : String,
+	dob : Number,
 	username: String,
 	email : String,
+	password : String,
 	organization : String,
-	orgtitle : String,
-	notes : String,
+	orgtitle : String
 }, {collection: 'user' });
 
 var User = mongoose.model('User', userSchema);
-var io = require('socket.io').listen(server);
-app.get('/', function(req, res){
-	res.render('login', {
 
+var io = require('socket.io').listen(server);
+
+//User.findOne({'firstName' : firstName}, function(err, obj) {
+//	console.log(JSON.stringify(obj))
+//});
+
+
+
+var findDoc = function(key, value) {
+	User.findOne({key : value}, function(err, obj) {
+		return obj;
 	});
+}
+
+app.get('/', function(req, res){
+	//var mobj = mongooseW.findFirst(User, 'firstName','aaron');
+	//console.log('toObject version: ' + mobj.toObject());
+	res.render('login', {});
+});
+
+app.post('/', function(req, res) {
+	userCred = {
+		firstName : req.param(firstName),
+		lastName : req.param(firstName),
+		dob : req.param(dob),
+		email: req.param(email),
+		username : req.param(username),
+		password1 : req.param(password1),
+		password2 : req.param(password2),
+		password1 : req.param(organization),
+		password1 : req.param(orgTitle)
+	};
+	if(authentication.signupAuth(userCred) === null) {
+		res.render('signup', {
+
+		});
+	}
+
+	
+	else {
+		authentication.signupAuth(userCred);
+		res.render('expert');
+	};
+
+});
+
+app.get('/signup', function(req, res) {
+	res.render('signup', {})
+});
+app.post('/signup', function(req, res) {
+
 });
 
 app.get('/expert', function(req, res) {
@@ -66,8 +116,7 @@ app.get('/expert', function(req, res) {
 		username : 'aa'
 	});
 });
-
-app.post('/expert', function(req, res) {
+ app.post('/expert', function(req, res) {
 	//initalize chat session
 	var thisChatSession = wGroupChat.newChatroom(req.param('sessionNum'));
 	thisChatSession.init(io, 'blankForNow', req.param('sessionNum'));
@@ -96,8 +145,6 @@ app.post('/expert', function(req, res) {
 
 		//Connect to Agena with username and socket
 		thisAgendaSession.joinAgenda(socket);
-
-
 	});
 
 	res.render('expert',{

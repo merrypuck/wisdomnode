@@ -20,13 +20,47 @@ var agenda = AgendaClient();
 agenda.init(socket);
 
 	$(function(){
+		/**
+		var dynamo = function() {
+		var windowWidth = $(window).width();
+		var leftBarWidth = $('#leftBar').css({'width'});
+		var rightBarWidth = $('#rightBar').css({'width'});
+		var videoWidth = $('#video').css({'width'});
+		if(windowWidth < 1279) {
 
+		};
+	};*/
+
+
+		$('#agenda-tab').click( function() {
+			if($('#notes').css('display') === 'block') {
+				$('#notes').css({'display':'none'});
+				$('#agenda').css({'display': 'block'});
+			}
+			else {
+				$("#notes").css({'display':'block'});
+				$('#agenda').css({'display': 'none'});
+			};
+
+		});
+		$('#chat-tab').click( function() {
+			if($('#chatroom').css('display') === 'none' ) {
+				$('#qa').css({'display':'none'});
+				$('#chatroom').css({'display':'block'});
+			}
+		});
+
+		$('#qa-tab').click( function() {
+			if($('#qa').css('display') === 'none') {
+				$('#chatroom').css({'display':'none'});
+				$('#qa').css({'display':'block'});
+			}
+		});
 		// when the client clicks SEND
 		$('#enterchat').click( function() {
-			console.log("button pressed");
 			var message = $('#chatdata').val();
 			$('#chatdata').val('');
-			// tell server to execute 'sendchat' and send along one parameter
+			// tell server to execute 'sendchat' and send along message as parameter
 			newChat.sendMessage(message);
 		});
 
@@ -38,10 +72,17 @@ agenda.init(socket);
 			}
 		});
 
-		$('#notesarea').keyup(function() {
+		//send and save notes after 5 second after user stops typing
+		//5 second timer doesn't work...
+		var stoppedTyping;
+		$('#notesarea').keypress(function() {
 			var notes = $('#notesarea').val();
-			setTimeout(notebook.updateNotes(notes), 5000);
+			if (stoppedTyping) clearTimeout(stoppedTyping);
+
+			stoppedTyping = setTimeout(notebook.updateNotes(notes), 5000);
 		});
+
+
 
 	});
 
@@ -51,7 +92,6 @@ agenda.init(socket);
 		}
 	};
 	newChat.displayChat = function(username, message) {
-		console.log("displaying chat");
 		$('#conversation').append('<b>'+ username + ':</b> ' + message + '<br>');
 	};
 
@@ -89,91 +129,199 @@ agenda.init(socket);
 			}
 			#header {
 				width:100%;
-				height:50px;
-				background-color:green;
+				height:70px;
+				border:2px solid white;
+				background-color:#f2f6fc;
 			}
-			#agenda {
+			#header h1 {
+				color: #404040;
+				text-align: center;
+			}
+			#leftBar {
+				background-color:#edf0f1;
+			 	float:left;
+			 	height:414px;
+			 	width:20%;
+			 	border:2px solid white;
+			}
+			#rightBar {
+				background-color:#edf0f1;
+				float:right;
 				height:414px;
-				width:14.5%;
-				border:1px solid black;
-				float:left;
-			}
-			#notes {
-				float:left;
-				height:414px;
-				width:15%;
-				border:1px solid black;
-			}
-			#notes textarea {
-				height:300px;
-				width:100%;
-				resize: none;
+				width:20%;
+				border:2px solid white;
 			}
 			#video {
-				width:40%;
+				width:58%;
 				height:415px;
 				float:left;
-				margin-left:2px;
+				margin-right:5px;
 			}
-			#qa {
-				width:15%;
+			#video iframe {
+				width:100%;
 				height:414px;
-				float:right;
-				border:1px solid black;
-			}
-			#chatroom {
-				width:14.5%;
-				height:414px;
-				float:right;
-				border:1px solid black;
+				margin:0px 10px 0px 10px;
 			}
 			#conversation {
 				height:100px;
 				overflow:auto;
 				border:1px solid black;
 			}
-			#agenda ul {
-				list-style:none;
-			}
 			.agenda-item {
-				width:100px;
+				width:100%;
 				height:50px;
-				margin:10px;
+				margin:0;
 				background-color:red;
 				color:white;
+			}
+			#agenda ul {
+				padding:0;
+				list-style: none;
+			}
+			#agenda ul li {
+				margin:10px;
+			}
+
+			#agenda-tab {
+				width:100%;
+				height:40px;
+				background-color:blue;
+				opacity:.6;
+			}
+
+			#notes-tab {
+				width:100%;
+				height:40px;
+				background-color: red;
+				opacity: .6;
+			}
+
+			#tab-text {
+				color:white;
+				font-size: 30px;
+				font-family: awesome;
+				padding:20px 0 0 50%;
+			}
+			#thisAgenda {
+				height:75px;
+				width:100%;
+				background-color:green;
+			}
+			#notes {
+				height:300px;
+				width:100%;
+				display:block;
+			}
+			#notes textarea {
+				height:260px;
+				width:100%;
+				resize:none;
+				background-color: #fff;
+				font-size:16px;
+			}
+			#agenda {
+				height:260px;
+				width:100%;
+				background-color:yellow;
+				display: none;
+			}
+			#chat-tab {
+				height:40px;
+				width:50%;
+				background-color:red;
+				float:left;
+			}
+			#qa-tab {
+				height:40px;
+				width:50%;
+				background-color:blue;
+				float:left;
+			}
+			#chatroom {
+				height:360px;
+				width:100%;
+				background-color: red;
+				display:none;
+			}
+			#conversation {
+				height:300px;
+				width:180px;
+				border:2px solid black;
+				border-radius: 5px;
+				background-color: #fff;
+				margin-left:10px;
+			}
+			#qa {
+				height:360px;
+				width:100%;
+				background-color:blue;
+				display:block;
+			}
+
+
+			::-webkit-scrollbar {
+    		-webkit-appearance: none;
+    		width: 7px;
+			}
+
+			::-webkit-scrollbar-thumb {
+    		border-radius: 4px;
+    		background-color: rgba(0,0,0,.5);
+    		-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 			}
 		</style>
 	</head>
 
 	<body>
-		<div id='header'> <%= username %></div>
-		<div id='agenda'>
+		<div id='header'>
+			<h1>WasteWise Roundtable</h1>
+		</div>
+
+		<div id='leftBar'>
+			<div id='agenda-tab'><span id='tab-text'>Agenda</span></div>
+			<div id='thisAgenda'></div>
+			<div id='agenda'>
+				<ul id='topicList'></ul>
+			</div>
+			<div id='notes-tab'><span id='timestamp'></span><span id='tab-text'>Notes</span></div>
+			<div id='notes'><textarea id='notesarea'></textarea></div>
+			
+
+		</div>
+
+		<!--<div id='agenda'>
 			<h3>Agenda</h3>
 			<ul id='topicList'>
 			
 			</ul>
 		</div>
-
-
 		<div id='notes'>
 			<h3>Notes</h3>
 			<textarea id="notesarea"style='width:100%; height:320px'></textarea>
 			<div id='timestamp'></div>
 		</div>
+	-->
 
-		<div id='video'><iframe width="100%" height="100%" src="//www.youtube.com/embed/RAJgGIQ3JHk" frameborder="0" allowfullscreen></iframe></div>
+		<div id='video'><iframe src="//www.youtube.com/embed/RAJgGIQ3JHk" frameborder="0" allowfullscreen></iframe></div>
 
-		<div id='qa'>
-			<h3>QA</h3>
+		<div id='rightBar'>
+			<div id='chat-tab'>chat</div>
+			<div id='qa-tab'>QA</div>
+			<div id='chatroom'>
+				<div id='conversation'></div>
+				<input id='chatdata' />
+				<input id='enterchat' type='button' value='send' />
+			</div>
+			<div id='qa'></div>
 		</div>
-
+		<!--
 		<div id='chatroom'>
 			<h3>Chatroom</h3>
 			<input id="chatdata" style="width:100px;" />
 			<input type="button" id="enterchat" value="send" />
 			<div id="conversation"></div>
 			<div id="users"></div>
-		</div>
+		</div> -->
 
 	</div>
 

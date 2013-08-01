@@ -29,7 +29,6 @@ var ChatClient = (function() {
 		},
 
 		sendMessage : function(data) {
-			console.log("emitting the data" + data);
 			this.mySocket.emit(this.SEND_MESSAGE, data);
 		}
 	};
