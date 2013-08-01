@@ -3,6 +3,7 @@ var AgendaClient = (function() {
 		mySocket : undefined,
 
 		CREATE_AGENDA : "wagenda-create",
+		CHANGE_MAIN_TOPIC : "wagenda-change-main-topic",
 
 		init : function(socket) {
 
@@ -12,6 +13,11 @@ var AgendaClient = (function() {
 			this.mySocket.on(this.CREATE_AGENDA, function(topics) {
 				self.createAgenda(topics);
 			});
+		},
+
+		changeMainTopic : function(topicId) {
+			console.log(topicId);
+			this.mySocket.emit(this.CHANGE_MAIN_TOPIC, topicId);
 		}
 
 };

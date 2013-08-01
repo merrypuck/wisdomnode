@@ -131,7 +131,6 @@ app.get('/expert', function(req, res) {
 
 		for(var i = 0; i < req.param('topicAmt'); i++) {
 			topic = req.param('topic' + i.toString());
-			console.log(topic);
 			thisAgendaSession.addTopic(topic);
 		};
 
@@ -145,6 +144,7 @@ app.get('/expert', function(req, res) {
 
 		//Connect to Agena with username and socket
 		thisAgendaSession.joinAgenda(socket);
+		
 	});
 
 	res.render('expert',{

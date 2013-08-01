@@ -6,6 +6,7 @@
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code
 .jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="stylesheets/css/style.css">
 
 <script>
 var socket = io.connect('http://localhost:4000');
@@ -30,19 +31,22 @@ agenda.init(socket);
 
 		};
 	};*/
-
-
-		$('#agenda-tab').click( function() {
-			if($('#notes').css('display') === 'block') {
-				$('#notes').css({'display':'none'});
-				$('#agenda').css({'display': 'block'});
+		$('#currentTopic').click( function() {
+			if($('#agenda').css('display') === 'none') {
+				$('#agenda').css({'display':'block'});
 			}
 			else {
-				$("#notes").css({'display':'block'});
 				$('#agenda').css({'display': 'none'});
 			};
 
 		});
+
+		//$('.switch').click( function() {
+			//var topicId = this.id;
+			//alert(topicId);	
+			//agenda.changeMainTopic(thisItem);
+		//});
+
 		$('#chat-tab').click( function() {
 			if($('#chatroom').css('display') === 'none' ) {
 				$('#qa').css({'display':'none'});
@@ -101,7 +105,7 @@ agenda.init(socket);
 		$('#timestamp').text("Saved less than a minute ago.")
 		}, 10000);
 		setTimeout(function() {
-			$('#timesta	mp				z').text("Saved about a minute ago.")
+			$('#timestamp').text("Saved about a minute ago.")
 		}, 60000);
 		setTimeout(function() {
 			$('#timestamp').text("Saved more than 2 minutes ago")
@@ -109,167 +113,23 @@ agenda.init(socket);
 
 	};
 	agenda.createAgenda = function(topics) {
-		console.log(topics);
 		for(var i = 0; i < topics.length; i++) {
-			$('#topicList').append("<li id=\'agenda-li" + i + "\'class='agenda-item'></li>");
-			$('#agenda-li' + i).append("<div id=\'topic" + i + "\'>" + topics[i] + "</div");
+			console.log(topics[i]);
+			$('#agenda').append("<li id=\'agenda-li" + i + "\'class='agenda-item'></li>");
+			$('#agenda-li' + i).append("<div id=\'topic" + i + "\'>" + topics[i] + "<div id=\'switch" + i + "\' class='switch'></div></div");
 		}
+	};
+	agenda.changeTopic = function(topicId) {
+		var topic = $(topicId).val();
+		$('currentTopic').val(topic);
+		$(topicId).css({'background-color':'purple'});
+
 	};
 
 </script>
 <html>
 	<head>
-
 		<title>Wastewise</title>
-
-		<style>
-			body {
-				margin:0;
-				padding:0;
-			}
-			#header {
-				width:100%;
-				height:70px;
-				border:2px solid white;
-				background-color:#f2f6fc;
-			}
-			#header h1 {
-				color: #404040;
-				text-align: center;
-			}
-			#leftBar {
-				background-color:#edf0f1;
-			 	float:left;
-			 	height:414px;
-			 	width:20%;
-			 	border:2px solid white;
-			}
-			#rightBar {
-				background-color:#edf0f1;
-				float:right;
-				height:414px;
-				width:20%;
-				border:2px solid white;
-			}
-			#video {
-				width:58%;
-				height:415px;
-				float:left;
-				margin-right:5px;
-			}
-			#video iframe {
-				width:100%;
-				height:414px;
-				margin:0px 10px 0px 10px;
-			}
-			#conversation {
-				height:100px;
-				overflow:auto;
-				border:1px solid black;
-			}
-			.agenda-item {
-				width:100%;
-				height:50px;
-				margin:0;
-				background-color:red;
-				color:white;
-			}
-			#agenda ul {
-				padding:0;
-				list-style: none;
-			}
-			#agenda ul li {
-				margin:10px;
-			}
-
-			#agenda-tab {
-				width:100%;
-				height:40px;
-				background-color:blue;
-				opacity:.6;
-			}
-
-			#notes-tab {
-				width:100%;
-				height:40px;
-				background-color: red;
-				opacity: .6;
-			}
-
-			#tab-text {
-				color:white;
-				font-size: 30px;
-				font-family: awesome;
-				padding:20px 0 0 50%;
-			}
-			#thisAgenda {
-				height:75px;
-				width:100%;
-				background-color:green;
-			}
-			#notes {
-				height:300px;
-				width:100%;
-				display:block;
-			}
-			#notes textarea {
-				height:260px;
-				width:100%;
-				resize:none;
-				background-color: #fff;
-				font-size:16px;
-			}
-			#agenda {
-				height:260px;
-				width:100%;
-				background-color:yellow;
-				display: none;
-			}
-			#chat-tab {
-				height:40px;
-				width:50%;
-				background-color:red;
-				float:left;
-			}
-			#qa-tab {
-				height:40px;
-				width:50%;
-				background-color:blue;
-				float:left;
-			}
-			#chatroom {
-				height:360px;
-				width:100%;
-				background-color: red;
-				display:none;
-			}
-			#conversation {
-				height:300px;
-				width:180px;
-				border:2px solid black;
-				border-radius: 5px;
-				background-color: #fff;
-				margin-left:10px;
-			}
-			#qa {
-				height:360px;
-				width:100%;
-				background-color:blue;
-				display:block;
-			}
-
-
-			::-webkit-scrollbar {
-    		-webkit-appearance: none;
-    		width: 7px;
-			}
-
-			::-webkit-scrollbar-thumb {
-    		border-radius: 4px;
-    		background-color: rgba(0,0,0,.5);
-    		-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
-			}
-		</style>
 	</head>
 
 	<body>
@@ -278,12 +138,13 @@ agenda.init(socket);
 		</div>
 
 		<div id='leftBar'>
-			<div id='agenda-tab'><span id='tab-text'>Agenda</span></div>
-			<div id='thisAgenda'></div>
-			<div id='agenda'>
-				<ul id='topicList'></ul>
+			<div id='agenda-tab'><span class='tab-text'>Agenda</span></div>
+			<div id='thisAgenda'>
+				<div id='currentTopic'></div>
 			</div>
-			<div id='notes-tab'><span id='timestamp'></span><span id='tab-text'>Notes</span></div>
+			<ul id='agenda'></ul>
+
+			<div id='notes-tab'><span id='timestamp'></span><span class='tab-text'>Notes</span></div>
 			<div id='notes'><textarea id='notesarea'></textarea></div>
 			
 
