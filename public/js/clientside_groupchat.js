@@ -32,5 +32,5 @@ var ChatClient = (function() {
 			console.log("emitting the data" + data);
 			this.mySocket.emit(this.SEND_MESSAGE, data);
 		}
-	}
+	};
 });
