@@ -65,24 +65,28 @@ $(function(){
 
 $('#chat-tab').click( function() {
 	if($('#chatroom').css('display') === 'none' ) {
+		$('#chat-tab').css({'opacity':'1'});
 		$('#qa').css({'display':'none'});
 		$('#chatroom').css({'display':'block'});
 		$('#newquestionbox').css({'display' : 'none'
 	});
 		$('#submitnewquestion').css({'display' : 'none'
 	});
+		$('#qa-tab').css({'opacity':'.5'});
 
 	}
 });
 
 $('#qa-tab').click( function() {
 	if($('#qa').css('display') === 'none') {
+		$('#qa-tab').css({'opacity':'1'});
 		$('#chatroom').css({'display':'none'});
 		$('#qa').css({'display':'block'});
 		$('#newquestionbox').css({'display' : 'block'
 	});
 		$('#submitnewquestion').css({'display' : 'block'
 	});
+		$('#chat-tab').css({'opacity':'.5'});
 	}
 });
 
@@ -156,13 +160,14 @@ notebook.clientNoteStamp = function() {
 	}, 120000);
 
 };
-agenda.createAgenda = function(topics) {
+/*agenda.createAgenda = function(topics) {
 	for(var i = 0; i < topics.length; i++) {
 		console.log(topics[i]);
 		$('#agenda').append("<li id=\'agenda-li" + i + "\'class='agenda-item'></li>");
 		$('#agenda-li' + i).append("<div id=\'topic" + i + "\'>" + topics[i] + "<div id=\'switch" + i + "\' class='switch'></div></div");
 	}
 };
+*/
 agenda.changeTopic = function(topicId) {
 	var topic = $(topicId).val();
 	$('currentTopic').val(topic);
@@ -188,16 +193,21 @@ agenda.changeTopic = function(topicId) {
 			</div>
 
 			<div id='thisAgenda' class='backgroundClass'>
-				<div id='currentTopic'></div>
+				<div id='currentTopic'>1. Wastewise Challenge</div>
 			</div>
 
-			<ul id='agenda'></ul>
+			<ul id='agenda'>
+				<li class='agenda-item'>1. Wastewise Challenge</li>
+				<li class='agenda-item'>2. Whats'up?</li>
+				<li class='agenda-item'>3. kevin</li>
+			</ul>
 
 			<div id='notes-tab' class='tabs-schema'>
-				<span id='timestamp'></span>
 				<span class='tab-text'>
 					<i class="icon-list"></i>	NOTES
 				</span>
+				<br />
+				<span id='timestamp'></span>
 			</div>
 
 			<div id='notes'>
@@ -229,8 +239,8 @@ agenda.changeTopic = function(topicId) {
 				<div id="questionDiv"></div>
 			</div>
 			<div class='inputComponent'>
-				<input type="text" id="newquestionbox"  >
-				<input type="button" id='submitnewquestion' value="SUBMIT" onclick='proposeQuestion();'><br>
+				<input type="text" id="newquestionbox"  />
+				<input type="button" id='submitnewquestion' value="ASK" onclick='proposeQuestion();'/><br>
 			</div>
 		</div>
 

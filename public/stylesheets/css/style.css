@@ -11,7 +11,7 @@ body {
 
 #header {
 	width:100%;
-	height:70px;
+	height:50px;
 	border:2px solid white;
 	background-color:#f2f6fc;
 	font-family: Arial, Helvetica, sans-serif;
@@ -20,20 +20,23 @@ body {
 #header h1 {
 	color: #404040;
 	text-align: center;
+	line-height: 10px;
 }
 
 #leftBar {
 	float:left;
-	height:60%;
+	height:381px;
 	width:20%;
 	border:2px solid white;
 }
 
 #agenda-tab {
 	width:100%;
-	height:40px;
+	height:20px;
 	border-left: none;
 	border-right: none;
+	line-height: 5px;
+	font-size: 12px;
 }
 
 
@@ -51,42 +54,42 @@ body {
 }
 
 #currentTopic {
-	border:1.2px solid #999999;
-	height:50%;
+	border:1.2px solid #dadada;
+	height:30px;
 	width:96%;
 	margin-left:4px;
 	position: absolute;
 	top:20px;
-	background-color: white; 
+	background-color: #fff;
+	text-align: center;
+	line-height: 36px;
+	font-weight: bold;
 }
 
 #agenda {
 	position: absolute;
-	top:136px;
-	left:188px;
+	top:111px;
+	left:255px;
 	height:0px;
-	width:100px;
+	width:200px;
 	z-index: 1;
 	display: none;
 	margin:0;
 	padding:0;
 	list-style: none;
+	border-bottom:1px solid #dadada;
 }
 
-#agenda li {
-	width:100%;
-	height:20px;
-	background-color: orange;
-	color:white;
-}
 
 .agenda-item {
 	width:100%;
-	height:20px;
+	height:25px;
 	margin:0;
-	color:white;
-	border:3px solid orange;
-	border-bottom:1px solid black;
+	color:#000;
+	border:1px solid #dadada;
+	background-color: #fff;
+	padding-top: 5px;
+	padding-left:20px;
 }
 .switch {
 	height:10px;
@@ -97,13 +100,15 @@ body {
 
 #notes-tab {
 	width:100%;
-	height:40px;
+	height:20px;
 	border-left: none;
 	border-right: none;
+	line-height: 0px;
 }
 
 #timestamp {
-
+	font-size: 8px;
+	line-height: 10px;
 }
 
 #notes {
@@ -113,7 +118,7 @@ body {
 }
 			
 #notes textarea {
-	height:87%;
+	height:80%;
 	width:97%;
 	margin-left:4px;
 	background-color: #fff;
@@ -138,23 +143,26 @@ body {
 		
 #rightBar {
 	float:right;
-	height: 61%;
+	height:381px;
 	width:20%;
 	border:2px solid white;
 }
 
 #chat-tab {
-	height:40px;
+	height:25px;
 	width:46.7%;
 	float:left;
+	line-height: 0px;
+	opacity: .5;
 }
 
 #qa-tab {
-	height:40px;
+	height:25px;
 	width:46.7%;
 	float:left;
 	border-left: none;
 	margin-left: 5px;
+	line-height: 0px;
 }
 
 
@@ -183,15 +191,22 @@ body {
 	overflow: auto;
 	margin-left: 5px;
 }
+.questionAsked {
+	border:2px solid black;
+	margin:5px;
+}
 
 #timer {
 	width:58%;
-	height:30px;
+	height:15px;
 	float:left;
 	margin:10px 0px 0px 10px;
-	font-size: 1.4em;
+	font-size: 1em;
 	border-left: none;
 	border-right: none;
+	text-align: center;
+	line-height: 10px;
+	padding-top: 10px;
 }
 
 #bottomBar {
@@ -249,7 +264,6 @@ body {
 	border-left: 2px solid #000099 ;
 	border-right: 2px solid #000099 ;
 	text-align: center;
-	size:20px;
 	padding-top: 15px;
 }
 
@@ -267,13 +281,18 @@ body {
 
 .inputComponent{
 	width:90%;
-	border: solid 1px white;
 	margin-left: 5px;
-	margin-top: 5px;
 }
 
 #newquestionbox{
-	width:65%;
+	margin-left:5px;
+	width:62%;
+}
+
+
+#chatdata{
+		width:65%;
+
 }
 
 #submitnewquestion{
@@ -282,11 +301,6 @@ body {
 	background-color: navy;
 	color:white;
 	border:0;
-}
-
-#chatdata{
-		width:65%;
-
 }
 
 #enterchat{
