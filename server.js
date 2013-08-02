@@ -24,7 +24,7 @@ var db = mongoose.connection;
 app.engine('html', require('ejs').renderFile);
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 4000);
+  app.set('port', process.env.PORT || 8002);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'html');
   app.set('view options', {layout: false});
@@ -46,6 +46,7 @@ app.configure('development', function(){
 });
 
 var Schema = mongoose.Schema;
+
 
 var userSchema = new Schema({
 	firstName : String,
@@ -102,6 +103,7 @@ app.post('/', function(req, res) {
 });
 
 app.get('/signup', function(req, res) {
+	
 	res.render('signup', {})
 });
 app.post('/signup', function(req, res) {
@@ -159,4 +161,4 @@ app.get('/expert', function(req, res) {
 });
 
 
-server.listen(4000);
+server.listen(8002);
