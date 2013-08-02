@@ -10,6 +10,7 @@
 <script src="http://code
 .jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="stylesheets/css/style.css">
+<link rel="stylesheet" type="text/css" href="stylesheets/font-awesome/css/font-awesome.css">
 
 <script>
 //var socket = io.connect('http://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002');
@@ -183,7 +184,7 @@ agenda.changeTopic = function(topicId) {
 
 		<div id='leftBar' class='backgroundClass'>
 			<div id='agenda-tab' class='tabs-schema'>
-				Agenda
+				<i class="icon-list" ></i> AGENDA
 			</div>
 
 			<div id='thisAgenda' class='backgroundClass'>
@@ -194,7 +195,9 @@ agenda.changeTopic = function(topicId) {
 
 			<div id='notes-tab' class='tabs-schema'>
 				<span id='timestamp'></span>
-				<span class='tab-text'>Notes</span>
+				<span class='tab-text'>
+					<i class="icon-list"></i>	NOTES
+				</span>
 			</div>
 
 			<div id='notes'>
@@ -208,34 +211,38 @@ agenda.changeTopic = function(topicId) {
 		</div>
 
 		<div id='rightBar' class='backgroundClass'>
-			<div id='chat-tab' class='tabs-schema'>chat</div>
-			<div id='qa-tab' class='tabs-schema'>QA</div>
+			<div id='qa-tab' class='tabs-schema'>
+				<i class="icon-info-sign"></i> Q&A
+			</div>
+			<div id='chat-tab' class='tabs-schema'>
+				<i class="icon-comments"></i> CHAT
+			</div>
+
 			<div id='chatroom'>
 				<div id='conversation'></div>
+				<div class='inputComponent'>
 				<input id='chatdata' />
-				<input id='enterchat' type='button' value='send' />
+				<input id='enterchat' type='button' value='SEND' />
+				</div>
 			</div>
 			<div id='qa'>
-				<div id="q1"></div>
-				<br>
-				<h3>Questions</h3>
 				<div id="questionDiv"></div>
-
-				<div align="center">
-					<br/>
-				</div>
-
 			</div>
-			<input type="text" id="newquestionbox" size="25" value="Enter your Question here!">
-			<br><input type="button" id='submitnewquestion' value="Propose Question" onclick='proposeQuestion();'><br>
-
+			<div class='inputComponent'>
+				<input type="text" id="newquestionbox"  >
+				<input type="button" id='submitnewquestion' value="SUBMIT" onclick='proposeQuestion();'><br>
+			</div>
 		</div>
 
 		<div id='timer' class='tabs-schema'>01:59:00</div>
 
 		<div id='bottomBar' class='backgroundClass'>
-			<div id='spectators-tab' class='tabs-schema'>Spectators</div>
-			<div id='information-tab' class='tabs-schema'>Information</div>
+			<div id='spectators-tab' class='tabs-schema'>
+				Spectators
+			</div>
+			<div id='information-tab' class='tabs-schema'>
+				<i class="icon-file-text-alt"></i> Information
+			</div>
 			<div id='bottom-bar-filler'x></div>
 			<div id='information'>
 

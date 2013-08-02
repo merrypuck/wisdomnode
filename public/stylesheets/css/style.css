@@ -14,6 +14,7 @@ body {
 	height:70px;
 	border:2px solid white;
 	background-color:#f2f6fc;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 #header h1 {
@@ -83,7 +84,6 @@ body {
 	width:100%;
 	height:20px;
 	margin:0;
-	background-color:red;
 	color:white;
 	border:3px solid orange;
 	border-bottom:1px solid black;
@@ -107,7 +107,7 @@ body {
 }
 
 #notes {
-	height:300px;
+	height: 65%;
 	width:100%;
 	display:block;
 }
@@ -119,6 +119,7 @@ body {
 	background-color: #fff;
 	font-size:16px;
 	margin-top: 5px;
+	resize:none;
 }
 
 #video {
@@ -137,47 +138,50 @@ body {
 		
 #rightBar {
 	float:right;
-	height: 60%;
+	height: 61%;
 	width:20%;
 	border:2px solid white;
 }
 
 #chat-tab {
 	height:40px;
-	width:42%;
+	width:46.7%;
 	float:left;
 }
 
 #qa-tab {
 	height:40px;
-	width:42%;
+	width:46.7%;
 	float:left;
+	border-left: none;
+	margin-left: 5px;
 }
 
 
 #chatroom {
-	height:360px;
-	width:100%;
-	background-color: red;
+	height:78%%;
+	width:95%;
+	margin-left:5px;
 	display:none;
 }
 
 #conversation {
-	height:300px;
-	width:180px;
-	border:2px solid black;
-	border-radius: 5px;
-	background-color: #fff;
-	margin-left:10px;
-	overflow: auto;
+	height:100%;
+	width: 100%;
+	margin-top: 45px;
+	background-color: white;
+	border:1px solid gray;
 }
 			
 #qa {
-	height:300px;
-	width:100%;
-	border:3px solid black;
+	height:78%;
+	width: 95%;
+	margin-top: 45px;
+	background-color: white;
+	border:1px solid gray;
 	display:block;
 	overflow: auto;
+	margin-left: 5px;
 }
 
 #timer {
@@ -245,7 +249,8 @@ body {
 	border-left: 2px solid #000099 ;
 	border-right: 2px solid #000099 ;
 	text-align: center;
-
+	size:20px;
+	padding-top: 15px;
 }
 
 .backgroundClass{
@@ -259,6 +264,39 @@ body {
 	border-top: solid 1px #999999;
 	border-bottom: solid 1px #999999;
 }
+
+.inputComponent{
+	width:90%;
+	border: solid 1px white;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+#newquestionbox{
+	width:65%;
+}
+
+#submitnewquestion{
+	width:26%;
+	float: right;
+	background-color: navy;
+	color:white;
+	border:0;
+}
+
+#chatdata{
+		width:65%;
+
+}
+
+#enterchat{
+	width:26%;
+	float: right;
+	background-color: navy;
+	color:white;
+	border:0;
+}
+
 
 ::-webkit-scrollbar {
     -webkit-appearance: none;
