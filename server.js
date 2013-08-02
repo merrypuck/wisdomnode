@@ -24,7 +24,7 @@ var db = mongoose.connection;
 app.engine('html', require('ejs').renderFile);
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 8002);
+  app.set('port', process.env.PORT || 4000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'html');
   app.set('view options', {layout: false});
@@ -156,4 +156,4 @@ app.get('/expert', function(req, res) {
 });
 
 
-server.listen(8002);
+server.listen(4000);
