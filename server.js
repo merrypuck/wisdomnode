@@ -69,7 +69,10 @@ var io = require('socket.io').listen(server);
 app.get('/', function(req, res){
 	//var mobj = mongooseW.findFirst(User, 'firstName','aaron');
 	//console.log('toObject version: ' + mobj.toObject());
-	res.render('login', {});
+	res.render('login', {
+		username : 'kevin',
+		array : []
+	});
 });
 
 app.post('/', function(req, res) {
