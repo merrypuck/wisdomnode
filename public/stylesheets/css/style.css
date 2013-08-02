@@ -23,7 +23,7 @@ body {
 
 #leftBar {
 	float:left;
-	height:395px;
+	height:60%;
 	width:20%;
 	border:2px solid white;
 }
@@ -50,12 +50,13 @@ body {
 }
 
 #currentTopic {
-	border:3px solid orange;
-	height:25px;
-	width:140px;
+	border:1.2px solid #999999;
+	height:50%;
+	width:96%;
+	margin-left:4px;
 	position: absolute;
 	top:20px;
-	left:40px;
+	background-color: white; 
 }
 
 #agenda {
@@ -112,11 +113,12 @@ body {
 }
 			
 #notes textarea {
-	height:240px;
-	width:100%;
-	resize:none;
+	height:87%;
+	width:97%;
+	margin-left:4px;
 	background-color: #fff;
 	font-size:16px;
+	margin-top: 5px;
 }
 
 #video {
@@ -135,7 +137,7 @@ body {
 		
 #rightBar {
 	float:right;
-	height:395px;
+	height: 60%;
 	width:20%;
 	border:2px solid white;
 }
@@ -191,7 +193,7 @@ body {
 #bottomBar {
 	background-color:#edf0f1;
 	height:25%;
-	border:2px solid black;
+	border-bottom: solid #3399FF;
 	width: 100%;
 	position:absolute;
 	bottom: 0;
@@ -213,10 +215,26 @@ body {
 	float:left;
 	margin:0;
 	padding:0;
+	border-left: none;
 }
 
 #information{
+	position: absolute;
+	bottom:0;
 	display:none;
+	height:80%;
+	width: 90%;
+	border:solid;
+	margin-left: 40px;
+}
+
+#spectators{
+	position: absolute;
+	bottom:0;
+	height:80%;
+	width: 90%;
+	border:solid;
+	margin-left: 40px;
 }
 
 .tabs-schema{
@@ -232,6 +250,14 @@ body {
 
 .backgroundClass{
 	background-color: #E9E9E9;
+}
+
+#bottom-bar-filler{
+	height:15%;
+	width:59.44%;
+	float:right;
+	border-top: solid 1px #999999;
+	border-bottom: solid 1px #999999;
 }
 
 ::-webkit-scrollbar {
