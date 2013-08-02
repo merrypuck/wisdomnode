@@ -1,4 +1,4 @@
-<script src="https://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002/socket.io/socket.io.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <script src="js/clientside_groupchat.js"></script>
 <script src="js/clientside_notes.js"></script>
 <script src="js/clientside_agenda.js"></script>
@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="stylesheets/css/style.css">
 
 <script>
-var socket = io.connect('https://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002');
+var socket = io.connect('http://localhost:4000');
 
 var newChat = ChatClient();
 newChat.init(socket);
@@ -54,11 +54,11 @@ QnAModule.initialize(socket,wisdom.global.sessionid,wisdom.global.userid,'kamill
 
 		});
 
-		//$('.switch').click( function() {
-			//var topicId = this.id;
-			//alert(topicId);	
+		/*$('.agenda-item').click( function() {
+			var topicId = this.id;
+			alert(topicId);	
 			//agenda.changeMainTopic(thisItem);
-		//});
+		});*/
 
 		$('#chat-tab').click( function() {
 			if($('#chatroom').css('display') === 'none' ) {
@@ -160,19 +160,30 @@ QnAModule.initialize(socket,wisdom.global.sessionid,wisdom.global.userid,'kamill
 		</div>
 
 		<div id='leftBar'>
-			<div id='agenda-tab'><span class='tab-text'>Agenda</span></div>
+			<div id='agenda-tab'>
+				<span class='tab-text'>Agenda</span>
+			</div>
+
 			<div id='thisAgenda'>
 				<div id='currentTopic'></div>
 			</div>
+
 			<ul id='agenda'></ul>
 
-			<div id='notes-tab'><span id='timestamp'></span><span class='tab-text'>Notes</span></div>
-			<div id='notes'><textarea id='notesarea'></textarea></div>
-			
+			<div id='notes-tab'>
+				<span id='timestamp'></span>
+				<span class='tab-text'>Notes</span>
+			</div>
 
+			<div id='notes'>
+				<textarea id='notesarea'></textarea>
+			</div>
+			
 		</div>
 
-		<div id='video'><iframe src="//www.youtube.com/embed/RAJgGIQ3JHk" frameborder="0" allowfullscreen></iframe></div>
+		<div id='video'>
+			<iframe src="//www.youtube.com/embed/RAJgGIQ3JHk" frameborder="0" allowfullscreen></iframe>
+		</div>
 
 		<div id='rightBar'>
 			<div id='chat-tab'>chat</div>
@@ -200,7 +211,19 @@ QnAModule.initialize(socket,wisdom.global.sessionid,wisdom.global.userid,'kamill
 
 		</div>
 
-		<div id='participants-tab'></div>
+				<div id='timer'>01:59:00</div>
+
+		<div id='participants-tab'>
+			<ul>
+
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
 	</body>
 
 </html>
