@@ -16,6 +16,8 @@ var authentication = require('./lib/authentication');
 var qnaModule = require('./lib/QnAModule');
 var app = express();
 var server = http.createServer(app);
+var nodestatic = require('node-static');
+var fileServer = new nodestatic.Server(__dirname + '/public/static');
 
 mongoose.connect('mongodb://localhost/wisdom');
 
@@ -158,6 +160,12 @@ app.get('/expert', function(req, res) {
 		});
 	//res.cookie('remember', '1', { maxAge: 120000 })
 	//req.session.username = user.username;
+});
+
+app.get('/hangout', function(req, res){
+	fileServer.serveFile('/wiseApp.xml', 200, {}, req, res);
+
+
 });
 
 
