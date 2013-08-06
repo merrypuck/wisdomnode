@@ -29,6 +29,7 @@ var ChatClient = (function() {
 		},
 
 		sendMessage : function(data) {
+			console.log('freakign out ' + JSON.stringify(data));
 			this.mySocket.emit(this.SEND_MESSAGE, data);
 		}
 	};

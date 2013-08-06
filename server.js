@@ -12,12 +12,11 @@ var notes = require('./lib/notes');
 var agenda = require('./lib/agenda');
 var mongooseWrapper = require('./lib/mongooseWrapper');
 var authentication = require('./lib/authentication');
-var authentication = require('./lib/authentication');
 var qnaModule = require('./lib/QnAModule');
 var app = express();
 var server = http.createServer(app);
 
-mongoose.connect('mongodb://localhost/wisdom');
+mongoose.connect('mongodb://localhost/wisdom1');
 
 var db = mongoose.connection;
 
@@ -49,65 +48,93 @@ var Schema = mongoose.Schema;
 
 
 var userSchema = new Schema({
-	firstName : String,
-	lastName : String,
-	dob : Number,
-	username: String,
-	email : String,
-	password : String,
-	organization : String,
-	orgtitle : String
+	username : String,
+	password : String
 }, {collection: 'user' });
 
-var User = mongoose.model('User', userSchema);
+var User1 = mongoose.model('User1', userSchema);
+
+	var cb = function(obj) {
+		console.log("this is a callback " + obj.username);
+	}
+
+var dict = {'username' : 'mukund'};
+console.log("Mongoose Test");
+	console.log(" upper keys : " + Object.keys(User1));
+	mongooseW.findFirst(User1, {'username' :'mukund'}, cb);
 
 var io = require('socket.io').listen(server);
 
-//User.findOne({'firstName' : firstName}, function(err, obj) {
-//	console.log(JSON.stringify(obj))
-//});
-
 app.get('/', function(req, res){
-	//var mobj = mongooseW.findFirst(User, 'firstName','aaron');
-	//console.log('toObject version: ' + mobj.toObject());
 	res.render('login', {
-		username : 'kevin',
-		array : []
+
 	});
 });
 
 app.post('/', function(req, res) {
-	userCred = {
-		firstName : req.param(firstName),
-		lastName : req.param(firstName),
-		dob : req.param(dob),
-		email: req.param(email),
-		username : req.param(username),
-		password1 : req.param(password1),
-		password2 : req.param(password2),
-		password1 : req.param(organization),
-		password1 : req.param(orgTitle)
-	};
-	if(authentication.signupAuth(userCred) === null) {
-		res.render('signup', {
+	var user = new User1({
+	username : req.param('username'),
+	password : req.param('password')
+	});
+	user.save(function(err) {
+		if (err){
+			console.log('error');
+		}
+		
+	});
 
-		});
-	}
 
+	var obj1 = null;
+
+	var f = User1.findOne({'username' : "mukund"}, function(err, obj) {
+		if(obj === null) {
+			console.log(" f the fucking object is null");
+			return null;
+		}
+		else if(obj === undefined) {
+			console.log("f the fucking object is undefined");
+			return 'undefined';
+		}
+		else {
+			cobj = JSON.parse(JSON.stringify(obj))
+			if(cobj.username === 'mukund') {
+				console.log('cobj.username is ' + cobj.username);
+			} 
+			obj1 = cobj;
+			//console.log("f  object " + obj.toObject());
+		//return cobj; //obj.toObject();
+		res.render('success', {
+		userData : cobj,
+		uname : cobj.username
+	});
+		}
+	});
+
+	//console.log("f = " + Object.keys(obj1) + " , f.username = " + f.username 
+	//	+ " f = " + JSON.stringify(f));
 	
-	else {
-		authentication.signupAuth(userCred);
-		res.render('expert');
-	};
 
 });
+
 
 app.get('/signup', function(req, res) {
 	
 	res.render('signup', {})
 });
-app.post('/signup', function(req, res) {
 
+
+app.post('/signup', function(req, res) {
+	userCred = {
+		firstName : req.param('firstName'),
+		lastName : req.param('lastName'),
+		email: req.param('email'),
+		username : req.param('username'),
+		password1 : req.param('password1'),
+		password2 : req.param('password2'),
+		password1 : req.param('organization'),
+		password1 : req.param('orgTitle')
+	};
+	authentication.signupAuth(User1, userCred);
 });
 
 app.get('/expert', function(req, res) {
@@ -149,8 +176,13 @@ app.get('/expert', function(req, res) {
 
 		//Connect 
 		qnaModule.subscribe(socket);
+
+		socket.on('disconnect', function(socket) {
+			console.log('sleesleepsleepsleepsleepsleepsleepp');
+		});
 		
 	});
+		
 
 	res.render('expert',{
 		username : req.param('username'),

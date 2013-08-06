@@ -13,6 +13,32 @@
 <link rel="stylesheet" type="text/css" href="stylesheets/font-awesome/css/font-awesome.css">
 
 <script>
+
+wisdom = {
+	global : {
+		userid : "123",
+		sesssionid: "666"
+	},
+	user : {
+		userName : 'mukundjha@gmail.com',
+		userId : '8823n3nh38302kk23',
+		firstName : 'Mukund',
+		lastName : 'Jha',
+		profileImageUrl : 'ff',
+		bio : 'Co-Founder at Wisdomly'
+	},
+	talk : {
+		talkId : '883nnew39231nn321',
+		talkTitle : 'Waste Management in Urban settings.',
+		startTime : 1375763389,
+		status : 'LIVE',
+		info : {
+			numSpeakers : 3 
+		}
+	}
+};
+
+console.log(wisdom.user.firstName);
 //var socket = io.connect('http://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002');
 var socket = io.connect('http://localhost:8002');
 
@@ -24,14 +50,6 @@ notebook.init(socket)
 
 var agenda = AgendaClient();
 agenda.init(socket);
-
-var wisdom = {
-	global : {
-		userid : "123",
-		sesssionid: "666"
-
-	}
-};
 
 var QnAModule = QnAClient();
 QnAModule.initialize(socket,wisdom.global.sessionid,wisdom.global.userid,'kamiller',renderQnA);
@@ -47,7 +65,32 @@ $(function(){
 
 		};
 	};*/
-	$('#currentTopic').click( function() {
+	$('#spectators-tab1').click( function(){
+	if($('#spectators1').css('display') === 'none'){
+		$('#information1').css({'display':'none'});
+		$('#spectators1').css({'display':'block'});		
+	}
+
+});
+
+$('#information-tab1').click( function(){
+	if($('#information1').css('display') === 'none'){
+		$('#spectators1').css({'display':'none'});
+		$('#information1').css({'display':'block'});		
+	}
+
+});
+
+	$('#currentTopic').hover( function() {
+		if($('#agenda').css('display') === 'none') {
+			$('#agenda').css({'display':'block'});
+		}
+		else {
+			$('#agenda').css({'display': 'none'});
+		};
+	});
+
+	$('#agenda').hover( function() {
 		if($('#agenda').css('display') === 'none') {
 			$('#agenda').css({'display':'block'});
 		}
@@ -55,7 +98,7 @@ $(function(){
 			$('#agenda').css({'display': 'none'});
 		};
 
-	});
+	})
 
 		/*$('.agenda-item').click( function() {
 			var topicId = this.id;
@@ -113,7 +156,13 @@ $('#information-tab').click( function(){
 			var message = $('#chatdata').val();
 			$('#chatdata').val('');
 			// tell server to execute 'sendchat' and send along message as parameter
-			newChat.sendMessage(message);
+			console.log("wisdom : " +  JSON.stringify(wisdom));
+			var data = {
+				firstName : wisdom.user.firstName,
+				payload : message
+			}
+			console.log('this data is ' + JSON.stringify(data));
+			newChat.sendMessage(data);
 		});
 
 		// when the client hits ENTER on their keyboard
@@ -197,7 +246,7 @@ agenda.changeTopic = function(topicId) {
 			</div>
 
 			<ul id='agenda'>
-				<li class='agenda-item'>1. Wastewise Challenge</li>
+				<li class='agenda-item'><b>1. Wastewise Challenge</b></li>
 				<li class='agenda-item'>2. Whats'up?</li>
 				<li class='agenda-item'>3. kevin</li>
 			</ul>
@@ -207,17 +256,17 @@ agenda.changeTopic = function(topicId) {
 					<i class="icon-list"></i>	NOTES
 				</span>
 				<br />
-				<span id='timestamp'></span>
 			</div>
 
 			<div id='notes'>
 				<textarea id='notesarea'></textarea>
+				<!--<span id='timestamp'></span>-->
 			</div>
 
 		</div>
 
 		<div id='video'>
-			<iframe src="//www.youtube.com/embed/RAJgGIQ3JHk" frameborder="0" allowfullscreen></iframe>
+			<iframe width="560" height="315" src="//www.youtube.com/embed/YcxmpE0QoH8" frameborder="0" allowfullscreen></iframe>
 		</div>
 
 		<div id='rightBar' class='backgroundClass'>
@@ -246,7 +295,131 @@ agenda.changeTopic = function(topicId) {
 
 		<div id='timer' class='tabs-schema'>01:59:00</div>
 
-		<div id='bottomBar' class='backgroundClass'>
+		<div id='bottomBar1'>
+			<div id='bottomBarNav1'>
+				<div id='spectators-tab1' class='tabs-schema'>Spectators</div>
+				<div id='information-tab1' class='tabs-schema'>Information</div>
+			</div>
+
+			<div id='spectators1'>
+				<ul>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					<li>
+						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Mukund Jha</div>
+						<div id='spectatorSocial'></div>
+					</li>
+					
+
+				</ul>
+			</div>
+			<div id='information1'></div>
+
+
+
+		</div>
+
+
+		<!--<div id='bottomBar' class='backgroundClass'>
 			<div id='spectators-tab' class='tabs-schema'>
 				Spectators
 			</div>
@@ -263,7 +436,7 @@ agenda.changeTopic = function(topicId) {
 				<p>WHOOO SPECTATORS</p>
 
 			</div>
-		</div>
+		</div>-->
 	</div>
 </body>
 

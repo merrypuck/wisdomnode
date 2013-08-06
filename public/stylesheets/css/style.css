@@ -37,6 +37,7 @@ body {
 	border-right: none;
 	line-height: 5px;
 	font-size: 12px;
+	padding-top:10px;
 }
 
 
@@ -68,8 +69,8 @@ body {
 
 #agenda {
 	position: absolute;
-	top:111px;
-	left:255px;
+	top:106px;
+	left:19.8%;
 	height:0px;
 	width:200px;
 	z-index: 1;
@@ -103,12 +104,16 @@ body {
 	height:20px;
 	border-left: none;
 	border-right: none;
-	line-height: 0px;
+	line-height: 5px;
+	font-size: 12px;
+	padding-top:10px;
 }
 
 #timestamp {
 	font-size: 8px;
 	line-height: 10px;
+	font-size: 16px;
+	padding:15px 0 0 5px;
 }
 
 #notes {
@@ -118,7 +123,7 @@ body {
 }
 			
 #notes textarea {
-	height:80%;
+	height:91%;
 	width:97%;
 	margin-left:4px;
 	background-color: #fff;
@@ -149,25 +154,29 @@ body {
 }
 
 #chat-tab {
-	height:25px;
+	height:13px;
 	width:46.7%;
 	float:left;
-	line-height: 0px;
+	line-height: 22px;
 	opacity: .5;
+	font-size: 12px;
+	padding-bottom:10px;
 }
 
 #qa-tab {
-	height:25px;
+	height:13px;
 	width:46.7%;
 	float:left;
 	border-left: none;
 	margin-left: 5px;
-	line-height: 0px;
+	line-height: 22px;
+	font-size: 12px;
+	padding-bottom:10px;
 }
 
 
 #chatroom {
-	height:78%%;
+	height:85%;
 	width:95%;
 	margin-left:5px;
 	display:none;
@@ -176,15 +185,16 @@ body {
 #conversation {
 	height:100%;
 	width: 100%;
-	margin-top: 45px;
+	margin-top: 27px;
 	background-color: white;
 	border:1px solid gray;
+	overflow: auto;
 }
 			
 #qa {
-	height:78%;
+	height:85%;
 	width: 95%;
-	margin-top: 45px;
+	margin-top: 27px;
 	background-color: white;
 	border:1px solid gray;
 	display:block;
@@ -209,13 +219,16 @@ body {
 	padding-top: 10px;
 }
 
+/**
 #bottomBar {
+	height:150px;
+	width:100%;
+	float:left;
 	background-color:#edf0f1;
-	height:25%;
 	border-bottom: solid #3399FF;
 	width: 100%;
-	position:absolute;
-	bottom: 0;
+	position: absolute;
+	bottom:0;
 
 }
 
@@ -256,20 +269,6 @@ body {
 	margin-left: 40px;
 }
 
-.tabs-schema{
-	background-color: #3399FF;
-	color: #000099; 
-	font-weight: bold;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	border-left: 2px solid #000099 ;
-	border-right: 2px solid #000099 ;
-	text-align: center;
-	padding-top: 15px;
-}
-
-.backgroundClass{
-	background-color: #E9E9E9;
-}
 
 #bottom-bar-filler{
 	height:15%;
@@ -278,7 +277,101 @@ body {
 	border-top: solid 1px #999999;
 	border-bottom: solid 1px #999999;
 }
+**/
 
+#bottombar1 {
+	position: absolute;
+	height:150px;
+	width:100%;
+	bottom:0;
+	border-top:1px solid black;
+	margin:0;
+}
+
+#bottomBarNav1 {
+	float:left;
+	height:30px;
+	width:100%;
+	background-color:green;
+}
+#spectators-tab1 {
+	height:30px;
+	width:120px;
+	position: absolute;
+	left:0;
+	font-size:14px;
+	line-height: 27px;
+}
+#information-tab1 {
+	height:30px;
+	width:120px;
+	position: absolute;
+	left:120px;
+	font-size: 14px;
+	line-height: 27px;
+}
+#spectators1 {
+	float:left;
+	height:100%;
+	width:100%;
+	background-color:#edf0f1;
+	overflow: auto; 
+	white-space: nowrap;
+}
+#spectatorName {
+	text-align: center;
+	font-style: 14px;
+	font-weight: bold;
+}
+#spectators1 ul {
+	list-style: none;
+	margin:0;
+	padding:0;
+	
+}
+#spectators1 ul li {
+	width:100%;
+	display:block;
+	float:left;
+	height:150px;
+	width:120px;
+	border-right:1px solid black;
+	border-bottom:1px solid black;
+	
+}
+#spectators1 ul li img {
+	border-radius: 50px;
+	border:2px solid #dadada;
+	margin:5px 0 0 19px;
+}
+#spectatorSocial {
+	height:25px;
+	width:80px;
+	background-color: red;
+	margin:5px 0 0 19px;
+}
+#information1 {
+	float:left;
+	height:100%;
+	width:100%;
+	background-color:orange;
+	display:none;
+}
+
+.tabs-schema{
+	background-color: #3399FF;
+	color: #000099; 
+	font-weight: bold;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	border-left: 2px solid #000099 ;
+	border-right: 2px solid #000099 ;
+	text-align: center;
+	
+}
+
+.backgroundClass{
+	background-color: #E9E9E9;
+}
 .inputComponent{
 	width:90%;
 	margin-left: 5px;
@@ -302,6 +395,10 @@ body {
 	color:white;
 	border:0;
 }
+.questionAsked {
+	margin: 15px 15px 0 15px;
+	border: 3px solid black;
+}
 
 #enterchat{
 	width:26%;
@@ -324,4 +421,19 @@ body {
 }
 .disableVote {
 	background-color: black;
+}
+
+@media screen and (max-height:700px) {
+	#bottombar1 {
+		position: static;
+		height:150px;
+		width:100%;
+		float:left;
+		background-color:#edf0f1;
+		border:1px solid black;
+		border-bottom: solid #3399FF;
+		bottom:0;
+		margin-top: 15px;
+
+	}
 }
