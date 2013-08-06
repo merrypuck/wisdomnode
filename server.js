@@ -176,42 +176,7 @@ app.get('/expert', function(req, res) {
 	});
 });
  app.post('/expert', function(req, res) {
-	//initalize chat session
-	var thisChatSession = wGroupChat.newChatroom(req.param('sessionNum'));
-	thisChatSession.init(io, 'blankForNow', req.param('sessionNum'));
-
-	//initialize note session
-	var thisNoteSession = wNotes.newNote(req.param('sessionNum'));
-	thisNoteSession.init(io, 'blankForNow', req.param('sessionNum'));
-
-	//initialize agenda session
-	var thisAgendaSession = wAgenda.newAgenda(req.param('sessionNum'));
-	thisAgendaSession.init(io, 'blankForNow', req.param('sessionNum'));
-
-	//initialze qa session
-	qnaModule.initialize(req.param('sessionNum'), io, 'blankForNow');
-
-		for(var i = 0; i < req.param('topicAmt'); i++) {
-			topic = req.param('topic' + i.toString());
-			thisAgendaSession.addTopic(topic);
-		};
-
-		io.sockets.on('connection', function(socket) {
-		
-		//Connect to chatroom with username and socket
-		thisChatSession.joinChatroom(req.param('username'), socket);
-		
-		//Connect to notes with username and socket
-		thisNoteSession.joinNotes(req.param('username'), socket);
-
-		//Connect to Agena with username and socket
-		thisAgendaSession.joinAgenda(socket);
-
-		//Connect 
-		qnaModule.subscribe(socket);
-		
-	});
-
+	
 	res.render('expert',{
 		username : req.param('username'),
 		//title: req.session.user
@@ -225,6 +190,37 @@ app.get('/hangout', function(req, res){
 
 
 });
+
+//initalize chat session
+	var thisChatSession = wGroupChat.newChatroom('someid');
+	thisChatSession.init(io, 'blankForNow', 'someid');
+
+	//initialize note session
+	var thisNoteSession = wNotes.newNote('someid');
+	thisNoteSession.init(io, 'blankForNow', 'someid');
+
+	//initialize agenda session
+	var thisAgendaSession = wAgenda.newAgenda('someid');
+	thisAgendaSession.init(io, 'blankForNow', 'someid');
+
+	//initialze qa session
+	qnaModule.initialize('someid', io, 'blankForNow');
+
+		io.sockets.on('connection', function(socket) {
+		
+		//Connect to chatroom with username and socket
+		thisChatSession.joinChatroom('user', socket);
+		
+		//Connect to notes with username and socket
+		thisNoteSession.joinNotes('user', socket);
+
+		//Connect to Agena with username and socket
+		thisAgendaSession.joinAgenda(socket);
+
+		//Connect 
+		qnaModule.subscribe(socket);
+		
+	});
 
 
 server.listen(8002);
