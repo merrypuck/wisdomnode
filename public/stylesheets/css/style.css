@@ -359,7 +359,8 @@ body {
 }
 
 .tabs-schema{
-	background-color: #3399FF;
+	/*background-color: #3399FF*/
+	background-color:#4873E1 ;
 	color: #000099; 
 	font-weight: bold;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -384,7 +385,7 @@ body {
 
 
 #chatdata{
-		width:65%;
+	width:65%;
 
 }
 
