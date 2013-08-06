@@ -74,6 +74,17 @@ app.configure('development', function(){
 });
 
 
+var dummyUser  = {
+	userName : 'mukundjha@gmail.com',
+	firstName : 'Mukund',
+	lastName : 'Jha',
+	userId : '8823n3nh38302kk23',
+	profileImageUrl : "http://m.c.lnkd.licdn.com/" + 
+		"mpr/mprx/0_U-uG0hNlNKy8liTGRAxA0_kANPVm1LhGJKZg0_bawKaY2T" +
+		"cCcqyali1hsRslKG3asAmprXM58Fxj",
+	bio : "Co-Founder at Wisdomly",
+};
+
 // Defining Database
 
 var Schema = mongoose.Schema;
@@ -107,12 +118,21 @@ var io = require('socket.io').listen(server);
 //	console.log(JSON.stringify(obj))
 //});
 
+var dummyTalk = {
+	talkId : '883nnew39231nn321',
+	talkTitle : 'Waste Management in Urban settings.',
+	startTime : 1375763389,
+	status : 'LIVE', // this should be an enum.
+	info : {numSpeakers : 3},
+}
+
 app.get('/', function(req, res){
 	//var mobj = mongooseW.findFirst(User, 'firstName','aaron');
 	//console.log('toObject version: ' + mobj.toObject());
-	res.render('login', {
-		username : 'kevin',
-		array : []
+	res.render('test_talk', {
+		user : dummyUser,
+		talk : dummyTalk,
+		serverAddress : "http://localhost:8002"
 	});
 });
 
