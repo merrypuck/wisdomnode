@@ -1,3 +1,21 @@
+/**
+ * Copyright (c) 2013 Wisdomly Inc.
+ * This code is the property of Wisdomly Inc. and can not be copied
+ * or redistributed without permission.
+ *
+ * Author(s): 
+ * -------
+ *	Aaron Landy (aaron@wisdom.ly)
+ * 	Kevin Miller (kevin@wisdom.ly)
+ *	Mukund Jha (mj@wisdom.ly)
+ * 
+ * Description:
+ * ------------
+ * This is the main server code for wisdom.ly platform.
+
+ */
+
+// Required dependencies.
 var express = require('express');
 var http = require('http');
 var fs = require('fs');
@@ -14,12 +32,16 @@ var mongooseWrapper = require('./lib/mongooseWrapper');
 var authentication = require('./lib/authentication');
 var authentication = require('./lib/authentication');
 var qnaModule = require('./lib/QnAModule');
+var nodestatic = require('node-static');
+
+
+// Configuration settings.
 var app = express();
 var server = http.createServer(app);
-var nodestatic = require('node-static');
+
 var fileServer = new nodestatic.Server(__dirname + '/public/static');
 
-mongoose.connect('mongodb://localhost/wisdom');
+mongoose.connect('mongodb://localhost/wisdomDB');
 
 var db = mongoose.connection;
 
@@ -34,32 +56,48 @@ app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(express.cookieParser('secret-code'));
-  app.use(express.session({secret: 'secret-code'}));
+  // Add a secret code for cookie parser and session.
+  app.use(express.cookieParser('98475a915d49f2420891c0cb97b37fc8'));
+  app.use(express.session({secret: '98475a915d49f2420891c0cb97b37fc8'}));
   app.use(flash());
-  //app.use(express.session({key: 'express.sid', cookie: { maxAge: hour * 24, secure: true }}));
+  //app.use(express.session({key: 'express.sid', cookie: { maxAge: hour * 24,
+  // secure: true }}));
   app.use(app.router);
   app.use(require('stylus').middleware(__dirname + '/public'));
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
+
+// NOTE(mj): Maybe comment this part for production?
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+
+// Defining Database
+
 var Schema = mongoose.Schema;
 
-
+// TODO(mj): Move this to another file that would contain all the schemas.
 var userSchema = new Schema({
 	firstName : String,
 	lastName : String,
-	dob : Number,
+	dateOfBirth : Number, // Why is this important?
 	username: String,
 	email : String,
-	password : String,
+	password : String, // Store the hash here.
 	organization : String,
-	orgtitle : String
-}, {collection: 'user' });
+	orgtitle : String,
+	profileImageUrl : String,
+	// Contains the unique identifier for the user for now same as _id.
+	userId : String, 
+	// Stores information related to LinkedIn profile.
+	linkedInProfile : 
+	  {
+	  	profileUrl : String
+	  }
+
+}, {collection: 'users' });
 
 var User = mongoose.model('User', userSchema);
 
