@@ -123,6 +123,12 @@ $('#information-tab').click( function(){
 	}
 
 });
+var getBasicData = function(){
+	return {
+		user: wisdom.user,
+		talk: wisdom.talk
+	}
+};
 
 
 
@@ -131,7 +137,15 @@ $('#information-tab').click( function(){
 			var message = $('#chatdata').val();
 			$('#chatdata').val('');
 			// tell server to execute 'sendchat' and send along message as parameter
-			newChat.sendMessage(message);
+
+			
+			var data = {
+				basicData : getBasicData(),
+				payload : msg
+			}
+
+
+			newChat.sendMessage(data);
 		});
 
 		// when the client hits ENTER on their keyboard
@@ -156,6 +170,7 @@ $('#information-tab').click( function(){
 
 	});
 
+var getBasicD
 newChat.joinChat = function(chatlog) {
 	for(var i = 0; i < chatlog.length; i++) {
 		$('#conversation').append('<b>'+ chatlog[i].username + ':</b> ' + chatlog[i].messageData + '<br>');
