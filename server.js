@@ -140,6 +140,14 @@ var dummyTalk = {
 	info : {numSpeakers : 3},
 }
 
+var dummyTalk = {
+	talkId : '883nnew39231nn321',
+	talkTitle : 'Waste Management in Urban settings.',
+	startTime : 1375763389,
+	status : 'LIVE', // this should be an enum.
+	info : {numSpeakers : 3},
+}
+
 app.get('/', function(req, res){
 	res.render('login', {
 		/*user : dummyUser,
@@ -257,7 +265,6 @@ app.get('/expert', function(req, res) {
 	});
 });
  app.post('/expert', function(req, res) {
-		
 	res.render('expert',{
 		username : req.param('username'),
 		//title: req.session.user
@@ -313,13 +320,9 @@ app.get('/hangout', function(req, res){
 			//Connect to spectators
 			thisSpectatorSession.joinSpectators(socket);
 
-	
-
 		socket.on('disconnect', function(socket) {
 			console.log('sleesleepsleepsleepsleepsleepsleepp');
 		});
 	});
-
-
 
 server.listen(8002);
