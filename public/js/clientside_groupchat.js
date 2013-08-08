@@ -13,7 +13,7 @@ var ChatClient = (function() {
 			// Overwrite this function.
 		},
 
-		init : function(socket) {
+		init : function(socket, wisdom) {
 			this.mySocket = socket;
 			var self = this;
 
@@ -22,8 +22,6 @@ var ChatClient = (function() {
 			});
 
 			this.mySocket.on(this.UPDATE_CHAT, function(data) {
-				console.log("updating chat : u:" + data.username +
-				" m : " + data.messageData + " t:" + data.timestamp);
 				self.displayChat(data.username, data.messageData);
 			});
 		},

@@ -4,6 +4,7 @@
 <script src="js/clientside_notes.js"></script>
 <script src="js/clientside_agenda.js"></script>
 <script src="js/clientside_qna.js"></script>
+<script src="js/clientside_profile.js"></script>
 <script src="js/script.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -16,16 +17,19 @@
 
 wisdom = {
 	global : {
-		userid : "123",
+		userid : '<%= firstName %>',
 		sesssionid: "666"
 	},
 	user : {
-		userName : 'mukundjha@gmail.com',
+		username : 'mukundjha@gmail.com',
 		userId : '8823n3nh38302kk23',
-		firstName : 'Mukund',
-		lastName : 'Jha',
-		profileImageUrl : 'ff',
-		bio : 'Co-Founder at Wisdomly'
+		firstName : '<%= firstName %>',
+		lastName : '<%= lastName %>',
+		email : '<%= email %>',
+		bio : '<%= bio %>',
+		profileImageUrl : 'https://fbcdn-sphotos-e-a.akamaihd.net/hphotos-ak-prn2/q83/s720x720/968968_10151695027880575_848818193_n.jpg',
+		bio : 'Co-Founder at Wisdomly',
+		linkedinUrl : 'http://www.linkedin.com/pub/mukund-jha/13/964/a15'
 	},
 	talk : {
 		talkId : '883nnew39231nn321',
@@ -38,12 +42,11 @@ wisdom = {
 	}
 };
 
-console.log(wisdom.user.firstName);
 //var socket = io.connect('http://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002');
 var socket = io.connect('http://localhost:8002');
 
 var newChat = ChatClient();
-newChat.init(socket);
+newChat.init(socket, wisdom);
 
 var notebook = NoteClient();
 notebook.init(socket)
@@ -53,6 +56,18 @@ agenda.init(socket);
 
 var QnAModule = QnAClient();
 QnAModule.initialize(socket,wisdom.global.sessionid,wisdom.global.userid,'kamiller',renderQnA);
+
+var profile = ProfileClient();
+profile.init(socket);
+
+var USER_UPDATE = "wprofile-user-update";
+/*socket.on('connect', function() {
+	
+});*/
+socket.on('connect', function() {
+	socket.emit(USER_UPDATE, wisdom.user);
+});
+
 
 $(function(){
 		/**
@@ -223,6 +238,18 @@ agenda.changeTopic = function(topicId) {
 	$(topicId).css({'background-color':'purple'});
 
 };
+profile.updateSpectators = function(users) {
+	console.log(users);
+	for(var i = 0; i < users.length; i++) {
+		$('#spectatorsList').append('<li><img src=\'' + users[i].profileImageUrl + '\'/><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + users[i].linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
+		/**$('#spectatorsList').append('<li><img src=\'' + users[i].profileImageUrl + '\'/><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + spectatorSocial + '\' + users[i].linkedinUrl + '\'><div id=\'' + spectatorSocial + '\'></div></a>' );*/
+	}
+};
+
+profile.newSpectator = function(userData) {
+	console.log('step 4 adding new user to everyones screen :' + JSON.stringify(userData));
+	$('#spectatorsList').append('<li><img src=\'' + userData.profileImageUrl + '\'/><div id=\'spectatorName\'>' + userData.firstName + ' ' + userData.lastName + '</div><a href=\'' + userData.linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
+}
 
 </script>
 <html>
@@ -233,6 +260,7 @@ agenda.changeTopic = function(topicId) {
 <body>
 	<div id='main-container' class='backgroundClass'>
 		<div id='header'>
+			<div id='hostLogo'></div>
 			<h1>WasteWise Roundtable</h1>
 		</div>
 
@@ -302,113 +330,12 @@ agenda.changeTopic = function(topicId) {
 			</div>
 
 			<div id='spectators1'>
-				<ul>
+				<ul id='spectatorsList'>
 					<li>
 						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
 						<div id='spectatorName'>Mukund Jha</div>
 						<div id='spectatorSocial'></div>
 					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
-
 				</ul>
 			</div>
 			<div id='information1'></div>
