@@ -213,6 +213,153 @@ body {
 	overflow: auto;
 	margin-left: 5px;
 }
+
+/**
+
+QnA  new styling 
+*/
+.questionBox {
+ float: left;
+width: 100%;
+/*height: 80px;*/
+margin: 1px;
+padding: 4px;
+background: #fbfbfc;
+border: 1px solid #E0E0E0;
+}
+
+.questionVoting {
+width: 30px;
+/*height: 100px;*/
+float: left;
+font-size: 12px;
+}
+
+.questionVoted {
+width: 25px;
+/*height: 100px;*/
+float: left;
+font-size: 12px;
+padding-top: 5px;
+}
+
+.questionUpvotes {
+width: 50px;
+/*height: 30px;*/
+font-size: 25px;
+color: #4CB7FF;
+}
+
+.questionVotes {
+width: 50px;
+font-weight: 900;
+text-transform: uppercase;
+line-height: 10px;
+font-family: Helvetica;
+color: #2A3C57;
+font-size: 15px;
+padding-left: 6px;
+padding-top: 10px;
+}
+
+.questionDownvotes {
+width: 50px;
+/*height: 30px;*/
+font-size: 25px;
+color: #4CB7FF;
+}
+
+.questionTextBox {
+width: 80%;
+float: left;;
+}
+
+.questionText {
+padding-top: 10px;
+width: 80%;
+line-height: 12px;
+font-size: 10px;
+font-family: Helvetica;
+color: #2A3C57;
+font-size: 12px;
+}
+
+.questionUser {
+padding-top:10px;
+width:100px;height:20px;
+font-weight: 900;
+text-transform: uppercase;
+line-height: 12px;
+font-size: 10px;
+font-family: Helvetica;
+color: #2A3C57;
+font-weight: 900;
+}
+
+/***** End of QNA new styling ****/
+
+/**** Twitter **/
+
+.twittermessagebox {
+float: left;
+margin: 1px;
+padding-left: 0px;
+background: rgba(51, 204, 255, 0.18);
+border: 1px solid rgba(51, 124, 255, 0.15);
+border-radius: 23px;
+width: 100%;
+margin-top: 2px;
+}
+
+.twittericon{
+height: 45px;
+line-height: 12px;
+font-size: 10px;
+font-family: Helvetica;
+color: #2A3C57;
+font-size: 10px;
+float: right;
+padding-right: 12px;
+}
+
+
+.twittermessage {
+line-height: 12px;
+font-size: 12px;
+font-family: Helvetica;
+color: #2A3C57;
+font-size: 9px;
+padding-left: 18px;
+padding-right: 10px;
+padding-top: 2px;
+text-align: right;
+}
+
+.twittername {
+text-transform: uppercase;
+line-height: 12px;
+font-size: 7px;
+font-family: Helvetica;
+color: #2A3C57;
+font-weight: 900;
+float: right;
+padding-top: 0px;
+padding-right: 13px;
+}
+
+.icon-twitter {
+text-decoration: none;
+color:#00aced;
+font-size:14px;
+text-decoration: none;
+float: left;
+padding-right: 5px;
+padding-top: 5px;
+font-size: 26px;
+}
+
+/** ENd twitter ***/
+
 .questionAsked {
 	border:2px solid black;
 	margin:5px;
