@@ -18,15 +18,16 @@
 
 wisdom = {
 	global : {
-		userid : '<%= userId %>',
+		userid : '<%= user._json.emailAddress %>',
 		sesssionid: "666"
 	},
 	user : {
-		userId : '<%= userId %>',
-		firstName : '<%= firstName %>',
-		lastName : '<%= lastName %>',
-		email : '<%= email %>',
-		profileImageUrl : 'http://www.newyorker.com/online/blogs/photobooth/NASAEarth-01.jpg',
+		userId : '<%= user.id %>',
+		firstName : '<%= user.name.givenName %>',
+		lastName : '<%= user.name.familyName %>',
+		email : '<%= user._json.emailAddress %>',
+		profileImageUrl : '<%= user._json.pictureUrl %>',
+		bio : "<%= user._json.headline %>",
 		linkedinUrl : 'http://www.linkedin.com/pub/mukund-jha/13/964/a15'
 	},
 	talk : {
@@ -265,7 +266,7 @@ profile.newSpectator = function(userData) {
 };
 
 profile.spectatorLeft = function(userId) {
-	$('#spectatorsList').remove('#' + userId);
+	$('#' + userId).remove();
 };
 
 </script>

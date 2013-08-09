@@ -23,11 +23,6 @@ var ProfileClient = (function() {
 			self.spectatorLeft(userId);
 		});
 
-		this.mySocket.on('a1', function(message) {
-
-			alert(message + self.USER_UPDATE);
-		});
-
 	}
 
 }

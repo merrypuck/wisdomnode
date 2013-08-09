@@ -230,6 +230,7 @@ app.get('/login', function(req, res) {
 
 	});
 });
+/*
 app.post('/login', function(req, res) {
 	res.render('expert', {
 		firstName : req.param('firstName'),
@@ -238,7 +239,7 @@ app.post('/login', function(req, res) {
 		userId : req.param('userId')
 
 	})
-});
+});*/
 //app.get('/', function(req, res){
 //	res.render('login', {
 		/*user : dummyUser,
