@@ -214,13 +214,30 @@ var dummyTalk = {
 }
 
 app.get('/', function(req, res) {
-	res.render('index1', {user:req.user})
+	res.render('index1', {
+		user:req.user,
+
+	})
 });
 app.get('/expert', function(req, res) {
 	console.log(JSON.stringify(req.user));
 	res.render('expert', {
 		user: req.user
 	});
+});
+app.get('/login', function(req, res) {
+	res.render('login', {
+
+	});
+});
+app.post('/login', function(req, res) {
+	res.render('expert', {
+		firstName : req.param('firstName'),
+		lastName : req.param('lastName'),
+		email : req.param('email'),
+		userId : req.param('userId')
+
+	})
 });
 //app.get('/', function(req, res){
 //	res.render('login', {

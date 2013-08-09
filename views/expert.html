@@ -18,16 +18,15 @@
 
 wisdom = {
 	global : {
-		userid : '<%= user._json.emailAddress %>',
+		userid : '<%= userId %>',
 		sesssionid: "666"
 	},
 	user : {
-		userId : '<%= user.id %>',
-		firstName : '<%= user.name.givenName %>',
-		lastName : '<%= user.name.familyName %>',
-		email : '<%= user._json.emailAddress %>',
-		profileImageUrl : '<%= user._json.pictureUrl %>',
-		bio : "<%= user._json.headline %>",
+		userId : '<%= userId %>',
+		firstName : '<%= firstName %>',
+		lastName : '<%= lastName %>',
+		email : '<%= email %>',
+		profileImageUrl : 'http://www.newyorker.com/online/blogs/photobooth/NASAEarth-01.jpg',
 		linkedinUrl : 'http://www.linkedin.com/pub/mukund-jha/13/964/a15'
 	},
 	talk : {
@@ -67,6 +66,7 @@ var USER_UPDATE = "wprofile-user-update";
 	
 });*/
 socket.on('connect', function() {
+	console.log('hola');
 	socket.emit(USER_UPDATE, wisdom.user);
 });
 
@@ -252,7 +252,7 @@ agenda.changeTopic = function(topicId) {
 profile.updateSpectators = function(users) {
 	console.log(users);
 	for(var i = 0; i < users.length; i++) {
-		$('#spectatorsList').append('<a href=><li id=\'' + users[i].userId + '\'><img src=\'' + users[i].profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + users[i].linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
+		$('#spectatorsList').prepend('<a href=><li id=\'' + users[i].userId + '\'><img src=\'' + users[i].profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + users[i].linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
 
 		/**$('#spectatorsList').append('<li><img src=\'' + users[i].profileImageUrl + '\'/><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + spectatorSocial + '\' + users[i].linkedinUrl + '\'><div id=\'' + spectatorSocial + '\'></div></a>' );*/
 	}
@@ -261,7 +261,7 @@ profile.updateSpectators = function(users) {
 
 profile.newSpectator = function(userData) {
 	console.log('step 4 adding new user to everyones screen :' + JSON.stringify(userData));
-	$('#spectatorsList').append('<li id=\'' + userData.userId + '\'><a><img src=\'' + userData.profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + userData.firstName + ' ' + userData.lastName + '</div><a href=\'' + userData.linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
+	$('#spectatorsList').prepend('<li id=\'' + userData.userId + '\'><a><img src=\'' + userData.profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + userData.firstName + ' ' + userData.lastName + '</div><a href=\'' + userData.linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
 };
 
 profile.spectatorLeft = function(userId) {
