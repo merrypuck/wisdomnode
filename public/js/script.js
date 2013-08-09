@@ -36,10 +36,10 @@ var renderQnA  = function(qDict, rankList) {
 /*      '<div id="upVote-' + divID +  '" class="questionUpvotes" '+ 
       "onClick=\"javascript:QnAModule.upVote('" + question.questionID + "');\">" +
       '<i class="icon-thumbs-up"></i></div>'+*/
-      '<div class="questionVotes">' + (question.numupvotes-question.numdownvotes) + '</div>' + 
+      '<div class="questionVotes">' + (question.numupvotes-question.numdownvotes) + '</div></div>';
       '<div id=\"downVote-' + divID +  '" class="questionDownvotes" '+ 
       " onClick=\"javascript:QnAModule.upVote('" + question.questionID + "');\">" +
-      '<i class="icon-thumbs-up"></i></div></div>';
+      '<i class="icon-thumbs-up" style="font-size: 20px;padding-top: 2px;"></i></div></div>';
     }
 
    var qnaHTML =  votesHtml +
