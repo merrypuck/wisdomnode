@@ -208,7 +208,7 @@ $('#information-tab').click( function(){
 // Twitter updateTweet overloading.
 
 twit.updateTweet = function(tweet) {
-	var htm = "<div class='tweet'><img src='https://abs.twimg.com/a/1375952549/images/resources/twitter-bird-white-on-blue.png' height=10px width=10px> " + tweet.text + "</div>";
+	var htm = "<div class='tweet'><table><tr><td><img src='https://abs.twimg.com/a/1375952549/images/resources/twitter-bird-white-on-blue.png' height=25px width=25px></td><td width='100%'>" + tweet.text + "</td></tr></table></div>";
 	$("#conversation").append(htm);
 }
 
