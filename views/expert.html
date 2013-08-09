@@ -214,11 +214,12 @@ twit.updateTweet = function(tweet) {
 
 newChat.joinChat = function(chatlog) {
 	for(var i = 0; i < chatlog.length; i++) {
-		$('#conversation').append('<b>'+ chatlog[i].username + ':</b> ' + chatlog[i].messageData + '<br>');
+		$('#conversation').append('<div class=\'chatmessagebox\'><div class=\'chatname\'>' + chatlog[i].username + '</div><div class=\'chatmessage\'>' + chatlog[i].messageData + '</div></div>');
+
 	}
 };
 newChat.displayChat = function(username, message) {
-	$('#conversation').append('<b>'+ username + ':</b> ' + message + '<br>');
+	$('#conversation').append('<div class=\'chatmessagebox\'><div class=\'chatname\'>' + username + '</div><div class=\'chatmessage\'>' + message + '</div></div>');
 };
 
 notebook.clientNoteStamp = function() {
@@ -251,7 +252,7 @@ agenda.changeTopic = function(topicId) {
 profile.updateSpectators = function(users) {
 	console.log(users);
 	for(var i = 0; i < users.length; i++) {
-		$('#spectatorsList').append('<li id=\'' + users[i].userId + '\'><img src=\'' + users[i].profileImageUrl + '\'/><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + users[i].linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
+		$('#spectatorsList').append('<a href=><li id=\'' + users[i].userId + '\'><img src=\'' + users[i].profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + users[i].linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
 
 		/**$('#spectatorsList').append('<li><img src=\'' + users[i].profileImageUrl + '\'/><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + spectatorSocial + '\' + users[i].linkedinUrl + '\'><div id=\'' + spectatorSocial + '\'></div></a>' );*/
 	}
@@ -260,7 +261,7 @@ profile.updateSpectators = function(users) {
 
 profile.newSpectator = function(userData) {
 	console.log('step 4 adding new user to everyones screen :' + JSON.stringify(userData));
-	$('#spectatorsList').append('<li id=\'' + userData.userId + '\'><img src=\'' + userData.profileImageUrl + '\'/><div id=\'spectatorName\'>' + userData.firstName + ' ' + userData.lastName + '</div><a href=\'' + userData.linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
+	$('#spectatorsList').append('<li id=\'' + userData.userId + '\'><a><img src=\'' + userData.profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + userData.firstName + ' ' + userData.lastName + '</div><a href=\'' + userData.linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
 };
 
 profile.spectatorLeft = function(userId) {
@@ -290,16 +291,16 @@ profile.spectatorLeft = function(userId) {
 			</div>
 
 			<ul id='agenda'>
-				<li class='agenda-item'><b>1. Wastewise Challenge</b></li>
-				<li class='agenda-item'>2. Whats'up?</li>
-				<li class='agenda-item'>3. kevin</li>
+				<li class='agenda-item'><i class="icon-caret-right"></i><b>1. Wastewise Challenge</b></li>
+				<li class='agenda-item'><i class="icon-caret-right"></i>2. Whats'up?</li>
+				<li class='agenda-item'><i class="icon-caret-right"></i>3. kevin</li>
 			</ul>
 
 			<div id='notes-tab' class='tabs-schema'>
 				<span class='tab-text'>
-					<i class="icon-list"></i>	NOTES
+					<i class="icon-file-text-alt"></i>	NOTES
 				</span>
-				<br />
+				
 			</div>
 
 			<div id='notes'>
@@ -315,16 +316,22 @@ profile.spectatorLeft = function(userId) {
 
 		<div id='rightBar' class='backgroundClass'>
 			<div id='qa-tab' class='tabs-schema'>
-				<i class="icon-info-sign"></i> Q&A
+				<i class="icon-question-sign"></i> Q&A
 			</div>
 			<div id='chat-tab' class='tabs-schema'>
 				<i class="icon-comments"></i> CHAT
 			</div>
 
 			<div id='chatroom'>
-				<div id='conversation'></div>
+				<div id='conversation'>
+					<div class="chatmessagebox">
+						<div class="chatname" style='background-color:red'>Aaron</div>
+						<div class="chatmessage">Hello My name is Aaron. I live in Chile.</div>
+					</div>
+
+				</div>
 				<div class='inputComponent'>
-				<input id='chatdata' />
+				<input id='chatdata' value="Submit a Message" onFocus="this.value=''"/>
 				<input id='enterchat' type='button' value='SEND' />
 				</div>
 			</div>
@@ -332,7 +339,7 @@ profile.spectatorLeft = function(userId) {
 				<div id="questionDiv"></div>
 			</div>
 			<div class='inputComponent'>
-				<input type="text" id="newquestionbox"  />
+				<input type="text" id="newquestionbox" value="Ask a question?" onFocus="this.value=''"  />
 				<input type="button" id='submitnewquestion' value="ASK" onclick='proposeQuestion();'/><br>
 			</div>
 		</div>
@@ -341,16 +348,19 @@ profile.spectatorLeft = function(userId) {
 
 		<div id='bottomBar1'>
 			<div id='bottomBarNav1'>
-				<div id='spectators-tab1' class='tabs-schema'>Spectators</div>
-				<div id='information-tab1' class='tabs-schema'>Information</div>
+				<div id='information-tab1' class='tabs-schema'><i class="icon-info-sign"></i> Information</div>
+				<div id='spectators-tab1' class='tabs-schema'><i class="icon-group"></i>Spectators</div>
 			</div>
 
 			<div id='spectators1'>
 				<ul id='spectatorsList'>
 					<li>
-						<img src='http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg' height='80px' width='80px'/>
+						<a href='http://google.com'><img src='http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg' height='80px' width='80px'/></a>
 						<div id='spectatorName'>Colonial Clone</div>
-						<div id='spectatorSocial'></div> </li>
+						<div class="spectatorSocial">
+					
+				</div>
+ </li>
 				</ul>
 			</div>
 			<div id='information1'></div>
