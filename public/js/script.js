@@ -34,9 +34,14 @@ var renderQnA  = function(qDict, rankList) {
 
     }
 
+   var qnaHTML =  "<div id='questionDiv'> <div id=\"" + divID + "\" class=\"qnaQuestionBox\">\
+     <div class=\"QnAnumvotes\">" + (question.numupvotes-question.numdownvotes) + "</div> <div \
+     class=\"QnAquestion\" id=\"q-" + divID + "\" >" + question.question + "</div> <div class='qButtonDiv'" + qBtnDiv.innerHTML + "</div>\
+       <div class=\"QnAauthor\">By: " + question.userName + "</div>  </div>";
 
-    var qnaHTML = '<div class=\"QnAquestion\" id=\"' + divID + '\" + "class=\'divClass\'">' + numQ + '. ' + question.userID + ": " +question.question + 
-    '</div> <div id=\"btn-' + divID + '\">' + qBtnDiv.innerHTML + '</div> <div> Number of Votes: ' + (question.numupvotes-question.numdownvotes) + ' </div> <br>';
+
+    //var qnaHTML = '<div class=\"QnAquestion\" id=\"' + divID + '\" + "class=\'divClass\'">' + numQ + '. ' + question.userID + ": " +question.question + 
+    //'</div> <div id=\"btn-' + divID + '\">' + qBtnDiv.innerHTML + '</div> <div> Number of Votes: ' + (question.numupvotes-question.numdownvotes) + ' </div> <br>';
     
     var newDiv = document.createElement("div");
 

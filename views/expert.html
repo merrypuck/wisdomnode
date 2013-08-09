@@ -53,7 +53,7 @@ var agenda = AgendaClient();
 agenda.init(socket);
 
 var QnAModule = QnAClient();
-QnAModule.initialize(socket,wisdom.global.sessionid,wisdom.global.userid,'kamiller',renderQnA);
+QnAModule.initialize(socket,wisdom.global.sessionid,wisdom.global.userid,wisdom.user.firstName + " " + wisdom.user.lastName,renderQnA);
 
 var profile = ProfileClient();
 profile.init(socket);
