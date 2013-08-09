@@ -57,7 +57,7 @@ var twit = TwitterClient();
 twit.init(socket, $);
 
 var QnAModule = QnAClient();
-QnAModule.initialize(socket,wisdom.global.sessionid,wisdom.global.userid,wisdom.user.firstName + " " + wisdom.user.lastName,renderQnA);
+QnAModule.initialize(socket,wisdom.global.sessionid,wisdom.global.userid,wisdom.user.firstName,renderQnA);
 
 var profile = ProfileClient();
 profile.init(socket);
@@ -209,8 +209,21 @@ $('#information-tab').click( function(){
 // Twitter updateTweet overloading.
 
 twit.updateTweet = function(tweet) {
+	if(tweet.hasOwnProperty('text') && 
+		tweet.hasOwnProperty('user') &&
+		tweet['user'].hasOwnProperty('screen_name')) {
+	var htm = 
+	'<div class="twitterMessageBox"> <div style="width:80%;float:left;">' + 
+	'<div class="twitterMessage" style="">"' + tweet.text +
+	' "</div> <div class="twitterName">@' + tweet.user.screen_name +
+	'</div> </div> <div class="twitterIcon" style="width:30px;">' + 
+    '<i class="icon-twitter" style="text-decoration: none;">' + 
+    '</i></div></div>';
+/*
 	var htm = "<div class='tweet'><table><tr><td><img src='https://abs.twimg.com/a/1375952549/images/resources/twitter-bird-white-on-blue.png' height=25px width=25px></td><td width='100%'>" + tweet.text + "</td></tr></table></div>";
+	*/
 	$("#conversation").append(htm);
+	}
 }
 
 newChat.joinChat = function(chatlog) {
