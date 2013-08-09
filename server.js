@@ -403,6 +403,7 @@ app.get('/hangout', function(req, res){
 			thisSpectatorSession.joinSpectators(socket);
 
 			socket.on('disconnect', function() {
+				console.log(socket.userId  + 'just disconnected!!!!!!!!!!!!!!!!!!!!!!!!!!!');
 				thisSpectatorSession.userLeaving(socket);
 			});
 

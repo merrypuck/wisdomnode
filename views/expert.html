@@ -21,12 +21,12 @@ wisdom = {
 		sesssionid: "666"
 	},
 	user : {
-		userId : '<%= user._json.emailAddress %>',
+		userId : '<%= user.id %>',
 		firstName : '<%= user.name.givenName %>',
 		lastName : '<%= user.name.familyName %>',
 		email : '<%= user._json.emailAddress %>',
 		profileImageUrl : '<%= user._json.pictureUrl %>',
-		bio : '<%= user._json.headline %>',
+		bio : "<%= user._json.headline %>",
 		linkedinUrl : 'http://www.linkedin.com/pub/mukund-jha/13/964/a15'
 	},
 	talk : {
@@ -253,7 +253,7 @@ profile.newSpectator = function(userData) {
 };
 
 profile.spectatorLeft = function(userId) {
-	$('#userId').remove();
+	$('#spectatorsList').remove('#' + userId);
 };
 
 </script>
