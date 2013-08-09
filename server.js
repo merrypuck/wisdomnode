@@ -15,11 +15,13 @@
 
  */
 
-// Required dependencies.
+// Required dependencies. 
+
 var express = require('express');
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
+var crypto = require('crypto');
 var mongoose = require('mongoose');
 var mime  = require('mime');
 var io = require('socket.io');
@@ -33,7 +35,9 @@ var mongooseWrapper = require('./lib/mongooseWrapper');
 var authentication = require('./lib/authentication');
 var qnaModule = require('./lib/QnAModule');
 var nodestatic = require('node-static');
-
+var passport = require('passport');
+var util = require('util');
+var LinkedInStrategy = require('passport-linkedin').Strategy;
 
 // Configuration settings.
 var app = express();
@@ -52,12 +56,14 @@ app.configure(function(){
   app.set('view engine', 'html');
   app.set('view options', {layout: false});
   app.use(express.favicon());
-  app.use(express.logger('dev'));
+  app.use(express.cookieParser());
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(express.session({ secret: 'keyboard cat' }));
+  app.use(passport.initialize());
+	app.use(passport.session());
+  
   // Add a secret code for cookie parser and session.
-  app.use(express.cookieParser('98475a915d49f2420891c0cb97b37fc8'));
-  app.use(express.session({secret: '98475a915d49f2420891c0cb97b37fc8'}));
   app.use(flash());
   //app.use(express.session({key: 'express.sid', cookie: { maxAge: hour * 24,
   // secure: true }}));
@@ -66,12 +72,63 @@ app.configure(function(){
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
+var LINKEDIN_API_KEY = "8rwv6azucv8a";
+var LINKEDIN_SECRET_KEY = "EmxI0a4AIIP9Pwjj";
+
 
 // NOTE(mj): Maybe comment this part for production?
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+  
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+passport.use(new LinkedInStrategy({
+    consumerKey: LINKEDIN_API_KEY,
+    consumerSecret: LINKEDIN_SECRET_KEY,
+    callbackURL: "http://localhost:8002/auth/linkedin/callback",
+    profileFields: ['id', 'first-name', 'last-name', 'email-address', 'headline','picture-url'] 
+  },
+  function(token, tokenSecret, profile, done) {
+    // asynchronous verification, for effect...
+    process.nextTick(function () {
+      // To keep the example simple, the user's LinkedIn profile is returned to
+      // represent the logged-in user.  In a typical application, you would want
+      // to associate the LinkedIn account with a user record in your database,
+      // and return that user instead.
+      return done(null, profile);
+    });
+  }
+));
+
+app.get('/auth/linkedin',
+  passport.authenticate('linkedin', { scope: ['r_basicprofile', 'r_emailaddress'] }),
+  function(req, res){
+    // The request will be redirected to LinkedIn for authentication, so this
+    // function will not be called.
+  });
+app.get('/auth/linkedin/callback',
+  passport.authenticate('linkedin', { failureRedirect: '/login' }),
+  function(req, res) {
+
+    res.redirect('/expert');
+  });
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login');
+}
 
 var dummyUser  = {
 	userName : 'mukundjha@gmail.com',
@@ -88,8 +145,15 @@ var dummyUser  = {
 
 var Schema = mongoose.Schema;
 
-// TODO(mj): Move this to another file that would contain all the schemas.
 var userSchema = new Schema({
+	firstName : String,
+	lastName : String,
+	email : String,
+	password : String,
+});
+
+// TODO(mj): Move this to another file that would contain all the schemas.
+/*var userSchema = new Schema({
 	firstName : String,
 	lastName : String,
 	email : String,
@@ -117,7 +181,7 @@ var linkedinProfileSchema = new Schema({
 var activitySchema = new Schema({
 	lastLogin: String,
 	pointer: String
-});
+});*/
 
 var User1 = mongoose.model('User1', userSchema);
 
@@ -148,15 +212,23 @@ var dummyTalk = {
 	info : {numSpeakers : 3},
 }
 
-app.get('/', function(req, res){
-	res.render('login', {
+app.get('/', function(req, res) {
+	res.render('index1', {user:req.user})
+});
+app.get('/expert', function(req, res) {
+	res.render('expert', {
+		user: req.user
+	});
+});
+//app.get('/', function(req, res){
+//	res.render('login', {
 		/*user : dummyUser,
 		talk : dummyTalk,
 		serverAddress : "http://localhost:8002"*/
-		});
-});
+//		});
+//});
 
-app.post('/', function(req, res) {
+/*app.post('/', function(req, res) {
 	var user = new User1({
 		username : req.param('username'),
 		password : req.param('password')
@@ -213,16 +285,13 @@ app.get('/signup', function(req, res) {
 });
 
 
-app.post('/signup', function(req, res) {
+app.post('/signup', function(req, res) { 
 	userCred = {
 		firstName : req.param('firstName'),
 		lastName : req.param('lastName'),
 		email: req.param('email'),
-		username : req.param('username'),
 		password : req.param('password'),
-		organization : req.param('organization'),
-		title : req.param('title'),
-		bio : req.param('bio')
+		userId : req.param('email') + 'bobdylan'
 	};
 
 	authentication.saveToDB(User1, userCred);
@@ -231,9 +300,7 @@ app.post('/signup', function(req, res) {
 						firstName : userCred.firstName,
 						lastName : userCred.lastName,
 						email : userCred.email,
-						username : userCred.username,
-						bio : userCred.bio
-
+						userId : userCred.userId
 	});
 
 });
@@ -243,25 +310,38 @@ app.get('/login', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
+	if(mongooseW.findFirst(User1, 'email', req.param('email')) != null) {
+		var userCred = mongooseW.findFirst(User1, 'email', req.param('email'));
+		if(userCred.password === req.param('password')) {
+			res.redirect('expert1', {});
+		}
+	}
 	res.redirect('/expert')
 });
+app.get('/expert1', function(req, res) {
+	userCred = mongooseW.findFirst(User1, 'email', req.param('findFirst'));
+	res.render('expert', {
+		firstName : userCred.firstName,
+		lastName : userCred.lastName,
+		email : userCred.email,
+		userId : userCred.userId
+	});
+
+});
+
 app.get('/expert', function(req, res) {
 	userCred = {
 		firstName : req.param('firstName'),
 		lastName : req.param('lastName'),
 		email: req.param('email'),
-		username : req.param('username'),
 		password : req.param('password'),
-		organization : req.param('organization'),
-		title : req.param('title'),
-		bio : req.param('bio')
+		userId : req.param('email') + 'bobdylan'
 	};
 	res.render('expert', {
 		firstName : userCred.firstName,
 		lastName : userCred.lastName,
 		email : userCred.email,
-		username : userCred.username,
-		bio : userCred.bio
+		userId : userCred.userId
 	});
 });
  app.post('/expert', function(req, res) {
@@ -278,6 +358,7 @@ app.get('/hangout', function(req, res){
 
 
 });
+*/
 
 //initalize chat session
 	var thisChatSession = wGroupChat.newChatroom(221);
@@ -320,9 +401,11 @@ app.get('/hangout', function(req, res){
 			//Connect to spectators
 			thisSpectatorSession.joinSpectators(socket);
 
-		socket.on('disconnect', function(socket) {
-			console.log('sleesleepsleepsleepsleepsleepsleepp');
-		});
+			socket.on('disconnect', function() {
+				thisSpectatorSession.userLeaving(socket);
+			});
+
+
 	});
 
 server.listen(8002);

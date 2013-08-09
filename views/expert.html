@@ -17,17 +17,16 @@
 
 wisdom = {
 	global : {
-		userid : '<%= firstName %>',
+		userid : '<%= user.displayName %>',
 		sesssionid: "666"
 	},
 	user : {
 		username : 'mukundjha@gmail.com',
-		userId : '8823n3nh38302kk23',
-		firstName : '<%= firstName %>',
-		lastName : '<%= lastName %>',
-		email : '<%= email %>',
-		bio : '<%= bio %>',
-		profileImageUrl : 'https://fbcdn-sphotos-e-a.akamaihd.net/hphotos-ak-prn2/q83/s720x720/968968_10151695027880575_848818193_n.jpg',
+		userId : 'userId',
+		firstName : '<%= user.displayName %>',
+		lastName : 'lastName',
+		email : 'email',
+		profileImageUrl : '<%= user._json.pictureUrl %>',
 		bio : 'Co-Founder at Wisdomly',
 		linkedinUrl : 'http://www.linkedin.com/pub/mukund-jha/13/964/a15'
 	},
@@ -80,6 +79,7 @@ $(function(){
 
 		};
 	};*/
+
 	$('#spectators-tab1').click( function(){
 	if($('#spectators1').css('display') === 'none'){
 		$('#information1').css({'display':'none'});
@@ -241,15 +241,21 @@ agenda.changeTopic = function(topicId) {
 profile.updateSpectators = function(users) {
 	console.log(users);
 	for(var i = 0; i < users.length; i++) {
-		$('#spectatorsList').append('<li><img src=\'' + users[i].profileImageUrl + '\'/><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + users[i].linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
+		$('#spectatorsList').append('<li id=\'' + users[i].userId + '\'><img src=\'' + users[i].profileImageUrl + '\'/><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + users[i].linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
+
 		/**$('#spectatorsList').append('<li><img src=\'' + users[i].profileImageUrl + '\'/><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + spectatorSocial + '\' + users[i].linkedinUrl + '\'><div id=\'' + spectatorSocial + '\'></div></a>' );*/
 	}
+
 };
 
 profile.newSpectator = function(userData) {
 	console.log('step 4 adding new user to everyones screen :' + JSON.stringify(userData));
-	$('#spectatorsList').append('<li><img src=\'' + userData.profileImageUrl + '\'/><div id=\'spectatorName\'>' + userData.firstName + ' ' + userData.lastName + '</div><a href=\'' + userData.linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
-}
+	$('#spectatorsList').append('<li id=\'' + userData.userId + '\'><img src=\'' + userData.profileImageUrl + '\'/><div id=\'spectatorName\'>' + userData.firstName + ' ' + userData.lastName + '</div><a href=\'' + userData.linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
+};
+
+profile.spectatorLeft = function(userId) {
+	$('#userId').remove();
+};
 
 </script>
 <html>
@@ -332,10 +338,9 @@ profile.newSpectator = function(userData) {
 			<div id='spectators1'>
 				<ul id='spectatorsList'>
 					<li>
-						<img src='http://www.growyourselves.com/images/happy.jpg' height='80px' width='80px'/>
-						<div id='spectatorName'>Mukund Jha</div>
-						<div id='spectatorSocial'></div>
-					</li>
+						<img src='http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg' height='80px' width='80px'/>
+						<div id='spectatorName'>Colonial Clone</div>
+						<div id='spectatorSocial'></div> </li>
 				</ul>
 			</div>
 			<div id='information1'></div>

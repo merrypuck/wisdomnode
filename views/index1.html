@@ -1,0 +1,9 @@
+<% if (!user) { %>
+	<h2>Welcome! Please log in.</h2>
+<% } else { %>
+	<h2>Hello, <%= user.displayName %>.</h2>
+	<img src="<%= user._json.pictureUrl %>">
+	<h2><%= user._json.emailAddress %><h2>
+<% } %>
+
+<a href="/auth/linkedin"><img src='http://developer.linkedin.com/sites/default/files/js-signin.png'/></a>

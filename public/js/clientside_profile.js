@@ -15,12 +15,13 @@ var ProfileClient = (function() {
 		});
 
 		this.mySocket.on(this.USER_JOINING, function(userData) {
+			alert('user just left: ' + userData.userId);
 			self.newSpectator(userData);
 		});
 			
 
-		this.mySocket.on(this.USER_LEAVING, function(username) {
-			self.spectatorLeft(username);
+		this.mySocket.on(this.USER_LEAVING, function(userId) {
+			self.spectatorLeft(userId);
 		});
 
 		this.mySocket.on('a1', function(message) {

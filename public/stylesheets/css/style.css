@@ -323,12 +323,13 @@ body {
 	line-height: 27px;
 }
 #spectators1 {
-	float:left;
-	height:100%;
-	width:100%;
+	position: relative;
 	background-color:#edf0f1;
-	overflow: auto; 
-	white-space: nowrap;
+	overflow: auto;
+	overflow-y:hidden;
+	height: 100%;
+ 	width: 100%;
+ 	overflow-x:auto;
 }
 #spectatorName {
 	text-align: center;
@@ -339,16 +340,20 @@ body {
 	list-style: none;
 	margin:0;
 	padding:0;
-	
+	display: block;
+	height: 110px;
+  	/* Max width here, for users without Javascript */
+  	width: 1500px;
 }
 #spectators1 ul li {
-	width:100%;
 	display:block;
 	float:left;
 	height:150px;
 	width:120px;
 	border-right:1px solid black;
 	border-bottom:1px solid black;
+	padding:0;
+	margin:0;
 	
 }
 #spectators1 ul li img {
@@ -424,7 +429,6 @@ body {
 	color:white;
 	border:0;
 }
-
 
 ::-webkit-scrollbar {
     -webkit-appearance: none;
