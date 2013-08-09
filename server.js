@@ -38,6 +38,7 @@ var nodestatic = require('node-static');
 var passport = require('passport');
 var util = require('util');
 var LinkedInStrategy = require('passport-linkedin').Strategy;
+var wtwitter = require('./lib/node-wisdom-twitter');
 
 // Configuration settings.
 var app = express();
@@ -361,6 +362,16 @@ app.get('/hangout', function(req, res){
 });
 */
 
+
+wtwitter.init(io,
+	{
+		consumer_key: '5BF7XxniredSxapGu7LWQ',
+		consumer_secret: 'mCjQIqvDSOlvQbar3v6taZ4Ydw7BlUtNyD2lXJYypQ8',
+		access_token_key: '74211576-VRsXMuX2QB3a4LSMv0uEEU5YsfBLFB6p0HV9V8pM',
+		access_token_secret: 'fopvDihR38yNASI4QMmo5FRJifa61z5M0dGafDc'
+	}, 'mysession',
+	["dropbox"], ["mukundjha"]);
+
 //initalize chat session
 	var thisChatSession = wGroupChat.newChatroom(221);
 	thisChatSession.init(io, 'blankForNow', 221);
@@ -402,7 +413,17 @@ app.get('/hangout', function(req, res){
 			//Connect to spectators
 			thisSpectatorSession.joinSpectators(socket);
 
+			socket.on(wtwitter.SUBSCRIBE, function(data) {
+				wtwitter.subscribe(socket);
+			});
+
+			socket.on(wtwitter.UNSUBSCRIBE, function(data) {
+				wtwitter.unsubscribe(socket);
+			});
+
 			socket.on('disconnect', function() {
+				// Unsubscribe from twitter feed.
+				wtwitter.unsubscribe(socket);
 				thisSpectatorSession.userLeaving(socket);
 			});
 

@@ -5,6 +5,7 @@
 <script src="js/clientside_agenda.js"></script>
 <script src="js/clientside_qna.js"></script>
 <script src="js/clientside_profile.js"></script>
+<script src="js/wisdom-twitter-client.js"></script>
 <script src="js/script.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -52,6 +53,9 @@ notebook.init(socket)
 var agenda = AgendaClient();
 agenda.init(socket);
 
+var twit = TwitterClient();
+twit.init(socket, $);
+
 var QnAModule = QnAClient();
 QnAModule.initialize(socket,wisdom.global.sessionid,wisdom.global.userid,'kamiller',renderQnA);
 
@@ -68,6 +72,8 @@ socket.on('connect', function() {
 
 
 $(function(){
+	// subscribe on page load.
+	twit.subscribe();
 		/**
 		var dynamo = function() {
 		var windowWidth = $(window).width();
@@ -197,9 +203,14 @@ $('#information-tab').click( function(){
 			stoppedTyping = setTimeout(notebook.updateNotes(notes), 5000);
 		});
 
-
-
 	});
+
+// Twitter updateTweet overloading.
+
+twit.updateTweet = function(tweet) {
+	var htm = "<div class='tweet'><img src='https://abs.twimg.com/a/1375952549/images/resources/twitter-bird-white-on-blue.png' height=10px width=10px> " + tweet.text + "</div>";
+	$("#conversation").append(htm);
+}
 
 newChat.joinChat = function(chatlog) {
 	for(var i = 0; i < chatlog.length; i++) {
