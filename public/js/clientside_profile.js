@@ -15,7 +15,6 @@ var ProfileClient = (function() {
 		});
 
 		this.mySocket.on(this.USER_JOINING, function(userData) {
-			alert('user just left: ' + userData.userId);
 			self.newSpectator(userData);
 		});
 			

@@ -424,6 +424,7 @@ wtwitter.init(io,
 			socket.on('disconnect', function() {
 				// Unsubscribe from twitter feed.
 				wtwitter.unsubscribe(socket);
+				console.log(socket.userId  + 'just disconnected!!!!!!!!!!!!!!!!!!!!!!!!!!!');
 				thisSpectatorSession.userLeaving(socket);
 			});
 

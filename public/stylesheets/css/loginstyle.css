@@ -1,0 +1,38 @@
+body{
+	background-color: #f2f6fc;
+}
+
+#main-container{
+	background-color: #f2f6fc;
+
+}
+
+#login-container{
+
+}
+
+.header-text{
+	font-family: Arial, Helvetica, sans-serif;
+	color:#2A3C57;
+}
+
+#login-methods{
+	margin-top: 10px;
+	border: solid 3px black;
+	width:25%;
+	height: 70px;
+	border-top-left-radius:5px;
+	border-bottom-left-radius:5px;
+	border-top-right-radius:5px;
+	border-bottom-right-radius:5px;
+}
+
+#linkedIn-signin{
+	margin-top: 5px;
+	overflow: hidden;
+	width: 197px;
+	height: 30px;
+	background-color: #f2f6fc;
+}
+
+

@@ -1,9 +1,36 @@
-<% if (!user) { %>
-	<h2>Welcome! Please log in.</h2>
-<% } else { %>
-	<h2>Hello, <%= user.displayName %>.</h2>
-	<img src="<%= user._json.pictureUrl %>">
-	<h2><%= user._json.emailAddress %><h2>
-<% } %>
+<html>
+<head>
+	<title>Be Waste Wise Talk</title>
+	<link rel="stylesheet" type="text/css" href="stylesheets/css/loginstyle.css">
 
-<a href="/auth/linkedin"><img src='http://developer.linkedin.com/sites/default/files/js-signin.png'/></a>
+
+</head>
+<body>
+	<div id='main-container'>
+		<center><div id='login-container'>
+		<% if (!user) { %>
+		<div id='login-title' class='header-text'><h2>Welcome to the Be Waste Wise talk on<br>Solid Waste Management and Climate Change</h2></div>
+		<div id='login-subtitle' class='header-text'>Please login using one of the methods below</div>
+		<div id='login-methods'>
+			<center>
+			<div id='linkedIn-signin'><a href="/auth/linkedin"><img src='http://airbump.me/img/user/registration/linkedin-signin.png'/></a>
+			</div>
+
+			<div id='twiter-signin' style=' height:30px; overflow:hidden; margin-left:20px;'><a href="/auth/linkedin"><img style='width:160px;height:32px;' src="http://artornot.info/assets/sign-in-with-twitter-a71f9403376fe2560a99d8ee2065a7a6.png"/></a></div>
+			</center>
+			<br>
+		</div>
+
+		<% } else { %>
+		<h2>Hello, <%= user.displayName %>.</h2>
+		<img src="<%= user._json.pictureUrl %>">
+		<h2><%= user._json.emailAddress %><h2>
+			<% } %>
+
+
+
+			</div></center>
+
+		</div>
+</body>
+</html>
