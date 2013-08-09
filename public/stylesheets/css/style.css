@@ -189,6 +189,7 @@ body {
 	font-size: 12px;
 	padding-top: 5px;
 	padding-left: 5px;
+	white-space: none;
 }
 #video {
 	width:63%;

@@ -221,7 +221,7 @@ app.get('/', function(req, res) {
 });
 app.get('/expert', function(req, res) {
 	console.log(JSON.stringify(req.user));
-	res.render('expert', {
+	res.render('expert1', {
 		user: req.user
 	});
 });
