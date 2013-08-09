@@ -734,10 +734,10 @@ font-size: 26px;
 	background-color: black;
 }
 
-@media screen and (max-height:700px) {
+@media screen and (max-height:550px) {
 	#bottombar1 {
 		position: static;
-		height:110px;
+		height:90px;
 		width:100%;
 		float:left;
 		background-color:#edf0f1;
