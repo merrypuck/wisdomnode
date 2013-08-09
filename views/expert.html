@@ -17,17 +17,16 @@
 
 wisdom = {
 	global : {
-		userid : '<%= user.displayName %>',
+		userid : '<%= user._json.emailAddress %>',
 		sesssionid: "666"
 	},
 	user : {
-		username : 'mukundjha@gmail.com',
-		userId : 'userId',
-		firstName : '<%= user.displayName %>',
-		lastName : 'lastName',
-		email : 'email',
+		userId : '<%= user._json.emailAddress %>',
+		firstName : '<%= user.name.givenName %>',
+		lastName : '<%= user.name.familyName %>',
+		email : '<%= user._json.emailAddress %>',
 		profileImageUrl : '<%= user._json.pictureUrl %>',
-		bio : 'Co-Founder at Wisdomly',
+		bio : '<%= user._json.headline %>',
 		linkedinUrl : 'http://www.linkedin.com/pub/mukund-jha/13/964/a15'
 	},
 	talk : {

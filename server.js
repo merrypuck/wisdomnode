@@ -216,6 +216,7 @@ app.get('/', function(req, res) {
 	res.render('index1', {user:req.user})
 });
 app.get('/expert', function(req, res) {
+	console.log(JSON.stringify(req.user));
 	res.render('expert', {
 		user: req.user
 	});
