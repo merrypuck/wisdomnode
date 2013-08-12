@@ -57,7 +57,7 @@ var twit = TwitterClient();
 twit.init(socket, $);
 
 var QnAModule = QnAClient();
-QnAModule.initialize(socket,wisdom.global.sessionid,wisdom.global.userid,wisdom.user.firstName + " " + wisdom.user.lastName,renderQnA);
+QnAModule.initialize(socket,wisdom.global.sessionid,wisdom.global.userid,wisdom.user.firstName,renderQnA);
 
 var profile = ProfileClient();
 profile.init(socket);
@@ -67,6 +67,7 @@ var USER_UPDATE = "wprofile-user-update";
 	
 });*/
 socket.on('connect', function() {
+	console.log('hola');
 	socket.emit(USER_UPDATE, wisdom.user);
 });
 
@@ -208,17 +209,31 @@ $('#information-tab').click( function(){
 // Twitter updateTweet overloading.
 
 twit.updateTweet = function(tweet) {
+	if(tweet.hasOwnProperty('text') && 
+		tweet.hasOwnProperty('user') &&
+		tweet['user'].hasOwnProperty('screen_name')) {
+	var htm = 
+	'<div class="twitterMessageBox"> <div style="width:80%;float:left;">' + 
+	'<div class="twitterMessage" style="">"' + tweet.text +
+	' "</div> <div class="twitterName">@' + tweet.user.screen_name +
+	'</div> </div> <div class="twitterIcon" style="width:30px;">' + 
+    '<i class="icon-twitter" style="text-decoration: none;">' + 
+    '</i></div></div>';
+/*
 	var htm = "<div class='tweet'><table><tr><td><img src='https://abs.twimg.com/a/1375952549/images/resources/twitter-bird-white-on-blue.png' height=25px width=25px></td><td width='100%'>" + tweet.text + "</td></tr></table></div>";
+	*/
 	$("#conversation").append(htm);
+	}
 }
 
 newChat.joinChat = function(chatlog) {
 	for(var i = 0; i < chatlog.length; i++) {
-		$('#conversation').append('<b>'+ chatlog[i].username + ':</b> ' + chatlog[i].messageData + '<br>');
+		$('#conversation').append('<div class=\'chatmessagebox\'><div class=\'chatname\'>' + chatlog[i].username + '</div><div class=\'chatmessage\'>' + chatlog[i].messageData + '</div></div>');
+
 	}
 };
 newChat.displayChat = function(username, message) {
-	$('#conversation').append('<b>'+ username + ':</b> ' + message + '<br>');
+	$('#conversation').append('<div class=\'chatmessagebox\'><div class=\'chatname\'>' + username + '</div><div class=\'chatmessage\'>' + message + '</div></div>');
 };
 
 notebook.clientNoteStamp = function() {
@@ -251,7 +266,9 @@ agenda.changeTopic = function(topicId) {
 profile.updateSpectators = function(users) {
 	console.log(users);
 	for(var i = 0; i < users.length; i++) {
-		$('#spectatorsList').append('<li id=\'' + users[i].userId + '\'><img src=\'' + users[i].profileImageUrl + '\'/><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + users[i].linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
+		if($('#' + users[i].userId).length === 0) {
+		$('#spectatorsList').prepend('<a href=><li id=\'' + users[i].userId + '\'><img src=\'' + users[i].profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + users[i].linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
+	}
 
 		/**$('#spectatorsList').append('<li><img src=\'' + users[i].profileImageUrl + '\'/><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + spectatorSocial + '\' + users[i].linkedinUrl + '\'><div id=\'' + spectatorSocial + '\'></div></a>' );*/
 	}
@@ -259,12 +276,13 @@ profile.updateSpectators = function(users) {
 };
 
 profile.newSpectator = function(userData) {
-	console.log('step 4 adding new user to everyones screen :' + JSON.stringify(userData));
-	$('#spectatorsList').append('<li id=\'' + userData.userId + '\'><img src=\'' + userData.profileImageUrl + '\'/><div id=\'spectatorName\'>' + userData.firstName + ' ' + userData.lastName + '</div><a href=\'' + userData.linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
+	if($('#' + userData.userId).length === 0) {
+	$('#spectatorsList').prepend('<li id=\'' + userData.userId + '\'><a><img src=\'' + userData.profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + userData.firstName + ' ' + userData.lastName + '</div><a href=\'' + userData.linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
+}
 };
 
 profile.spectatorLeft = function(userId) {
-	$('#spectatorsList').remove('#' + userId);
+	$('#' + userId).remove();
 };
 
 </script>
@@ -286,20 +304,23 @@ profile.spectatorLeft = function(userId) {
 			</div>
 
 			<div id='thisAgenda' class='backgroundClass'>
-				<div id='currentTopic'>1. Wastewise Challenge</div>
+				<div id='currentTopic'>1. Introduction to Wecyclers and TerraCycle</div>
 			</div>
 
 			<ul id='agenda'>
-				<li class='agenda-item'><b>1. Wastewise Challenge</b></li>
-				<li class='agenda-item'>2. Whats'up?</li>
-				<li class='agenda-item'>3. kevin</li>
+				<li class='agenda-item'><i class="icon-caret-right"></i><b>1. Introduction to Wecyclers and TerraCycle</b></li>
+				<li class='agenda-item'><i class="icon-caret-right"></i>2. Biggest Challenges for Solid Waste Management</li>
+				<li class='agenda-item'><i class="icon-caret-right"></i>3. Finding Strategic Partners</li>
+				<li class='agenda-item'><i class="icon-caret-right"></i>4. Obtaining Municipality Involvement</li>
+				<li class='agenda-item'><i class="icon-caret-right"></i>5. Engaging Citizens to Get Involved</li>
+				<li class='agenda-item'><i class="icon-caret-right"></i>6. Audience QnA</li>
 			</ul>
 
 			<div id='notes-tab' class='tabs-schema'>
 				<span class='tab-text'>
-					<i class="icon-list"></i>	NOTES
+					<i class="icon-file-text-alt"></i>	NOTES
 				</span>
-				<br />
+				
 			</div>
 
 			<div id='notes'>
@@ -315,16 +336,20 @@ profile.spectatorLeft = function(userId) {
 
 		<div id='rightBar' class='backgroundClass'>
 			<div id='qa-tab' class='tabs-schema'>
-				<i class="icon-info-sign"></i> Q&A
+				<i class="icon-question-sign"></i> Q&A
 			</div>
 			<div id='chat-tab' class='tabs-schema'>
 				<i class="icon-comments"></i> CHAT
 			</div>
 
 			<div id='chatroom'>
-				<div id='conversation'></div>
+				<div id='conversation'>
+					<div class="chatmessagebox">
+					</div>
+
+				</div>
 				<div class='inputComponent'>
-				<input id='chatdata' />
+				<input id='chatdata' value="Submit a Message" onFocus="this.value=''"/>
 				<input id='enterchat' type='button' value='SEND' />
 				</div>
 			</div>
@@ -332,7 +357,7 @@ profile.spectatorLeft = function(userId) {
 				<div id="questionDiv"></div>
 			</div>
 			<div class='inputComponent'>
-				<input type="text" id="newquestionbox"  />
+				<input type="text" id="newquestionbox" value="Ask a question?" onFocus="this.value=''"  />
 				<input type="button" id='submitnewquestion' value="ASK" onclick='proposeQuestion();'/><br>
 			</div>
 		</div>
@@ -341,19 +366,147 @@ profile.spectatorLeft = function(userId) {
 
 		<div id='bottomBar1'>
 			<div id='bottomBarNav1'>
-				<div id='spectators-tab1' class='tabs-schema'>Spectators</div>
-				<div id='information-tab1' class='tabs-schema'>Information</div>
+				<div id='information-tab1' class='tabs-schema'><i class="icon-info-sign"></i> Information</div>
+				<div id='spectators-tab1' class='tabs-schema'><i class="icon-group"></i>Spectators</div>
 			</div>
+
+			<div id='panelists1'>
+
+
+
+	<div class="spectatorPanel"  style="margin-right:0px;">
+			<center>
+				<div class="spectatorName">Tom Szaky</div>
+				<div class="avatar" id="avatar-tom"></div>	
+				<div class="spectatorTitle">Panelist</div>	
+				<div class="spectatorSocial">
+					<a href="http://www.linkedin.com/pub/tom-szaky/1/9a4/237?trk=cws-ppw-member-0-0"><i class="icon-linkedin-sign" style="text-decoration: none;"></i></a>
+					<a href="#"><i class="icon-twitter-sign" style="text-decoration: none;"></i></a>
+					<a href="#"><i class="icon-facebook-sign" style="text-decoration: none;"></i></a>
+				</div>
+	    	</center>
+		</div>
+
+
+	<div class="panelBio"  style="margin-left:0px;">
+		<div class="discussionText">Tom Szaky is the CEO and Founder of TerraCycle, which is an international upcycling and recycling company that collects difficult-to-recycle packaging and products and repurposes the material into affordable, innovative products. </div> 
+	</div>
+	
+	<div class="spectatorPanel" style="margin-right:0px;">
+			<center>
+				
+				<div class="spectatorName">Bilikiss Adebiyi</div>
+				<div class="avatar" id="avatar-adebiyi"></div>	
+				<div class="spectatorTitle">Panelist</div>	
+				<div class="spectatorSocial">
+					<a href="ttp://ng.linkedin.com/pub/bilikiss-adebiyi/23/157/309?trk=cws-ppw-member-0-0	"><i class="icon-linkedin-sign" style="text-decoration: none;"></i></a>
+					<a href="#"><i class="icon-twitter-sign" style="text-decoration: none;"></i></a>
+					<a href="#"><i class="icon-facebook-sign" style="text-decoration: none;"></i></a>
+				</div>
+	    	</center>
+		</div>
+
+	<div class="panelBio" style="margin-left:0px;">
+		<div class="discussionText">Bilikiss Adebiyi is the CEO and Co-founder of Wecyclers, a social enterprise which leverages low-cost, scalable, easily adaptable technology to collect recyclable waste at the household level.</div> 
+	</div>
+	
+	<div class="spectatorPanel"  style="margin-right:0px;">
+			<center>
+				<div class="spectatorName">Priti Ambani</div>
+				<div class="avatar" id="avatar-ambani"></div>	
+				<div class="spectatorTitle">Moderator</div>	
+				<div class="spectatorSocial">
+					<a href="http://ng.linkedin.com/pub/bilikiss-adebiyi/23/157/309?trk=cws-ppw-member-0-0	"><i class="icon-linkedin-sign" style="text-decoration: none;"></i></a>
+					<a href="#"><i class="icon-twitter-sign" style="text-decoration: none;"></i></a>
+					<a href="#"><i class="icon-facebook-sign" style="text-decoration: none;"></i></a>
+				</div>
+	    	</center>
+		</div>
+
+	<div class="panelBio"  style="margin-left:0px;">
+		<div class="discussionText">Priti Ambani is the Managing Editor of Ecopreneurist.com which offers advice, tools and case studies to social entrepreneurs, startups, and environmental enterprises to help them start, run and grow their businesses.</div> 
+	</div>
+	
+</div>
 
 			<div id='spectators1'>
 				<ul id='spectatorsList'>
 					<li>
-						<img src='http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg' height='80px' width='80px'/>
+						<a href='http://google.com'><img src='http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg' height='80px' width='80px'/></a>
 						<div id='spectatorName'>Colonial Clone</div>
-						<div id='spectatorSocial'></div> </li>
+						<div class="spectatorSocial">
+					
+				</div>
+ </li>
 				</ul>
 			</div>
-			<div id='information1'></div>
+			<div id='information1'>
+	<div class="wastewiseInfo">
+		<div class="wastewiseTitle">WasteWise</div>
+		<div class="wastewiseText">
+			Waste Wise is a simple idea: Use 21st century tools to share expertise globally, opening up high-quality, leading edge thinking to those who have not had access to this expertise, while also eliminating the environmental and financial costs of global conferences. Waste Wise will conduct online video panels with experts from across the waste spectrum using Google+ Hangouts, broadcast them live, and then publish content for ready use by decision makers, policy analysts, experts and advocates.
+		</div>
+	</div>
+
+	<div class="discussionInfo">
+		<div class="discussionTitle">Roundtable Background</div>
+		<div class="discussionText">
+			Priti Ambani (Managing Editor of Ecopreneurist) moderates a discussion with the Founder of TerraCycle (Tom Szaky) and Co-Founder ofWecyclers (Bilikiss Adebiyi) about Entrepreneurship in solid waste management. 
+		</div>
+	</div>
+	
+
+	
+	
+	<div id="bottomAgenda">
+		<div class="panelTitle">Agenda</div>
+		<div id="bottomAgendaText">
+			<div class="bullet">
+				<i class="icon-caret-right"></i>
+				Introduction to Wecyclers and TerraCycle
+			</div>
+			<div class="bullet">
+				<i class="icon-caret-right"></i>
+				Biggest Challenges for Solid Waste Management
+			</div>
+			<div class="bullet">
+				<i class="icon-caret-right"></i>
+				Finding Strategic Partners
+			</div>
+			<div class="bullet">
+				<i class="icon-caret-right"></i>
+				Obtaining Municipality Involvement
+			</div> 
+			<div class="bullet">
+				<i class="icon-caret-right"></i>
+				Engaging Citizens to Get Involved
+			</div> 
+			<div class="bullet">
+				<i class="icon-caret-right"></i>
+				Audience Q&A
+			</div> 
+		</div>
+	</div>
+
+	<div id="resources">
+		<div class="panelTitle">Resources</div>
+        <div id="#bottomResourcesText" style="margin-top: 5px;">
+			<div class="bullet">
+				<i class="icon-link"></i>
+				Terracycle.com
+			</div>
+			<div class="bullet">
+				<i class="icon-link"></i>
+				Wecyclers.com
+			</div>
+			<div class="bullet">
+				<i class="icon-link"></i>
+				Ecopreneurist.com
+			</div>
+		</div>
+	</div>
+
+</div>
 
 
 

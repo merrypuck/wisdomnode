@@ -18,26 +18,32 @@ var renderQnA  = function(qDict, rankList) {
     var divID = "q-" + question.questionID;
     var divClass = 'questionAsked';
     var qDiv = document.getElementById('questionDiv');
-    var qBtnDiv = document.createElement("div");
+    //var qBtnDiv = document.createElement("div");
+    var votesHtml = '';
 
      if(question.userID === wisdom.global.userid){
-  
-      qBtnDiv.innerHTML = '<input id=\"rmvBtn-' + divID +'\" type=\"button\" value=\"Remove Question\" onClick=\"javascript:QnAModule.delQ(\'' + question.questionID + '\');\">';  
+      votesHtml = '<div class="questionVoted"><div class="questionVotes">' + (question.numupvotes-question.numdownvotes) + '</div></div>';
+     // qBtnDiv.innerHTML = '<input id=\"rmvBtn-' + divID +'\" type=\"button\" value=\"Remove Question\" onClick=\"javascript:QnAModule.delQ(\'' + question.questionID + '\');\">';  
     }
     else if((question.listOfUp.indexOf(wisdom.global.userid)>-1) ||
       (question.listOfDown.indexOf(wisdom.global.userid)>-1)){
      
-      qBtnDiv.innerHTML = '<input class=\"disableVote\" id=\"upVote-' + divID + '\" type=\"button\" value=\"Upvote\" onClick=\"javascript:QnAModule.upVote(\'' + question.questionID + '\');\" disabled=\"disabled\"> ' + '<input class=\"disableVote\" id=\"downVote-' + divID + '\" type=\"button\" value=\"Downvote\" onClick=\"javascript:QnAModule.downVote(\'' + question.questionID + '\');  \" disabled=\"disabled\"">';
+      //qBtnDiv.innerHTML = '<input class=\"disableVote\" id=\"upVote-' + divID + '\" type=\"button\" value=\"Upvote\" onClick=\"javascript:QnAModule.upVote(\'' + question.questionID + '\');\" disabled=\"disabled\"> ' + '<input class=\"disableVote\" id=\"downVote-' + divID + '\" type=\"button\" value=\"Downvote\" onClick=\"javascript:QnAModule.downVote(\'' + question.questionID + '\');  \" disabled=\"disabled\"">';
+      votesHtml = '<div class="questionVoted"><div class="questionVotes">' + (question.numupvotes-question.numdownvotes) + '</div></div>';
     }
     else{
-      qBtnDiv.innerHTML = '<input id=\"upVote-' + divID + '\" type=\"button\" value=\"Upvote\" onClick=\"javascript:QnAModule.upVote(\'' + question.questionID + '\');\"> ' + '<input id=\"downVote-' + divID + '\" type=\"button\" value=\"Downvote\" onClick=\"javascript:QnAModule.downVote(\'' + question.questionID + '\');  \">';
-
+      votesHtml = '<div class="questionVoting">' +
+/*      '<div id="upVote-' + divID +  '" class="questionUpvotes" '+ 
+      "onClick=\"javascript:QnAModule.upVote('" + question.questionID + "');\">" +
+      '<i class="icon-thumbs-up"></i></div>'+*/
+      '<div class="questionVotes">' + (question.numupvotes-question.numdownvotes) + '</div></div>';
+      '<div id=\"downVote-' + divID +  '" class="questionDownvotes" '+ 
+      " onClick=\"javascript:QnAModule.upVote('" + question.questionID + "');\">" +
+      '<i class="icon-thumbs-up" style="font-size: 20px;padding-top: 2px;"></i></div></div>';
     }
 
-   var qnaHTML =  "<div id='questionDiv'> <div id=\"" + divID + "\" class=\"qnaQuestionBox\">\
-     <div class=\"QnAnumvotes\">" + (question.numupvotes-question.numdownvotes) + "</div> <div \
-     class=\"QnAquestion\" id=\"q-" + divID + "\" >" + question.question + "</div> <div class='qButtonDiv'" + qBtnDiv.innerHTML + "</div>\
-       <div class=\"QnAauthor\">By: " + question.userName + "</div>  </div>";
+   var qnaHTML =  votesHtml +
+   "<div class=\"questionTextBox\"><div class=\"questionText\" id=\"q-" + divID + "\" >" + question.question + "</div> <div class=\"questionUser\">" + question.userName + "</div></div>";
 
 
     //var qnaHTML = '<div class=\"QnAquestion\" id=\"' + divID + '\" + "class=\'divClass\'">' + numQ + '. ' + question.userID + ": " +question.question + 
@@ -46,6 +52,7 @@ var renderQnA  = function(qDict, rankList) {
     var newDiv = document.createElement("div");
 
     newDiv.id =  divID;
+    newDiv.classList.add("questionBox");
 
     newDiv.innerHTML = qnaHTML;
     qDiv.appendChild(newDiv);

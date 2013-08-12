@@ -23,6 +23,8 @@ var https = require('https');
 var fs = require('fs');
 var path = require('path');
 var crypto = require('crypto');
+var bcrypt = require('bcrypt');
+var SALT_WORK_FACTOR = 10;
 var mongoose = require('mongoose');
 var mime  = require('mime');
 var io = require('socket.io');
@@ -39,7 +41,8 @@ var nodestatic = require('node-static');
 var passport = require('passport');
 var util = require('util');
 var LinkedInStrategy = require('passport-linkedin').Strategy;
-var wtwitter = require('./lib/node-wisdom-twitter');
+var TwitterStrategy = require('passport-twitter').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 
 // Configuration settings.
 var app = express();
@@ -53,9 +56,10 @@ var options = {
 var server = https.createServer(options, app);
 
 mongoose.connect('mongodb://localhost/wisdom1');
+var db = mongoose.connection;
 var fileServer = new nodestatic.Server(__dirname + '/public/static');
 
-var db = mongoose.connection;
+
 
 app.engine('html', require('ejs').renderFile);
 
@@ -70,7 +74,7 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(express.session({ secret: 'keyboard cat' }));
   app.use(passport.initialize());
-	app.use(passport.session());
+  app.use(passport.session());
   
   // Add a secret code for cookie parser and session.
   app.use(flash());
@@ -83,6 +87,8 @@ app.configure(function(){
 
 var LINKEDIN_API_KEY = "8rwv6azucv8a";
 var LINKEDIN_SECRET_KEY = "EmxI0a4AIIP9Pwjj";
+var TWITTER_CONSUMER_KEY = "HBM4WcoQALBZKS3kGj4A";
+var TWITTER_CONSUMER_SECRET = "xImFOpHBteRDlmPnmTByKCJtVCGktc8OwTnb10Enlk";
 
 
 // NOTE(mj): Maybe comment this part for production?
@@ -116,17 +122,64 @@ passport.use(new LinkedInStrategy({
   }
 ));
 
+// Use the TwitterStrategy within Passport.
+//   Strategies in passport require a `verify` function, which accept
+//   credentials (in this case, a token, tokenSecret, and Twitter profile), and
+//   invoke a callback with a user object.
+passport.use(new TwitterStrategy({
+    consumerKey: TWITTER_CONSUMER_KEY,
+    consumerSecret: TWITTER_CONSUMER_SECRET,
+    callbackURL: "http://127.0.0.1:8002/auth/twitter/callback"
+  },
+  function(token, tokenSecret, profile, done) {
+    // asynchronous verification, for effect...
+    process.nextTick(function () {
+      
+      // To keep the example simple, the user's Twitter profile is returned to
+      // represent the logged-in user.  In a typical application, you would want
+      // to associate the Twitter account with a user record in your database,
+      // and return that user instead.
+      return done(null, profile);
+    });
+  }
+));
+
+// GET /auth/twitter
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  The first step in Twitter authentication will involve redirecting
+//   the user to twitter.com.  After authorization, the Twitter will redirect
+//   the user back to this application at /auth/twitter/callback
+app.get('/auth/twitter',
+  passport.authenticate('twitter'),
+  function(req, res){
+    // The request will be redirected to Twitter for authentication, so this
+    // function will not be called.
+  });
+
+// GET /auth/twitter/callback
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  If authentication fails, the user will be redirected back to the
+//   login page.  Otherwise, the primary route function function will be called,
+//   which, in this example, will redirect the user to the home page.
+app.get('/auth/twitter/callback', 
+  passport.authenticate('twitter', {scope: 'email',
+  									failureRedirect: '/login' }),
+  function(req, res) {
+  	console.log('user info from twitter: ' + JSON.stringify(req.user));
+    res.redirect('/expert1');
+  });
+
 app.get('/auth/linkedin',
   passport.authenticate('linkedin', { scope: ['r_basicprofile', 'r_emailaddress'] }),
   function(req, res){
     // The request will be redirected to LinkedIn for authentication, so this
     // function will not be called.
   });
+
 app.get('/auth/linkedin/callback',
   passport.authenticate('linkedin', { failureRedirect: '/login' }),
   function(req, res) {
-
-    res.redirect('/expert');
+    res.redirect('/expert1');
   });
 
 app.get('/logout', function(req, res){
@@ -139,27 +192,17 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/login');
 }
 
-var dummyUser  = {
-	userName : 'mukundjha@gmail.com',
-	firstName : 'Mukund',
-	lastName : 'Jha',
-	userId : '8823n3nh38302kk23',
-	profileImageUrl : "http://m.c.lnkd.licdn.com/" + 
-		"mpr/mprx/0_U-uG0hNlNKy8liTGRAxA0_kANPVm1LhGJKZg0_bawKaY2T" +
-		"cCcqyali1hsRslKG3asAmprXM58Fxj",
-	bio : "Co-Founder at Wisdomly",
-};
-
 // Defining Database
 
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-	firstName : String,
-	lastName : String,
-	email : String,
-	password : String,
-});
+	firstName : { type: String, required: true },
+	lastName : { type: String, required: true },
+	pic : { type: String },
+	email : { type: String, required: true },
+	password : { type: String, required: true },
+}, {collection : 'users1'});
 
 // TODO(mj): Move this to another file that would contain all the schemas.
 /*var userSchema = new Schema({
@@ -220,23 +263,122 @@ var dummyTalk = {
 	status : 'LIVE', // this should be an enum.
 	info : {numSpeakers : 3},
 }
+ app.get('/', function(req, res) {
+	res.render('index1', {
+		
+		user:req.user,
 
-app.get('/', function(req, res) {
-	res.render('index1', {user:req.user})
+	})
 });
-app.get('/expert', function(req, res) {
+ 		/*userCred = {
+			firstName : req.user.name.givenName,
+			lastName : req.user.name.familyName,
+			pic : req.user._json.pictureUrl,
+			email : req.user._json.emailAdress,
+		};
+		var user = new User1();
+			user.firstName = userCred.firstName;
+			user.lastName = userCred.lastName;
+			user.pic = userCred.pic;
+			user.email = userCred.email;
+			user.save(function(err) {
+			if (err){
+			console.log('error');
+			}
+			});*/
+		
+app.get('/expert1', function(req, res) {
 	console.log(JSON.stringify(req.user));
-	res.render('expert', {
-		user: req.user
+	if(req.user.provider === 'twitter') {
+	userCred = {
+		userId : req.user.id,
+		firstName : req.user.displayName.split(' ')[0],
+		lastName : req.user.displayName.split(' ')[1],
+		profilePic : req.user.photos[0].value
+	};
+	var user = new User1();
+		user.userId = userCred.userId;
+		user.firstName = userCred.firstName;
+		user.lastName = userCred.lastName;
+		user.profilePic = userCred.profilePic;
+		user.save(function(err) {
+		if (err){
+			console.log('error');
+		}
+	});
+}
+	else if(req.user.provider === 'linkedin') {
+		userCred = {
+			userId : req.user.id,
+			firstName : req.user.name.givenName,
+			lastName : req.user.name.familyName,
+			profilePic : req.user._json.pictureUrl
+		};
+		var user = new User1();
+		user.userId = userCred.userId;
+		user.firstName = userCred.firstName;
+		user.lastName = userCred.lastName;
+		user.profilePic = userCred.profilePic;
+		user.save(function(err) {
+		if (err){
+			console.log('error');
+		}
+	});
+	}
+	else {
+		userCred = {
+			firstName : req.body.firstName,
+			lastName : req.body.lastName,
+			email : req.body.email,
+			password : req.body.password
+		};
+		var user = new User1();
+		user.firstName = userCred.firstName;
+		user.lastName = userCred.lastName;
+		user.email = userCred.email;
+		user.password = userCred.password;
+		user.save(function(err) {
+		if (err){
+			console.log('error');
+		}
+	});
+
+	}
+	res.render('expert1', {
+		user: userCred
 	});
 });
 
-app.get('/test', function(req,res){
-	
-	fileServer.serveFile('/wiseApp.xml', 200, {}, req, res);
-
+app.get('/expert', function(req, res) {
+	console.log(JSON.stringify(req.user));
+	res.render('expert', {
+		user:req.user
+	});
 });
 
+app.get('/login', function(req, res) {
+
+	res.render('login', {
+	});
+});
+/*
+app.post('/signup', function(req, res) {
+	
+    res.redirect('/expert1');
+
+
+});
+*/
+/*
+app.post('/login', function(req, res) {
+	res.render('expert', {
+		firstName : req.param('firstName'),
+		lastName : req.param('lastName'),
+		email : req.param('email'),
+		userId : req.param('userId')
+
+	})
+});*/
 //app.get('/', function(req, res){
 //	res.render('login', {
 		/*user : dummyUser,
@@ -375,7 +517,7 @@ app.get('/hangout', function(req, res){
 
 
 });
-*/
+
 
 
 wtwitter.init(io,
@@ -386,6 +528,7 @@ wtwitter.init(io,
 		access_token_secret: 'fopvDihR38yNASI4QMmo5FRJifa61z5M0dGafDc'
 	}, 'mysession',
 	["dropbox"], ["mukundjha"]);
+	*/
 
 //initalize chat session
 	var thisChatSession = wGroupChat.newChatroom(221);
@@ -427,7 +570,7 @@ wtwitter.init(io,
 
 			//Connect to spectators
 			thisSpectatorSession.joinSpectators(socket);
-
+/*
 			socket.on(wtwitter.SUBSCRIBE, function(data) {
 				wtwitter.subscribe(socket);
 			});
@@ -435,10 +578,10 @@ wtwitter.init(io,
 			socket.on(wtwitter.UNSUBSCRIBE, function(data) {
 				wtwitter.unsubscribe(socket);
 			});
-
+*/
 			socket.on('disconnect', function() {
 				// Unsubscribe from twitter feed.
-				wtwitter.unsubscribe(socket);
+				
 				console.log(socket.userId  + 'just disconnected!!!!!!!!!!!!!!!!!!!!!!!!!!!');
 				thisSpectatorSession.userLeaving(socket);
 			});
