@@ -18,17 +18,13 @@
 
 wisdom = {
 	global : {
-		userid : '<%= user._json.emailAddress %>',
 		sesssionid: "666"
 	},
 	user : {
-		userId : '<%= user.id %>',
-		firstName : '<%= user.name.givenName %>',
-		lastName : '<%= user.name.familyName %>',
-		email : '<%= user._json.emailAddress %>',
-		profileImageUrl : '<%= user._json.pictureUrl %>',
-		bio : "<%= user._json.headline %>",
-		linkedinUrl : 'http://www.linkedin.com/pub/mukund-jha/13/964/a15'
+		userId : '<%= user.userId %>',
+		'firstName' : '<%= user.firstName %>',
+		'lastName' : '<%= user.lastName %>',
+		profileImageUrl : '<%= user.profilePic %>'
 	},
 	talk : {
 		talkId : '883nnew39231nn321',
@@ -431,13 +427,6 @@ profile.spectatorLeft = function(userId) {
 
 			<div id='spectators1'>
 				<ul id='spectatorsList'>
-					<li>
-						<a href='http://google.com'><img src='http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg' height='80px' width='80px'/></a>
-						<div id='spectatorName'>Colonial Clone</div>
-						<div class="spectatorSocial">
-					
-				</div>
- </li>
 				</ul>
 			</div>
 			<div id='information1'>

@@ -316,12 +316,31 @@ app.get('/expert1', function(req, res) {
 			console.log('error');
 		}
 	});
-	}
-	else {
-		userCred = {
+	res.render('expert1', {
+		user: userCred
+	});
+}
+});
+
+app.get('/expert', function(req, res) {
+	console.log(JSON.stringify(req.user));
+	res.render('expert', {
+		user:req.user
+	});
+});
+
+app.get('/login', function(req, res) {
+	req.logout();
+	res.render('login', {
+	});
+});
+
+app.post('/signup', function(req, res) {
+	userCred = {
 			firstName : req.body.firstName,
 			lastName : req.body.lastName,
 			email : req.body.email,
+			profilePic : 'http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg',
 			password : req.body.password
 		};
 		var user = new User1();
@@ -334,33 +353,14 @@ app.get('/expert1', function(req, res) {
 			console.log('error');
 		}
 	});
-
-	}
-	res.render('expert1', {
-		user: userCred
-	});
-});
-
-app.get('/expert', function(req, res) {
-	console.log(JSON.stringify(req.user));
-	res.render('expert', {
-		user:req.user
-	});
-});
-
-app.get('/login', function(req, res) {
-
-	res.render('login', {
-	});
-});
-/*
-app.post('/signup', function(req, res) {
 	
-    res.redirect('/expert1');
+    res.render('expert1', {
+    	user : userCred
+    });
 
 
 });
-*/
+
 /*
 app.post('/login', function(req, res) {
 	res.render('expert', {

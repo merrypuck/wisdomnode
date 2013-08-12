@@ -89,7 +89,7 @@ $(function(){
 $('#spectators-tab1').click( function(){
 	if($('#spectators1').css('display') === 'none'){
 		$('#information1').css({'display':'none'});
-		$('#panelists1').css({'display':'none'});
+		$('#panelists').css({'display':'none'});
 		$('#spectators1').css({'display':'block'});		
 	}
 
@@ -98,17 +98,17 @@ $('#spectators-tab1').click( function(){
 $('#information-tab1').click( function(){
 	if($('#information1').css('display') === 'none'){
 		$('#spectators1').css({'display':'none'});
-		$('#panelists1').css({'display':'none'});
+		$('#panelists').css({'display':'none'});
 		$('#information1').css({'display':'block'});		
 	}
 
 });
 
 $('#panelists-tab1').click( function(){
-	if($('#panelists1').css('display') === 'none'){
+	if($('#panelists').css('display') === 'none'){
 		$('#spectators1').css({'display':'none'});
 		$('#information1').css({'display':'none'});
-		$('#panelists1').css({'display':'block'});		
+		$('#panelists').css({'display':'block'});		
 	}
 
 });
@@ -244,7 +244,7 @@ newChat.joinChat = function(chatlog) {
 	}
 };
 newChat.displayChat = function(username, message) {
-	$('#conversation').append('<div class=\'chatmessagebox\'><div class=\'chatname\'>' + username + '</div><div class=\'chatmessage\'>' + message + '</div></div>');
+	$('#conversation').append('<div class=\'chatMessageBox\'><div class=\'chatName\'>' + username + '</div><div class=\'chatMessage\'>' + message + '</div></div>');
 };
 
 notebook.clientNoteStamp = function() {
@@ -302,20 +302,18 @@ profile.spectatorLeft = function(userId) {
 <body>
 	<div id='main-container' class='backgroundClass'>
 		<div id='header'>
-			<div id='hostLogo'></div>
+			<div id='hostLogo'>
+				<img src="images/wastewiselogo.png"/>
+			</div>
 			<h1>WasteWise Roundtable</h1>
 		</div>
 
 		<div id='leftBar' class='backgroundClass'>
-			<div id='qa-tab' class='tabs-schema'>
-				<i class="icon-question-sign"></i> Q&A
-			</div>
-			<div id='qa'>
-				<div id="questionDiv"></div>
-			</div>
+			<div id="social-tab" class="tabs-schema"><i class="icon-twitter"></i>Social</div>
+			<div id='social-feed'></div>
 			<div class='inputComponent'>
-				<input type="text" id="newquestionbox" value="Ask a question?" onFocus="this.value=''"  />
-				<input type="button" id='submitnewquestion' value="ASK" onclick='proposeQuestion();'/><br>
+				<input type="text" id="newTweetbox" value="#bewastewise" onFocus="this.value='#bewastewise'"  />
+				<input type="button" id='submitnewquestion' value="TWEET" onclick='proposeQuestion();'/><br>
 			</div>
 
 		</div>
@@ -331,10 +329,7 @@ profile.spectatorLeft = function(userId) {
 
 			<div id='chatroom'>
 				<div id='conversation'>
-					<div class="chatmessagebox">
-						<div class="chatname" style='background-color:red'>Aaron</div>
-						<div class="chatmessage">Hello My name is Aaron. I live in Chile.</div>
-					</div>
+					
 
 				</div>
 				<div class='inputComponent'>
@@ -344,65 +339,16 @@ profile.spectatorLeft = function(userId) {
 			</div>
 		</div>
 
-		<div id='timer' class='tabs-schema'>01:59:00</div>
+		<!--<div id='timer' class='tabs-schema'>01:59:00</div>-->
 
 		<div id='bottomBar1'>
 			<div id='bottomBarNav1'>
-				<div id='information-tab1' class='tabs-schema'><i class="icon-info-sign"></i> Information</div>
-				<div id='spectators-tab1' class='tabs-schema'><i class="icon-group"></i>Spectators</div>
 				<div id='panelists-tab1' class='tabs-schema'><i class="icon-star"></i> Panelists</div>
+				<div id='spectators-tab1' class='tabs-schema'><i class="icon-group"></i>Spectators</div>
+				<div id='information-tab1' class='tabs-schema'><i class="icon-info-sign"></i> Information</div>
 			</div>
 
-			<div id='spectators1'>
-				<ul id='spectatorsList'>
-					<li>
-						<a href='http://google.com'><img src='http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg' height='80px' width='80px'/></a>
-						<div id='spectatorName'>Colonial Clone</div>
-						<div class="spectatorSocial"></div>
- 					</li>
- 					<li>
-						<a href='http://google.com'><img src='http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg' height='80px' width='80px'/></a>
-						<div id='spectatorName'>Colonial Clone</div>
-						<div class="spectatorSocial"></div>
- 					</li>
- 					<li>
-						<a href='http://google.com'><img src='http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg' height='80px' width='80px'/></a>
-						<div id='spectatorName'>Colonial Clone</div>
-						<div class="spectatorSocial"></div>
- 					</li>
- 					<li>
-						<a href='http://google.com'><img src='http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg' height='80px' width='80px'/></a>
-						<div id='spectatorName'>Colonial Clone</div>
-						<div class="spectatorSocial"></div>
- 					</li>
- 					<li>
-						<a href='http://google.com'><img src='http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg' height='80px' width='80px'/></a>
-						<div id='spectatorName'>Colonial Clone</div>
-						<div class="spectatorSocial"></div>
- 					</li>
- 					<li>
-						<a href='http://google.com'><img src='http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg' height='80px' width='80px'/></a>
-						<div id='spectatorName'>Colonial Clone</div>
-						<div class="spectatorSocial"></div>
- 					</li>
- 					<li>
-						<a href='http://google.com'><img src='http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg' height='80px' width='80px'/></a>
-						<div id='spectatorName'>Colonial Clone</div>
-						<div class="spectatorSocial"></div>
- 					</li>
- 					<li>
-						<a href='http://google.com'><img src='http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg' height='80px' width='80px'/></a>
-						<div id='spectatorName'>Colonial Clone</div>
-						<div class="spectatorSocial"></div>
- 					</li>
- 					<li>
-						<a href='http://google.com'><img src='http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg' height='80px' width='80px'/></a>
-						<div id='spectatorName'>Colonial Clone</div>
-						<div class="spectatorSocial"></div>
- 					</li>
-
-				</ul>
-			</div>
+			
 			<style>
 				.panelistBox {
 					float:left;
@@ -464,32 +410,411 @@ profile.spectatorLeft = function(userId) {
 			</style>
 			<script>
 				$(function(){ 
-					$('.panelistArrow' ).click(function() {
-						var currentId = $(this).attr('id');
-						alert(currentId);
+					myVisible = function(id) {
+						var myDiv = $(id);
+						myDiv.css("display", "block");
+					};
+					myHide = function(id) {
+						var myDiv = $(id);
+						myDiv.css("display", "none");
+					};
 					
-				});
-				});
+						// Container 2 arrow 2 
+		      	$("#panelist1Arrow2Container").click(function () {
 
+		      		// Panelist 1
+		     		("#panelist1BioBox");
+		     		myHide("#panelist1AddlBlock");
+		     		myVisible("#panelist1ArrowContainer");
+		     		myVisible("#panelist1Arrow");
+		     		myHide("#panelist1Arrow2Container");
+		     		myHide("#panelist1Arrow2");
+
+		     		// Panelist 2
+		     		myVisible("#panelist2BioBox");
+		     		myHide("#panelist2AddlBlock");
+		     		myVisible("#panelist2ArrowContainer");
+		     		myVisible("#panelist2Arrow");
+		     		myHide("#panelist2Arrow2Container");
+		     		myHide("#panelist2Arrow2");
+
+		     		// Panelist 3
+		     		myVisible("#panelist3BioBox");
+		     		myHide("#panelist3AddlBlock");
+		     		myVisible("#panelist3ArrowContainer");
+		     		myVisible("#panelist3Arrow");
+		     		myHide("#panelist3Arrow2Container");
+		     		myHide("#panelist3Arrow2");
+		  		});
+
+		  		$("#panelist1InfoBox").click(function () {
+		      		// Panelist 1
+		     				      		// Panelist 2
+		     		//$("#panelist1AddlBlock").style.visibility = 'visible';
+		     		myVisible("#panelist1BioBox");
+		     		myVisible("#panelist1AddlBlock");
+		     		//$("#panelist2Arrow").toggleClass("icon-angle-left icon-angle-right");
+		     		myHide("#panelist1ArrowContainer");
+		     		myHide("#panelist1Arrow");
+		     		myVisible("#panelist1Arrow2Container");
+		     		myVisible("#panelist1Arrow2");
+
+
+		      		// Panelist 1
+		      		$("#panelist2InfoBox").toggleClass("panelistInfoBox panelistInfoBoxFullBorder");
+		      		myHide("#panelist2BioBox");
+		      		myVisible("#panelist2ArrowContainer");
+		      		myVisible("#panelist2Arrow");
+		      		myHide("#panelist2Arrow2Container");
+		      
+		      		// Panelist 3 
+		      		$("#panelist3InfoBox").toggleClass("panelistInfoBox panelistInfoBoxFullBorder");
+		      		myHide("#panelist3BioBox");
+		      		myVisible("#panelist3ArrowContainer");
+		      		myVisible("#panelist3Arrow");
+		      		myHide("#panelist3Arrow2Container");
+		  		});
+
+  				$("#panelist2InfoBox").click(function () {
+		      		// Panelist 2
+		     		//$("#panelist1AddlBlock").style.visibility = 'visible';
+		     		myVisible("#panelist2BioBox");
+		     		myVisible("#panelist2AddlBlock");
+		     		//$("#panelist2Arrow").toggleClass("icon-angle-left icon-angle-right");
+		     		myHide("#panelist2ArrowContainer");
+		     		myVisible("#panelist2Arrow2Container");
+		     		myVisible("#panelist2Arrow2");
+
+
+		      		// Panelist 1
+		      		$("#panelist1InfoBox").toggleClass("panelistInfoBox panelistInfoBoxFullBorder");
+		      		myHide("#panelist1BioBox");
+		      		myVisible("#panelist1ArrowContainer");
+		      		myVisible("#panelist1Arrow");
+		      		myHide("#panelist1Arrow2Container");
+		      
+		      		// Panelist 3 
+		      		$("#panelist3InfoBox").toggleClass("panelistInfoBox panelistInfoBoxFullBorder");
+		      		myHide("#panelist3BioBox");
+		      		myVisible("#panelist3ArrowContainer");
+		      		myVisible("#panelist3Arrow");
+		      		myHide("#panelist3Arrow2Container");
+		  		});
+
+  				$("#panelist3InfoBox").click(function () {
+		      
+		      		// Panelist 2
+		     		//$("#panelist1AddlBlock").style.visibility = 'visible';
+		     		myVisible("#panelist3BioBox");
+		     		myVisible("#panelist3AddlBlock");
+		     		//$("#panelist2Arrow").toggleClass("icon-angle-left icon-angle-right");
+		     		myHide("#panelist3ArrowContainer");
+		     		myVisible("#panelist3Arrow2Container");
+		     		myVisible("#panelist3Arrow2");
+
+
+		      		// Panelist 1
+		      		$("#panelist1InfoBox").toggleClass("panelistInfoBox panelistInfoBoxFullBorder");
+		      		myHide("#panelist1BioBox");
+		      		myVisible("#panelist1ArrowContainer");
+		      		myVisible("#panelist1Arrow");
+		      		myHide("#panelist1Arrow2Container");
+		      
+		      		// Panelist 2
+		      		$("#panelist2InfoBox").toggleClass("panelistInfoBox panelistInfoBoxFullBorder");
+		      		myHide("#panelist2BioBox");
+		      		myVisible("#panelist2ArrowContainer");
+		      		myVisible("#panelist2Arrow");
+		      		myHide("#panelist2Arrow2Container");
+		  		});
+
+		    	$("#panelist1ArrowContainer").click(function () {
+
+		      		// Panelist 2
+		     		//$("#panelist1AddlBlock").style.visibility = 'visible';
+		     		myVisible("#panelist1BioBox");
+		     		myVisible("#panelist1AddlBlock");
+		     		//$("#panelist2Arrow").toggleClass("icon-angle-left icon-angle-right");
+		     		myHide("#panelist1ArrowContainer");
+		     		myHide("#panelist1Arrow");
+		     		myVisible("#panelist1Arrow2Container");
+		     		myVisible("#panelist1Arrow2");
+
+
+		      		// Panelist 1
+		      		$("#panelist2InfoBox").toggleClass("panelistInfoBox panelistInfoBoxFullBorder");
+		      		myHide("#panelist2BioBox");
+		      		myVisible("#panelist2ArrowContainer");
+		      		myVisible("#panelist2Arrow");
+		      		myHide("#panelist2Arrow2Container");
+		      
+		      		// Panelist 3 
+		      		$("#panelist3InfoBox").toggleClass("panelistInfoBox panelistInfoBoxFullBorder");
+		      		myHide("#panelist3BioBox");
+		      		myVisible("#panelist3ArrowContainer");
+		      		myVisible("#panelist3Arrow");
+		      		myHide("#panelist3Arrow2Container");
+		  		});
+
+
+				$("#panelist2ArrowContainer").click(function () {
+		      		// Panelist 2
+		     		//$("#panelist1AddlBlock").style.visibility = 'visible';
+		     		myVisible("#panelist2BioBox");
+		     		myVisible("#panelist2AddlBlock");
+		     		//$("#panelist2Arrow").toggleClass("icon-angle-left icon-angle-right");
+		     		myHide("#panelist2ArrowContainer");
+		     		myVisible("#panelist2Arrow2Container");
+		     		myVisible("#panelist2Arrow2");
+
+
+		      		// Panelist 1
+		      		$("#panelist1InfoBox").toggleClass("panelistInfoBox panelistInfoBoxFullBorder");
+		      		myHide("#panelist1BioBox");
+		      		myVisible("#panelist1ArrowContainer");
+		      		myVisible("#panelist1Arrow");
+		      		myHide("#panelist1Arrow2Container");
+		      
+		      		// Panelist 3 
+		      		$("#panelist3InfoBox").toggleClass("panelistInfoBox panelistInfoBoxFullBorder");
+		      		myHide("#panelist3BioBox");
+		      		myVisible("#panelist3ArrowContainer");
+		      		myVisible("#panelist3Arrow");
+		      		myHide("#panelist3Arrow2Container");
+		  		});
+	
+				$("#panelist2Arrow2Container").click(function () {
+		      		// Panelist 1
+		     		myVisible("#panelist1BioBox");
+		     		myHide("#panelist1AddlBlock");
+		     		myVisible("#panelist1ArrowContainer");
+		     		myVisible("#panelist1Arrow");
+		     		myHide("#panelist1Arrow2Container");
+		     		myHide("#panelist1Arrow2");
+
+		     		// Panelist 2
+		     		myVisible("#panelist2BioBox");
+		     		myHide("#panelist2AddlBlock");
+		     		myVisible("#panelist2ArrowContainer");
+		     		myVisible("#panelist2Arrow");
+		     		myHide("#panelist2Arrow2Container");
+		     		myHide("#panelist2Arrow2");
+
+		     		// Panelist 3
+		     		myVisible("#panelist3BioBox");
+		     		myHide("#panelist3AddlBlock");
+		     		myVisible("#panelist3ArrowContainer");
+		     		myVisible("#panelist3Arrow");
+		     		myHide("#panelist3Arrow2Container");
+		     		myHide("#panelist3Arrow2");
+		  		});
+
+
+					$("#panelist3ArrowContainer").click(function () {
+		      		// Panelist 2
+		     		//$("#panelist1AddlBlock").style.visibility = 'visible';
+		     		myVisible("#panelist3BioBox");
+		     		myVisible("#panelist3AddlBlock");
+		     		//$("#panelist2Arrow").toggleClass("icon-angle-left icon-angle-right");
+		     		myHide("#panelist3ArrowContainer");
+		     		myVisible("#panelist3Arrow2Container");
+		     		myVisible("#panelist3Arrow2");
+
+
+		      		// Panelist 1
+		      		$("#panelist1InfoBox").toggleClass("panelistInfoBox panelistInfoBoxFullBorder");
+		      		myHide("#panelist1BioBox");
+		      		myVisible("#panelist1ArrowContainer");
+		      		myVisible("#panelist1Arrow");
+		      		myHide("#panelist1Arrow2Container");
+		      
+		      		// Panelist 2
+		      		$("#panelist2InfoBox").toggleClass("panelistInfoBox panelistInfoBoxFullBorder");
+		      		myHide("#panelist2BioBox");
+		      		myVisible("#panelist2ArrowContainer");
+		      		myVisible("#panelist2Arrow");
+		      		myHide("#panelist2Arrow2Container");
+		  		});
+
+		  		$("#panelist3Arrow2Container").click(function () {
+		      		// Panelist 1
+		     		myVisible("#panelist1BioBox");
+		     		myHide("#panelist1AddlBlock");
+		     		myVisible("#panelist1ArrowContainer");
+		     		myVisible("#panelist1Arrow");
+		     		myHide("#panelist1Arrow2Container");
+		     		myHide("#panelist1Arrow2");
+
+		     		// Panelist 2
+		     		myVisible("#panelist2BioBox");
+		     		myHide("#panelist2AddlBlock");
+		     		myVisible("#panelist2ArrowContainer");
+		     		myVisible("#panelist2Arrow");
+		     		myHide("#panelist2Arrow2Container");
+		     		myHide("#panelist2Arrow2");
+
+		     		// Panelist 3
+		     		myVisible("#panelist3BioBox");
+		     		myHide("#panelist3AddlBlock");
+		     		myVisible("#panelist3ArrowContainer");
+		     		myVisible("#panelist3Arrow");
+		     		myHide("#panelist3Arrow2Container");
+		     		myHide("#panelist3Arrow2");
+		  		});
+
+});
 			</script>
-			<div id='information1'>
-				<div class='panelistBox'>
-					<div class='panelistProfile' id='panelistProfile1'>
-						<div class='panelistName' id='panelistName1'>Eugene Joseph</div>
-						<div class='panelistPic' id='panelistPic1'><img src='http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg' height='70px' width='70px' /></div>
-						<div class='panelistTitle' id='panelistPic1'></div>
-					</div>
-					
-					<div class='panelistBio' id='panelistBio1'>1Eugene Josephs is a great man ....... asfgmmdfgimeiortmioemrgioermiogmeriogmeiormgeasdfnjwneiron2ion2i3o4ij32i4j23ioj4io23j4io23j4io23j4.</div>
-					<div class='panelistArrow' id='panelistArrow1'>
-						<i id="panelist2Arrow1" class="icon-angle-right" style='height:50px;'></i>
-					</div>
-					<div class='panelistExtendedBio' id='panelistExtendedBio1'></div>
-				</div>
-				
-				
-				
+			
+			<div id='spectators1'>
+				<ul id='spectatorsList'>
 
+				</ul>
+			</div>
+
+		<div id="panelists">
+		<ul>
+		<li>
+		<div id="panelist1">
+			
+			<div id="panelist1InfoBox" class="panelistInfoBox" style="margin-right: 0px; display: block;">
+				<center>
+					<div class="panelistName">Tom Szaky</div>
+					<div class="panelistAvatar" id="avatar-tom"></div>	
+					<div class="panelistTitle">Panelist</div>	
+					<div class="panelistSocial">
+						<a href="http://www.linkedin.com/pub/tom-szaky/1/9a4/237?trk=cws-ppw-member-0-0"><i class="icon-linkedin-sign" style="text-decoration: none;"></i></a>
+						<a href="#"><i class="icon-twitter-sign" style="text-decoration: none;"></i></a>
+						<a href="#"><i class="icon-facebook-sign" style="text-decoration: none;"></i></a>
+					</div>
+	    		</center>
+			</div> <!--Info box closed here-->
+
+			<div id="panelist1BioBox" class="panelistBioBox" style="margin-left: 0px; margin-right: 0px; display: block;">
+				<div class="panelistTextBlock">
+					<div class="panelistBioTitle">Panelist Bio</div>
+					Tom Szaky is the CEO and Founder of TerraCycle, which is an international upcycling and recycling company that collects difficult-to-recycle packaging and products and repurposes the material into affordable, innovative products.  
+				</div>
+				<div id="panelist1AddlBlock" style="display: none;">
+	        		<div class="panelistTextBlock">
+	        			<div class="panelistMoreInfoTitle">
+	        				Relevant Articles
+	        			</div>
+						1. <a title="One Man's Rubbish is Terracycle's Bounty" href="http://money.cnn.com/2011/05/11/smallbusiness/terracycle_trash_cash_inner_city_100.fortune/?section=money_latest" target="_blank">One man's rubbish is Terracycle's bounty</a><br>
+						2. <a title="Eco-preneurs Need to Look to Larger Retailers to Create Change" href="http://www.huffingtonpost.com/tom-szaky/green-products-big-business_b_2781597.html" target="_blank">Eco-preneurs Need to Look to Larger Retailers to Create Change</a><br>
+						3. <a title="Why Not All Packaging Deserves a Bad Wrap" href="http://www.greenbiz.com/blog/2012/09/27/big-picture-packaging" target="_blank">Why Not All Packaging Deserves a Bad Wrap</a><br>
+					</div>
+
+					<div class="panelistTextBlock">
+						<div class="panelistLinksTitle">
+							Relevant Videos
+						</div>
+						<iframe width="160" height="90" src="http://www.youtube.com/embed/Ld0QEI73-fM?feature=player_embedded" frameborder="0" allowfullscreen=""></iframe>
+					</div>
+      			</div><!--Additional Block closes here-->
+			</div> <!-- Panelist 1 Bio closes-->
+			<div id="panelist1ArrowContainer" style="display: block;">
+				<i id="panelist1Arrow" class="icon-angle-right"></i>
+
+			</div> <!-- arrow div -->
+			<div id="panelist1Arrow2Container" style="display:none;">
+				<i id="panelist1Arrow2" class="icon-angle-left"></i>
+			</div> <!-- arrow 2-->
+		</div> <!--panelist 1-->
+		</li>
+		<li>
+		<div id="panelist2" style="">
+			<div id="panelist2InfoBox" class="panelistInfoBox" style="margin-right: 0px; display: block;">
+				<center>
+					<div class="panelistName">Bilikiss Adebiyi</div>
+					<div class="panelistAvatar" id="avatar-adebiyi"></div>	
+					<div class="panelistTitle">Panelist</div>	
+					<div class="panelistSocial">
+						<a href="ttp://ng.linkedin.com/pub/bilikiss-adebiyi/23/157/309?trk=cws-ppw-member-0-0"><i class="icon-linkedin-sign" style="text-decoration: none;"></i></a>
+						<a href="#"><i class="icon-twitter-sign" style="text-decoration: none;"></i></a>
+						<a href="#"><i class="icon-facebook-sign" style="text-decoration: none;"></i></a>
+					</div>
+	    		</center>
+			</div> <!--Infobox closing -->
+			<div id="panelist2BioBox" class="panelistBioBox" style="margin-left: 0px; margin-right: 0px; display: block;">
+				<div class="panelistTextBlock">
+					<div class="panelistBioTitle">
+					Panelist Bio
+					</div>
+					Bilikiss Adebiyi is the CEO and Co-founder of Wecyclers, a social enterprise which leverages low-cost, scalable, easily adaptable technology to collect recyclable waste at the household level. 
+				</div> 
+				<div id="panelist2AddlBlock" style="display: none;">
+	        		<div class="panelistTextBlock">
+	        			<div class="panelistMoreInfoTitle">
+	        				Relevant Articles
+	        			</div>
+						1. <a title="Doing Well By Doing Good: 10 Socially Conscious Entrepreneurs in Boston" href="http://bostinno.streetwise.co/all-series/doing-well-by-doing-good-10-socially-conscious-entrepreneurs-in-boston/" target="_blank">Doing Well By Doing Good: 10 Socially Conscious Entrepreneurs in Boston</a><br>
+						2. <a title="Waste Collection Cargo Bicycle/Nigeria" href="http://d-lab.mit.edu/scale-ups/waste-collection-cargo-bike" target="_blank">Waste Collection Cargo Bicycle/Nigeria</a><br>
+					</div>
+
+					<div class="panelistTextBlock">
+						<div class="panelistLinksTitle">Relevant Videos</div>
+						<iframe width="160" height="90" src="http://www.youtube.com/embed/OLUaoSCjOTA?feature=player_embedded" frameborder="0" allowfullscreen=""></iframe>
+					</div>
+      			</div> <!-- closes additional block -->
+      		</div> <!--closes bio box -->
+			<div style=" float: left;">
+				<div id="panelist2ArrowContainer" style="display: block;">
+					<i id="panelist2Arrow" class="icon-angle-right"></i>
+
+				</div> <!-- Arrow container  -->
+
+				<div id="panelist2Arrow2Container" style="display: none;">
+					<i id="panelist2Arrow2" class="icon-angle-left"></i>
+
+				</div> <!-- Arrow2 contianer 2 -->
+			</div> <!-- style div -->
+		</div> <!-- closes panelist 2 -->
+		</li>
+		<li>
+		<div id="panelist3" style="">
+		<div id="panelist3InfoBox" class="panelistInfoBox" style="margin-right: 0px; display: block;">
+			<center>
+				<div class="panelistName">Priti Ambani</div>
+				<div class="panelistAvatar" id="avatar-ambani"></div>	
+				<div class="panelistTitle">Moderator</div>	
+				<div class="panelistSocial">
+					<a href="#"><i class="icon-linkedin-sign" style="text-decoration: none;"></i></a>
+					<a href="#"><i class="icon-twitter-sign" style="text-decoration: none;"></i></a>
+					<a href="#"><i class="icon-facebook-sign" style="text-decoration: none;"></i></a>
+				</div>
+	    	</center>
+		</div> <!-- info box -->
+		<div id="panelist3BioBox" class="panelistBioBox" style="margin-left: 0px; margin-right: 0px; display: block;">
+			<div class="panelistTextBlock"><div class="panelistBioTitle">Panelist Bio</div>Priti Ambani is the Managing Editor of Ecopreneurist.com which offers advice, tools and case studies to social entrepreneurs, startups, and environmental enterprises to help them start, run and grow their businesses.  
+			</div> 
+			<div id="panelist3AddlBlock" style="display: none;">
+	        	<div class="panelistTextBlock">
+	        		<div class="panelistMoreInfoTitle">Relevant Articles</div>
+					1. <a title="Priti Ambani's Posts Page on Ecopreneurist" href="http://ecopreneurist.com/author/pambani/" target="_blank">Priti Ambani's Posts Page on Ecopreneurist</a><br>
+		
+				</div>
+
+				<div class="panelistTextBlock">
+					<div class="panelistLinksTitle">Relevant Videos</div><iframe width="160" height="90" src="http://www.youtube.com/embed/1429SGFQPkc?feature=player_embedded" frameborder="0" allowfullscreen=""></iframe>
+				</div>
+      		</div> <!-- additional block -->
+		</div> <!-- bio box -->
+		<div style="float: left;">
+			<div id="panelist3ArrowContainer" style="display: block;">
+				<i id="panelist3Arrow" class="icon-angle-right"></i>
+
+		    </div> <!--arrow 3 continer -->
+
+			<div id="panelist3Arrow2Container" style="display: none;">
+				<i id="panelist3Arrow2" class="icon-angle-left"></i>
+
+			</div> <!--arrow 3 container 2 closes-->
+		</div> <!-- style closing -->
+		</div> <!-- panelist 3 closing -->
+		</li>
+		<ul>
+	</div> <!-- panelists closing -->
+	<div id='information1'>
 			</div>
 
 
