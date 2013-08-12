@@ -18,12 +18,12 @@
 // Required dependencies. 
 
 var express = require('express');
-var http = require('http');
-//var https = require('https');
+//var http = require('http');
+var https = require('https');
 var fs = require('fs');
 var path = require('path');
 var crypto = require('crypto');
-//var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt');
 var SALT_WORK_FACTOR = 10;
 var mongoose = require('mongoose');
 var mime  = require('mime');
@@ -53,8 +53,7 @@ var options = {
 	ca: fs.readFileSync('livewisdomlyca.pem')
 }
 
-//var server = https.createServer(options, app);
-var server = http.createServer(app);
+var server = https.createServer(options, app);
 
 mongoose.connect('mongodb://localhost/wisdom1');
 var db = mongoose.connection;
@@ -65,7 +64,7 @@ var fileServer = new nodestatic.Server(__dirname + '/public/static');
 app.engine('html', require('ejs').renderFile);
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 8002);
+  app.set('port', process.env.PORT || 443);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'html');
   app.set('view options', {layout: false});
@@ -108,8 +107,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new LinkedInStrategy({
     consumerKey: LINKEDIN_API_KEY,
     consumerSecret: LINKEDIN_SECRET_KEY,
-    callbackURL: "http://localhost:8002/auth/linkedin/callback",
-    //callbackURL: "https://live.wisdom.ly/auth/linkedin/callback",
+    callbackURL: "https://live.wisdom.ly/auth/linkedin/callback",
     profileFields: ['id', 'first-name', 'last-name', 'email-address', 'headline','picture-url'] 
   },
   function(token, tokenSecret, profile, done) {
@@ -326,29 +324,10 @@ app.get('/expert1', function(req, res) {
 			console.log('error');
 		}
 	});
-	}
-	else {
-		userCred = {
-			firstName : req.body.firstName,
-			lastName : req.body.lastName,
-			email : req.body.email,
-			password : req.body.password
-		};
-		var user = new User1();
-		user.firstName = userCred.firstName;
-		user.lastName = userCred.lastName;
-		user.email = userCred.email;
-		user.password = userCred.password;
-		user.save(function(err) {
-		if (err){
-			console.log('error');
-		}
-	});
-
-	}
 	res.render('expert1', {
 		user: userCred
 	});
+}
 });
 
 app.get('/expert', function(req, res) {
@@ -359,7 +338,7 @@ app.get('/expert', function(req, res) {
 });
 
 app.get('/login', function(req, res) {
-
+	req.logout();
 	res.render('login', {
 	});
 });
@@ -374,12 +353,31 @@ app.get('/moderator', function(req, res){
 
 /*
 app.post('/signup', function(req, res) {
+	userCred = {
+			firstName : req.body.firstName,
+			lastName : req.body.lastName,
+			email : req.body.email,
+			profilePic : 'http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg',
+			password : req.body.password
+		};
+		var user = new User1();
+		user.firstName = userCred.firstName;
+		user.lastName = userCred.lastName;
+		user.email = userCred.email;
+		user.password = userCred.password;
+		user.save(function(err) {
+		if (err){
+			console.log('error');
+		}
+	});
 	
-    res.redirect('/expert1');
+    res.render('expert1', {
+    	user : userCred
+    });
 
 
 });
-*/
+
 /*
 app.post('/login', function(req, res) {
 	res.render('expert', {
@@ -600,4 +598,4 @@ wtwitter.init(io,
 
 	});
 
-server.listen(8002);
+server.listen(443);
