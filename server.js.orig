@@ -64,7 +64,7 @@ var fileServer = new nodestatic.Server(__dirname + '/public/static');
 app.engine('html', require('ejs').renderFile);
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 443);
+  app.set('port', process.env.PORT || 80);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'html');
   app.set('view options', {layout: false});
@@ -361,6 +361,15 @@ app.get('/login', function(req, res) {
 	res.render('login', {
 	});
 });
+<<<<<<< HEAD
+
+app.get('/test', function(req,res){
+	
+	fileServer.serveFile('/wiseApp.xml', 200, {}, req, res);
+
+});
+
+=======
 /*
 app.post('/signup', function(req, res) {
 	
@@ -379,6 +388,7 @@ app.post('/login', function(req, res) {
 
 	})
 });*/
+>>>>>>> 5e0a5defd70a7682e87a089f7fd3b17b9954d10a
 //app.get('/', function(req, res){
 //	res.render('login', {
 		/*user : dummyUser,
@@ -589,4 +599,4 @@ wtwitter.init(io,
 
 	});
 
-server.listen(443);
+server.listen(80);
