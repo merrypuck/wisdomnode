@@ -1,0 +1,200 @@
+<html>
+<head>
+	<title>Moderator View</title>
+	<!--<script src="https://live.wisdom.ly/socket.io/socket.io.js"></script>-->
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="js/clientside_groupchat.js"></script>
+	<script src="js/clientside_notes.js"></script>
+	<script src="js/clientside_agenda.js"></script>
+	<script src="js/clientside_qna.js"></script>
+	<script src="js/clientside_profile.js"></script>
+	<script src="js/wisdom-twitter-client.js"></script>
+	<script src="js/script.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="http://code
+	.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="stylesheets/css/mostyle.css">
+	<link rel="stylesheet" type="text/css" href="stylesheets/font-awesome/css/font-awesome.css">
+	<script>
+
+	wisdom = {
+		global : {
+			userid : "kevin@wisdom.ly",
+			sesssionid: "666"
+		},
+		user : {
+			
+			userId : '12345',
+			firstName : 'Kevin',
+			lastName : 'Miller',
+			email : 'kevin@wisdom.ly',
+			profileImageUrl : '',
+			bio : "Boss",
+			linkedinUrl : 'http://www.linkedin.com/pub/mukund-jha/13/964/a15'
+		},
+		talk : {
+			talkId : '883nnew39231nn321',
+			talkTitle : 'Waste Management in Urban settings.',
+			startTime : 1375763389,
+			status : 'LIVE',
+			info : {
+				numSpeakers : 3 
+			}
+		}
+	};
+
+	//var socket = io.connect('https://live.wisdom.ly');
+	var socket = io.connect('http://localhost:8002');
+
+	var newChat = ChatClient();
+	newChat.init(socket, wisdom);
+
+	var twit = TwitterClient();
+	twit.init(socket, $);
+
+	var profile = ProfileClient();
+	profile.init(socket);
+
+	var USER_UPDATE = "wprofile-user-update";
+
+	socket.on('connect', function() {
+		console.log('hola');
+		socket.emit(USER_UPDATE, wisdom.user);
+	});
+
+
+	$(function(){
+
+	// subscribe on page load.
+	twit.subscribe();
+
+		// when the client clicks SEND
+		$('#enterchat').click( function() {
+			var message = $('#chatdata').val();
+			$('#chatdata').val('');
+			// tell server to execute 'sendchat' and send along message as parameter
+			console.log("wisdom : " +  JSON.stringify(wisdom));
+			var data = {
+				firstName : wisdom.user.firstName,
+				payload : message
+			}
+			console.log('this data is ' + JSON.stringify(data));
+			newChat.sendMessage(data);
+		});
+
+		// when the client hits ENTER on their keyboard
+		$('#enterchat').keypress(function(e) {
+			if(e.which == 13) {
+				$(this).blur();
+				$('#chatdata').focus().click();
+			}
+		});
+
+
+	});
+
+// Twitter updateTweet overloading.
+
+twit.updateTweet = function(tweet) {
+	if(tweet.hasOwnProperty('text') && 
+		tweet.hasOwnProperty('user') &&
+		tweet['user'].hasOwnProperty('screen_name')) {
+		var htm = 
+	'<div class="twitterMessageBox"> <div style="width:80%;float:left;">' + 
+	'<div class="twitterMessage" style="">"' + tweet.text +
+	' "</div> <div class="twitterName">@' + tweet.user.screen_name +
+	'</div> </div> <div class="twitterIcon" style="width:30px;">' + 
+	'<i class="icon-twitter" style="text-decoration: none;">' + 
+	'</i></div></div>';
+
+	$("#socialFeed").append(htm);
+}
+}
+
+function sendtweet(){
+	//placeholder for the moderator sending a tweet
+	console.log("NOT SENDING A TWEET!");
+}
+
+newChat.joinChat = function(chatlog) {
+	for(var i = 0; i < chatlog.length; i++) {
+		$('#conversation').append('<div class=\'chatmessagebox\'><div class=\'chatname\'>' + chatlog[i].username + '</div><div class=\'chatmessage\'>' + chatlog[i].messageData + '</div></div>');
+
+	}
+};
+newChat.displayChat = function(username, message) {
+	$('#conversation').append('<div class=\'chatmessagebox\'><div class=\'chatname\'>' + username + '</div><div class=\'chatmessage\'>' + message + '</div></div>');
+};
+
+
+
+</script>
+
+<html>
+
+<body>
+
+	<div id='main-container' class='backgroundClass'>
+		<div id='header'>
+			<div id='hostLogo'></div>
+			<h1>Moderator Panel For:<br>Solid Waste Management and Climate Change</h1>
+		</div>
+
+		<div id='leftBar' class='backgroundClass' style='margin-left:60px;'>
+			<div id='social-tab'>
+				<i class="icon-twitter" style='margin-left:50px;'></i> <span id='socialTitle'>Social Feed</span>
+			</div>
+			<div id='socialFeed-container'>
+				<div id="socialFeed"></div>
+			</div>
+			<div class='inputComponent'>
+				<input type="text" id="newquestionbox" value="Send a tweet!" onFocus="this.value=''"  />
+				<input type="button" id='submitnewtweet' value="Tweet" onclick='sendtweet();'/><br>
+			</div>			
+
+		</div>
+
+
+		<div id='middleBar' class='backgroundClass'>
+			
+			<div id='chat-tab' >
+				<i class="icon-comments"></i> CHAT
+			</div>
+			<div id='conversation'>
+				<div class="chatmessagebox">
+					a few words...
+
+				</div>
+			</div>
+				<div class='inputComponent'>
+					<input id='chatdata' value="Submit a Message" onFocus="this.value=''"/>
+					<input id='enterchat' type='button' value='SEND' />
+				</div>
+
+			
+		</div>
+		<div id='rightBar' class='backgroundClass'>
+			
+			<div id='support-tab' >
+				<i class="icon-cog"></i> SUPPORT CHAT
+			</div>
+			<div id='supportConversaton'>
+				<div class="chatmessagebox">
+					a few words...
+
+				</div>
+			</div>
+				<div class='inputComponent'>
+					<input id='supportchatdata' value="Submit a Message" onFocus="this.value=''"/>
+					<input id='supportenterchat' type='button' value='SEND' />
+				</div>
+
+			
+		</div>
+
+
+	</div>
+</body>
+
+</html>

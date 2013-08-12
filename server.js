@@ -18,12 +18,12 @@
 // Required dependencies. 
 
 var express = require('express');
-//var http = require('http');
-var https = require('https');
+var http = require('http');
+//var https = require('https');
 var fs = require('fs');
 var path = require('path');
 var crypto = require('crypto');
-var bcrypt = require('bcrypt');
+//var bcrypt = require('bcrypt');
 var SALT_WORK_FACTOR = 10;
 var mongoose = require('mongoose');
 var mime  = require('mime');
@@ -53,7 +53,8 @@ var options = {
 	ca: fs.readFileSync('livewisdomlyca.pem')
 }
 
-var server = https.createServer(options, app);
+//var server = https.createServer(options, app);
+var server = http.createServer(app);
 
 mongoose.connect('mongodb://localhost/wisdom1');
 var db = mongoose.connection;
@@ -64,7 +65,7 @@ var fileServer = new nodestatic.Server(__dirname + '/public/static');
 app.engine('html', require('ejs').renderFile);
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 443);
+  app.set('port', process.env.PORT || 8002);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'html');
   app.set('view options', {layout: false});
@@ -107,7 +108,8 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new LinkedInStrategy({
     consumerKey: LINKEDIN_API_KEY,
     consumerSecret: LINKEDIN_SECRET_KEY,
-    callbackURL: "https://live.wisdom.ly/auth/linkedin/callback",
+    callbackURL: "http://localhost:8002/auth/linkedin/callback",
+    //callbackURL: "https://live.wisdom.ly/auth/linkedin/callback",
     profileFields: ['id', 'first-name', 'last-name', 'email-address', 'headline','picture-url'] 
   },
   function(token, tokenSecret, profile, done) {
@@ -361,6 +363,15 @@ app.get('/login', function(req, res) {
 	res.render('login', {
 	});
 });
+
+app.get('/moderator', function(req, res){
+
+	res.render('moderator',{
+		user: "kevin@wisdom.ly"
+	});
+
+});
+
 /*
 app.post('/signup', function(req, res) {
 	
@@ -589,4 +600,4 @@ wtwitter.init(io,
 
 	});
 
-server.listen(443);
+server.listen(8002);
