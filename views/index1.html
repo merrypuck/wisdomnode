@@ -15,15 +15,39 @@
 			<center>
 			<div id='linkedIn-signin'><a href="/auth/linkedin"><img src='http://airbump.me/img/user/registration/linkedin-signin.png'/></a>
 			</div>
+			<br />
 
-			<div id='twiter-signin' style=' height:30px; overflow:hidden; margin-left:20px;'><a href="/auth/linkedin"><img style='width:160px;height:32px;' src="http://artornot.info/assets/sign-in-with-twitter-a71f9403376fe2560a99d8ee2065a7a6.png"/></a></div>
+			<div id='twiter-signin' style=' height:30px; overflow:hidden; margin-left:20px;'><a href="/auth/twitter"><img style='width:160px;height:32px;' src="http://artornot.info/assets/sign-in-with-twitter-a71f9403376fe2560a99d8ee2065a7a6.png"/></a></div>
 			</center>
 			<br>
 		</div>
+		<br />
+		<br />
+		<form action='/signup' method='post'>
+			<label>First Name:</label>
+			<input name='firstName' type='text'/>
+			<label>Last Name:</label>
+			<input name='lastName' type='text'/>
+			<label>Email:</label>
+			<input name='email' type='text' />
+			<label>Password:</label>
+			<input name='password' type='password' />
+			<input value='Sign up' type='submit' />
+		</form>
+		<br />
+		<form action='/login' method='post'>
+			<label>Email:</label>
+			<input name='email' type='text' />
+			<label>Password:</label>
+			<input name='email' type='text' />
+			<input value='Login' type='submit' />
+		</form>
+
 
 		<% } else { %>
 		<h2>Hello, <%= user.displayName %>.</h2>
 		<img src="<%= user._json.pictureUrl %>">
+		<img src="<%= user.photos[0].value %>">
 		<h2><%= user._json.emailAddress %><h2>
 			<% } %>
 
