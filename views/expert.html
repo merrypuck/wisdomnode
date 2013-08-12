@@ -1,5 +1,5 @@
-<!--<script src="http://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002/socket.io/socket.io.js"></script>-->
-<script src="/socket.io/socket.io.js"></script>
+<script src="https://live.wisdom.ly/socket.io/socket.io.js"></script>-->
+<!--<script src="/socket.io/socket.io.js"></script>-->
 <script src="js/clientside_groupchat.js"></script>
 <script src="js/clientside_notes.js"></script>
 <script src="js/clientside_agenda.js"></script>
@@ -41,8 +41,8 @@ wisdom = {
 	}
 };
 
-//var socket = io.connect('http://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002');
-var socket = io.connect('http://localhost:8002');
+var socket = io.connect('https://live.wisdom.ly');
+//var socket = io.connect('http://localhost:8002');
 
 var newChat = ChatClient();
 newChat.init(socket, wisdom);
