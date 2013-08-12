@@ -58,7 +58,7 @@ body {
 		
 #rightBar {
 	float:right;
-	height:508px;
+	height:450px;
 	width:263px;
 	border: 1px solid #E0E0E0;
 	
@@ -148,7 +148,7 @@ body {
 
 #leftBar {
 	float:left;
-	height:508px;
+	height:450px;
 	width:277px;
 	border: 1px solid #E0E0E0;
 }
@@ -175,7 +175,7 @@ body {
 
 #social-tab {
 width: 99%;
-height: 15px;
+height: 20px;
 border-left: none;
 border-right: none;
 border: 1px solid #E0E0E0;
@@ -186,14 +186,13 @@ font-weight: 900;
 font-family: Helvetica;
 text-transform: uppercase;
 text-align: center;
-line-height: 16px;
+line-height: 10px;
 color: #2A3C57;
 
 }
 #social-feed {
-	
 	width:276px;
-	height:450px;
+	height:400px;
 	background: #fbfbfc;
 }
 /**
