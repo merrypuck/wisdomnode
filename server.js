@@ -52,12 +52,34 @@ mongoose.connect('mongodb://localhost/wisdom1');
 var db = mongoose.connection;
 var fileServer = new nodestatic.Server(__dirname + '/public/static');
 
+var serverAddress = "localhost";
+var serverPort = 8002;
+process.argv.forEach(function(val, index, array) {
+  console.log(" args " + index + ': ' + val);
+  var arr = val.split("=")
+  if (arr[0] === "serverAddress") {
+  	serverAddress = arr[1];
+  }
+  if (arr[0] === "serverPort") {
+  	serverPort = arr[1]; 
+  }
+});
 
+
+console.log("Hosting application on " + serverAddress +
+	" Port " + serverPort);
+
+var hostName = "http://" + serverAddress;
+if (serverPort != "80") {
+	hostName += ":" + serverPort;
+}
+
+console.log("HostName " + hostName);
 
 app.engine('html', require('ejs').renderFile);
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 8002);
+  app.set('port', serverPort);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'html');
   app.set('view options', {layout: false});
@@ -100,7 +122,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new LinkedInStrategy({
     consumerKey: LINKEDIN_API_KEY,
     consumerSecret: LINKEDIN_SECRET_KEY,
-    callbackURL: "http://localhost:8002/auth/linkedin/callback",
+    callbackURL: hostName + "/auth/linkedin/callback",
     profileFields: ['id', 'first-name', 'last-name', 'email-address', 'headline','picture-url'] 
   },
   function(token, tokenSecret, profile, done) {
@@ -122,7 +144,7 @@ passport.use(new LinkedInStrategy({
 passport.use(new TwitterStrategy({
     consumerKey: TWITTER_CONSUMER_KEY,
     consumerSecret: TWITTER_CONSUMER_SECRET,
-    callbackURL: "http://127.0.0.1:8002/auth/twitter/callback"
+    callbackURL: hostName + "/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, done) {
     // asynchronous verification, for effect...
@@ -197,76 +219,26 @@ var userSchema = new Schema({
 	password : { type: String, required: true },
 }, {collection : 'users1'});
 
-// TODO(mj): Move this to another file that would contain all the schemas.
-/*var userSchema = new Schema({
-	firstName : String,
-	lastName : String,
-	email : String,
-	password : String, // Store the hash here.
-	userProfile : [profileSchema],
-	organization : String,
-	title : String,
 
-}, {collection: 'users' });
 
-var profileSchema = new Schema({
-	location : String,
-	organization : String,
-	title : String,
-	linkedinProfile : [linkedinProfileSchema],
-	activity : [activitySchema],
-	profileImage : String
-
-});
-
-var linkedinProfileSchema = new Schema({
-
-});
-
-var activitySchema = new Schema({
-	lastLogin: String,
-	pointer: String
-});*/
 
 var User1 = mongoose.model('User1', userSchema);
 
-	var cb = function(obj) {
-		console.log("this is a callback " + obj.username);
-	}
-
-var dict = {'username' : 'mukund'};
-console.log("Mongoose Test");
-	console.log(" upper keys : " + Object.keys(User1));
-	mongooseW.findFirst(User1, {'username' :'mukund'}, cb);
-
 var io = require('socket.io').listen(server);
-
-var dummyTalk = {
-	talkId : '883nnew39231nn321',
-	talkTitle : 'Waste Management in Urban settings.',
-	startTime : 1375763389,
-	status : 'LIVE', // this should be an enum.
-	info : {numSpeakers : 3},
-}
-
-var dummyTalk = {
-	talkId : '883nnew39231nn321',
-	talkTitle : 'Waste Management in Urban settings.',
-	startTime : 1375763389,
-	status : 'LIVE', // this should be an enum.
-	info : {numSpeakers : 3},
-}
 
 
 app.get('/', function(req, res) {
 	res.render('index', {
-		
-		user:req.user,
-
-	})
+		hostUrl : hostName
+	});
 });
 
-		
+app.get('/moderator', function(req, res) {
+	res.render('moderator', {
+		hostUrl : hostName
+	});
+});
+
 app.get('/expert1', function(req, res) {
 	ensureAuthenticated(req, res, function() {
 		if(req.user.provider === 'twitter') {
@@ -306,23 +278,12 @@ app.get('/expert1', function(req, res) {
 			});
 		}
 		res.render('expert1', {
-			user: userCred
+			user: userCred,
+			hostUrl : hostName
 		});
 	});
 });
 
-app.get('/expert', function(req, res) {
-	console.log(JSON.stringify(req.user));
-	res.render('expert', {
-		user:req.user
-	});
-});
-
-app.get('/login', function(req, res) {
-	req.logout();
-	res.render('login', {
-	});
-});
 
 var generateRandomToken = function () {
   var user = this,
@@ -352,162 +313,13 @@ app.post('/signup', function(req, res) {
 	});
 
     res.render('expert1', {
-    	user : userCred
+    	user : userCred,
+    	hostUrl : hostName
     });
 
 
 });
 
-/*
-app.post('/login', function(req, res) {
-	res.render('expert', {
-		firstName : req.param('firstName'),
-		lastName : req.param('lastName'),
-		email : req.param('email'),
-		userId : req.param('userId')
-
-	})
-});*/
-//app.get('/', function(req, res){
-//	res.render('login', {
-		/*user : dummyUser,
-		talk : dummyTalk,
-		serverAddress : "http://localhost:8002"*/
-//		});
-//});
-
-/*app.post('/', function(req, res) {
-	var user = new User1({
-		username : req.param('username'),
-		password : req.param('password')
-	});
-	user.save(function(err) {
-		if (err){
-			console.log('error');
-		}
-	});
-
-	res.render('expert', {
-		username : req.param('username')
-	});
-
-
-});
-
-
-	var obj1 = null;
-
-	var f = User1.findOne({'username' : "mukund"}, function(err, obj) {
-		if(obj === null) {
-			console.log(" f the fucking object is null");
-			return null;
-		}
-		else if(obj === undefined) {
-			console.log("f the fucking object is undefined");
-			return 'undefined';
-		}
-		else {
-			cobj = JSON.parse(JSON.stringify(obj))
-			if(cobj.username === 'mukund') {
-				console.log('cobj.username is ' + cobj.username);
-			} 
-			obj1 = cobj;
-			//console.log("f  object " + obj.toObject());
-		//return cobj; //obj.toObject();
-		res.render('success', {
-		userData : cobj,
-		uname : cobj.username
-	});
-		}
-	});
-
-	//console.log("f = " + Object.keys(obj1) + " , f.username = " + f.username 
-	//	+ " f = " + JSON.stringify(f));
-	
-
-//});
-
-
-app.get('/signup', function(req, res) {
-	res.render('signup', {})
-});
-
-
-app.post('/signup', function(req, res) { 
-	userCred = {
-		firstName : req.param('firstName'),
-		lastName : req.param('lastName'),
-		email: req.param('email'),
-		password : req.param('password'),
-		userId : req.param('email') + 'bobdylan'
-	};
-
-	authentication.saveToDB(User1, userCred);
-
-	res.render('expert', {
-						firstName : userCred.firstName,
-						lastName : userCred.lastName,
-						email : userCred.email,
-						userId : userCred.userId
-	});
-
-});
-
-app.get('/login', function(req, res) {
-	res.render('login')
-});
-
-app.post('/login', function(req, res) {
-	if(mongooseW.findFirst(User1, 'email', req.param('email')) != null) {
-		var userCred = mongooseW.findFirst(User1, 'email', req.param('email'));
-		if(userCred.password === req.param('password')) {
-			res.redirect('expert1', {});
-		}
-	}
-	res.redirect('/expert')
-});
-app.get('/expert1', function(req, res) {
-	userCred = mongooseW.findFirst(User1, 'email', req.param('findFirst'));
-	res.render('expert', {
-		firstName : userCred.firstName,
-		lastName : userCred.lastName,
-		email : userCred.email,
-		userId : userCred.userId
-	});
-
-});
-
-app.get('/expert', function(req, res) {
-	userCred = {
-		firstName : req.param('firstName'),
-		lastName : req.param('lastName'),
-		email: req.param('email'),
-		password : req.param('password'),
-		userId : req.param('email') + 'bobdylan'
-	};
-	res.render('expert', {
-		firstName : userCred.firstName,
-		lastName : userCred.lastName,
-		email : userCred.email,
-		userId : userCred.userId
-	});
-});
- app.post('/expert', function(req, res) {
-	res.render('expert',{
-		username : req.param('username'),
-		//title: req.session.user
-		});
-	//res.cookie('remember', '1', { maxAge: 120000 })
-	//req.session.username = user.username;
-});
-
-app.get('/hangout', function(req, res){
-	fileServer.serveFile('/wiseApp.xml', 200, {}, req, res);
-
-
-});
-
-*/
 
 wtwitter.init(io,
 	{
@@ -579,4 +391,4 @@ wtwitter.init(io,
 
 	});
 
-server.listen(8002);
+server.listen(serverPort);
