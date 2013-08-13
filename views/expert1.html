@@ -3,7 +3,7 @@
 <script src="js/clientside_groupchat.js"></script>
 <script src="js/clientside_notes.js"></script>
 <script src="js/clientside_agenda.js"></script>
-<script src="js/clientside_qna.js"></script>
+<!--<script src="js/clientside_qna.js"></script>-->
 <script src="js/clientside_profile.js"></script>
 <script src="js/wisdom-twitter-client.js"></script>
 <script src="js/script.js"></script>
@@ -42,7 +42,7 @@ wisdom = {
 
 
 //var socket = io.connect('http://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002');
-var socket = io.connect('http://localhost:8002');
+var socket = io.connect('http://127.0.0.1:8002');
 
 var newChat = ChatClient();
 newChat.init(socket, wisdom);
@@ -56,9 +56,9 @@ agenda.init(socket);
 var twit = TwitterClient();
 twit.init(socket, $);
 
-var QnAModule = QnAClient();
+/*var QnAModule = QnAClient();
 QnAModule.initialize(socket,wisdom.global.sessionid,wisdom.global.userid,wisdom.user.firstName,renderQnA);
-
+*/
 var profile = ProfileClient();
 profile.init(socket);
 
@@ -204,6 +204,14 @@ $('#information-tab').click( function(){
 				$('#chatdata').focus().click();
 			}
 		});
+		// when client first clicks on chat box, remove value
+		var ifClicked = false;
+		$('#chatdata').click(function() {
+			if(ifClicked === false) {
+				ifClicked = true;
+				$('#chatdata').val('');
+			}
+		});
 
 		//send and save notes after 5 second after user stops typing
 		//5 second timer doesn't work...
@@ -333,8 +341,8 @@ profile.spectatorLeft = function(userId) {
 
 				</div>
 				<div class='inputComponent'>
-				<input id='chatdata' value="Submit a Message" onFocus="this.value=''"/>
-				<input id='enterchat' type='button' value='SEND' />
+				<input id='chatdata' value="Submit a Message"/>
+				<input id='enterchat' type='button' value='SEND'/>
 				</div>
 			</div>
 		</div>

@@ -59,12 +59,13 @@ mongoose.connect('mongodb://localhost/wisdom1');
 var db = mongoose.connection;
 var fileServer = new nodestatic.Server(__dirname + '/public/static');
 
-
+var port =8002;
+var serverAddr = "http://127.0.0.1"
 
 app.engine('html', require('ejs').renderFile);
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 8002);
+  app.set('port', process.env.PORT || port);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'html');
   app.set('view options', {layout: false});
@@ -204,6 +205,31 @@ var userSchema = new Schema({
 	password : { type: String, required: true },
 }, {collection : 'users1'});
 
+// Bcrypt middleware
+userSchema.pre('save', function(next) {
+	var user = this;
+
+	if(!user.isModified('password')) return next();
+
+	bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+		if(err) return next(err);
+
+		bcrypt.hash(user.password, salt, function(err, hash) {
+			if(err) return next(err);
+			user.password = hash;
+			next();
+		});
+	});
+});
+
+// Password verification
+userSchema.methods.comparePassword = function(candidatePassword, cb) {
+	bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+		if(err) return cb(err);
+		cb(null, isMatch);
+	});
+};
+
 // TODO(mj): Move this to another file that would contain all the schemas.
 /*var userSchema = new Schema({
 	firstName : String,
@@ -340,7 +366,9 @@ app.get('/moderator', function(req, res){
 
 });
 
-/*
+app.get('/signup', function(req, res) {
+	res.render('login')
+});
 app.post('/signup', function(req, res) {
 	userCred = {
 			firstName : req.body.firstName,
@@ -587,4 +615,4 @@ wtwitter.init(io,
 
 	});
 
-server.listen(8002);
+server.listen(port);

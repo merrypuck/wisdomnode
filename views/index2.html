@@ -1,0 +1,148 @@
+<script src="http://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002/socket.io/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+
+<script>
+var socket = io.connect('http://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002');
+	// on connection to server, ask for user's name with an anonymous callback
+	socket.on('connect', function(){
+		// call the server-side function 'adduser' and send one parameter (value of prompt)
+		socket.emit('adduser', prompt("What's your name?"));
+	});
+	// listener, whenever the server emits 'updatechat', this updates the chat body
+	socket.on('updatechat', function (username, data) {
+		$('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
+	});
+	// listener, whenever the server emits 'updateusers', this updates the username list
+	socket.on('updateusers', function(data) {
+		$('#users').empty();
+		$.each(data, function(key, value) {
+			$('#users').append('<div>' + key + '</div>');
+		});
+	});
+	// listener, for updateAgenda, this changes agenda item color to green
+	socket.on('updateAgenda', function(data) {
+		$('#' + data).css('background-color', 'green')
+	});
+	socket.on('changeTopic', function(topic, data) {
+		alert(topic + " " + data)
+	})
+
+	// on load of page
+	$(function(){
+		// when the client clicks SEND
+		$('#enterchat').click( function() {
+			var message = $('#chatdata').val();
+			$('#chatdata').val('');
+			// tell server to execute 'sendchat' and send along one parameter
+			socket.emit('sendchat', message);
+		});
+
+		// when the client hits ENTER on their keyboard
+		$('#enterchat').keypress(function(e) {
+			if(e.which == 13) {
+				$(this).blur();
+				$('#chatdata').focus().click();
+			}
+		});
+	});
+
+</script>
+<html>
+	<head>
+
+		<title>Wastewise</title>
+
+		<style>
+			body {
+				margin:0;
+				padding:0;
+			}
+			#header {
+				width:100%;
+				height:50px;
+				background-color:green;
+			}
+			#agenda {
+				height:414px;
+				width:14.5%;
+				border:1px solid black;
+				float:left;
+			}
+			#notes {
+				float:left;
+				height:414px;
+				width:15%;
+				border:1px solid black;
+			}
+			#video {
+				width:40%;
+				height:415px;
+				float:left;
+				margin-left:2px;
+			}
+			#qa {
+				width:15%;
+				height:414px;
+				float:right;
+				border:1px solid black;
+			}
+			#chatroom {
+				width:14.5%;
+				height:414px;
+				float:right;
+				border:1px solid black;
+			}
+			#conversation {
+				height:100px;
+				overflow:auto;
+			}
+			#agenda ul {
+				list-style:none;
+			}
+			.agenda-item {
+				width:100px;
+				height:50px;
+				margin:10px;
+				background-color:red;
+				color:white;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id='header'></div>
+		<div id='agenda'>
+			<h3>Agenda</h3>
+			<ul>
+				<li id='agenda-li1' class='agenda-item'>
+					<div id='topic1'>Topic 1</div>
+					</li>
+				<li id='agenda-li2' class='agenda-item' contenteditable>
+					<div id='topic1'>Topic 2</div>
+				</li>
+				<div id="editor" contenteditable>click to edit</div>
+			</ul>
+		</div>
+
+
+		<div id='notes'>
+			<h3>Notes</h3>
+		</div>
+
+		<div id='video'><iframe width="100%" height="100%" src="//www.youtube.com/embed/RAJgGIQ3JHk" frameborder="0" allowfullscreen></iframe></div>
+
+		<div id='qa'></div>
+
+		<div id='chatroom'>
+			<h3>Chatroom</h3>
+			<input id="chatdata" style="width:100px;" />
+			<input type="button" id="enterchat" value="send" />
+			<div id="conversation"></div>
+			<div id="users"></div>
+		</div>
+
+	</div>
+
+	</body>
+
+</html>
