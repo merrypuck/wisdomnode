@@ -253,11 +253,14 @@ twit.updateTweet = function(tweet) {
 newChat.joinChat = function(chatlog) {
 	for(var i = 0; i < chatlog.length; i++) {
 		$('#conversation').append('<div class=\'chatmessagebox\'><div class=\'chatname\'>' + chatlog[i].username + '</div><div class=\'chatmessage\'>' + chatlog[i].messageData + '</div></div>');
-
 	}
 };
 newChat.displayChat = function(username, message) {
 	$('#conversation').append('<div class=\'chatMessageBox\'><div class=\'chatName\'>' + username + '</div><div class=\'chatMessage\'>' + message + '</div></div>');
+
+	 $("#conversation").animate({
+        scrollTop: $("#conversation").scrollHeight
+    }, 300);
 };
 
 
