@@ -74,7 +74,8 @@ if (serverPort != "80") {
 	hostName += ":" + serverPort;
 }
 
-console.log("HostName " + hostName);
+console.log("HostName " + hostName +
+	" Port " + serverPort);
 
 app.engine('html', require('ejs').renderFile);
 
@@ -181,7 +182,7 @@ app.get('/auth/twitter/callback',
   									failureRedirect: '/login' }),
   function(req, res) {
   	console.log('user info from twitter: ' + JSON.stringify(req.user));
-    res.redirect('/expert1');
+    res.redirect('/bewastewise');
   });
 
 app.get('/auth/linkedin',
@@ -194,7 +195,7 @@ app.get('/auth/linkedin',
 app.get('/auth/linkedin/callback',
   passport.authenticate('linkedin', { failureRedirect: '/login' }),
   function(req, res) {
-    res.redirect('/expert1');
+    res.redirect('/bewastewise');
   });
 
 app.get('/logout', function(req, res){
@@ -239,7 +240,7 @@ app.get('/moderator', function(req, res) {
 	});
 });
 
-app.get('/expert1', function(req, res) {
+app.get('/bewastewise', function(req, res) {
 	ensureAuthenticated(req, res, function() {
 		if(req.user.provider === 'twitter') {
 			userCred = {
@@ -248,16 +249,6 @@ app.get('/expert1', function(req, res) {
 				lastName : req.user.displayName.split(' ')[1],
 				profilePic : req.user.photos[0].value
 	      	};
-	/*var user = new User1();
-		user.userId = userCred.userId;
-		user.firstName = userCred.firstName;
-		user.lastName = userCred.lastName;
-		user.profilePic = userCred.profilePic;
-		user.save(function(err) {
-		if (err){
-			console.log('error');
-		}
-	});*/
     	}
 		else if(req.user.provider === 'linkedin') {
 			userCred = {
@@ -296,7 +287,7 @@ var generateRandomToken = function () {
   return token;
 };
 
-app.post('/signup', function(req, res) {
+app.post('/bewastewise', function(req, res) {
 	userCred = {
 			userId : generateRandomToken(),
 			firstName : '(Guest) ' + req.body.nickname,
