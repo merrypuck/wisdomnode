@@ -101,37 +101,42 @@ body {
 	border: 1px solid #E0E0E0;
 	background: #fbfbfc;
 }
-.chatMessageBox {
-	float:left;
-	height:auto;
-	width:100%;
-	margin:1px;
-	padding:4px;
-	background-color: #fbfbfc;
-	border:1px solid #E0E0E0;
+
+.chatmessagebox {
+float: left;
+height: auto;
+width: 100%;
+margin: 1px;
+padding: 4px;
+background: #fbfbfc;
 }
-.chatName {
-	text-transform: uppercase;
-	line-height: 12px;
-	font-size: 9px;
-	font-family: Helvetica;
-	color: #2A3C57;
-	font-weight: 900;
-	width:50px;
-	float: left;
-	padding-top: 1px;
-	word-wrap: break-word;
+
+.chatmessage {
+width: 180px;
+height: auto;
+line-height: 13px;
+font-size: 10px;
+font-family: Helvetica;
+color: #2A3C57;
+font-size: 10px;
+float: left;
+text-transform: small-caps;
 }
-.chatMessage {
-	width:180px;
-	height:auto;
-	line-height: 13px;
-	font-family: Helvetica;
-	color: #2A3C57;
-	font-size: 10px;
-	float: left;
-	word-wrap: break-word;
-}		
+
+.chatname {
+text-transform: uppercase;
+line-height: 12px;
+font-size: 10px;
+font-family: Helvetica;
+color: #3A5E94;
+font-weight: 900;
+width: 50px;
+float: left;
+padding-top: 1px;
+padding-left: 10px;
+}
+
+		
 
 #qa {
 	height: 85%;
@@ -190,9 +195,10 @@ color: #2A3C57;
 
 }
 #social-feed {
-	width:100%;
-	height:390px;
+	width:99%;
+	height:392px;
 	background: #fbfbfc;
+	overflow: auto;
 }
 /**
 
@@ -286,11 +292,12 @@ float: right;
 .twittermessagebox {
 float: left;
 margin: 1px;
+margin-top: 2px;
 padding-left: 0px;
 background: rgba(51, 204, 255, 0.18);
 border: 1px solid rgba(51, 124, 255, 0.15);
 border-radius: 23px;
-width: 100%;
+width: 95%;
 margin-top: 2px;
 }
 
@@ -524,11 +531,23 @@ font-size: 26px;
 	border-radius:20px;
 }
 #information1 {
-	float:left;
+	float:relative;
 	height:100%;
 	width:100%;
 	display:none;
 	background-color: #edf0f1;
+	overflow: auto;
+	overflow-y:hidden;
+ 	overflow-x:auto;
+}
+#information1 ul {
+	list-style: none;
+	margin:0;
+	padding:0;
+	display: block;
+	height: 110px;
+  	/* Max width here, for users without Javascript */
+  	width: 1412px;
 }
 #panelists-tab1 {
 	height:20px;
@@ -611,6 +630,7 @@ font-size: 26px;
 	font-size: 9px;
 	font-weight: 900;
 	text-transform: uppercase;
+	color:navy;
 }
 
 .panelistBioTitle {
@@ -619,6 +639,7 @@ font-size: 26px;
 	font-weight: 900;
 	text-transform: uppercase;
 	margin-top: -5px;
+	color:navy;
 }
 
 .panelistMoreInfoTitle {
@@ -657,11 +678,27 @@ font-size: 26px;
 }
 
 .panelistSocial {
-	width:55px;
-	padding-top:1px;
-	padding-bottom:1px;
-	background-color:#e5eefb;
-	border-radius:20px;
+	width: 30px;
+padding-top: 1px;
+padding-bottom: 1px;
+background-color: #e5eefb;
+border-radius: 20px;
+}
+
+.icon-linkedin-sign {
+text-decoration: none;
+font-size: 18px!important;
+}
+
+.icon-twitter-sign {
+text-decoration: none;
+display: none;
+}
+
+
+.icon-facebook-sign {
+text-decoration: none;
+display: none;
 }
 
 .panelistBioBox {
@@ -1056,21 +1093,21 @@ font-size: 26px;
 }
 
 .discussionInfo {
-   float:left;
-    width: 130px;
-	height: 125px;
-	margin: 1px;
-	padding: 4px;
-	font-size: 6px;
-   background:#fbfbfc;
-   border: 1px solid #E0E0E0;
-
+float: left;
+width: 600px;
+height: 125px;
+margin: 1px;
+padding: 4px;
+font-size: 12px;
+background: #fbfbfc;
+border: 1px solid #E0E0E0;
 }
 
 .discussionTitle {
-	font-size: 9px;
-	font-weight: 900;
-	text-transform: uppercase;
+font-size: 9px;
+font-weight: 900;
+text-transform: uppercase;
+color: navy;
 }
 
 .spectatorTitle {
@@ -1083,12 +1120,16 @@ font-size: 26px;
 	font-size: 10px;
 	font-weight: 900;
 	text-transform: uppercase;
+	color:navy;
 }
 
 .discussionText {
-	margin-top:5px;
-	font-size: 10px;
+margin-top: 5px;
+font-size: 12px;
+float: left;
+width: 580px;
 }
+
 
 
 
@@ -1140,7 +1181,7 @@ font-size: 26px;
 
 #resources {
 	float: left;
-	width: 130px;
+	width: 375px;
 	height: 125px;
 	margin: 1px;
 	padding: 4px;
@@ -1171,16 +1212,63 @@ font-size: 26px;
 	background-size:70px 70px; 
 }
 
-#avatar-tom {
-	background: url(images/tom.jpg) no-repeat;
+
+#avatar-brunner {
+	background: url(../../images/brunner.jpg) no-repeat;
+	background-size: 70px 70px;
 }
 
-#avatar-adebiyi {
-	background: url(images/adebiyi.jpg) no-repeat;
+#avatar-themelis {
+	background: url(../../images/themelis.jpg) no-repeat;
+	background-size: 70px 70px;
 }
 
-#avatar-ambani {
-	background: url(images/ambani.jpeg) no-repeat;
+#avatar-perinaz {
+	background: url(../../images/perinaz.jpg) no-repeat;
+	background-size: 70px 70px;
+}
+
+.icon-signout {
+	float: left;
+	padding-right: 2px;
+	font-size: 16px;
+	padding-left: 25px;
+	padding-top: 2px;
+}
+
+#logout-tab1 {
+	height: 20px;
+	width: 120px;
+	position: absolute;
+	right: 0px;
+	line-height: 21px;
+	background: #EFF4FA;
+	color: #2A3C57;
+	border: 1px solid #E0E0E0;
+	border-top: none;
+}
+
+.wastewiseInfo {
+float: left;
+width: 400px;
+height: 125px;
+margin: 1px;
+padding: 4px;
+font-size: 10px;
+background: #fbfbfc;
+border: 1px solid #E0E0E0;
+}
+
+.wastewiseTitle {
+font-size: 9px;
+font-weight: 900;
+text-transform: uppercase;
+color:navy;
+}
+
+.wastewiseText {
+margin-top: 5px;
+font-size: 12px;
 }
 
 .avatar-generic {
@@ -1222,18 +1310,20 @@ font-size: 26px;
 	color: #00aced;
 	font-size:10pt;
 	text-decoration: none;
+	display:none!important;
 }
 
 
-.icon-facebook-sigxn {
+.icon-facebook-sign {
 	color: #3B5998;
 	font-size:10pt;
 	text-decoration: none;
+	display:none!important;
 }
 
 .icon-linkedin-sign {
 	color: #007bb6;
-	font-size:10pt;
+	font-size:14pt;
 	text-decoration: none;
 
 }

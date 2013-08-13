@@ -336,7 +336,6 @@ var generateRandomToken = function () {
 };
 
 app.post('/signup', function(req, res) {
-	if(!session.userId) {}
 	userCred = {
 			userId : generateRandomToken(),
 			firstName : '(Guest) ' + req.body.nickname,
@@ -542,9 +541,11 @@ wtwitter.init(io,
 		//	topic = req.param('topic' + i.toString());
 		//	thisAgendaSession.addTopic(topic);
 		//};
-
+		clients = {};
 		io.sockets.on('connection', function(socket) {
-		
+
+			clients[socket.id] = socket;
+
 			//Connect to chatroom with username and socket
 			thisChatSession.joinChatroom('mukk', socket);
 			
@@ -568,7 +569,8 @@ wtwitter.init(io,
 				wtwitter.unsubscribe(socket);
 			});
 			socket.on('disconnect', function() {
-				// Unsubscribe from twitter feed.
+
+				delete clients[socket.id];
 				
 				console.log(socket.userId  + 'just disconnected!!!!!!!!!!!!!!!!!!!!!!!!!!!');
 				thisSpectatorSession.userLeaving(socket);
