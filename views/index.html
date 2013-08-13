@@ -2,8 +2,8 @@
 
 <head>
 <title>Login Page</title>
-<link rel="stylesheet" type="text/css" href="style-login.css">
-<link rel="stylesheet" type="text/css" href="social-login/css/zocial.css">
+<link rel="stylesheet" type="text/css" href="stylesheets/css/style-login.css">
+<link rel="stylesheet" type="text/css" href="stylesheets/social-login/css/zocial.css">
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800,300' rel='stylesheet' type='text/css'>
 
 <script type="text/javascript">
@@ -53,8 +53,8 @@ text-transform: uppercase;">Katrina Mitchell and Ranjith Annepu, Founders of Was
         	<h1 class="Title" style="font-size:30px;font-weight:400;">Welcome to the WasteWise Talk!</h1>
 
         <p style="padding-top:10px;padding-bottom:15px;font-size:14px;font-weight:500;">Click to Login with Linkedin or Twitter below</p>
-        <a href="#" class="zocial linkedin" style="font-size:15px;margin-right:10px;">Sign in with LinkedIn</a>
-        <a href="#" class="zocial twitter"  style="font-size:15px;margin-right:20px;">Sign in with Twitter</a><div>
+        <a href="/auth/linkedin" class="zocial linkedin" style="font-size:15px;margin-right:10px;">Sign in with LinkedIn</a>
+        <a href="/auth/twitter" class="zocial twitter"  style="font-size:15px;margin-right:20px;">Sign in with Twitter</a><div>
 
        <div style="width:500px;padding-top:10px;font-size:12px;line-height:14px;"> Please Note that other viewers will be able to see that you are viewing this talk. We believe this enhances your experience and allows you to better connect with the WasteWise community.</div>
 
@@ -62,11 +62,9 @@ text-transform: uppercase;">Katrina Mitchell and Ranjith Annepu, Founders of Was
         <a href="#" class="zocial guest" style="font-size:15px"  onClick="showhide('logininfo', 'block'); return false" >&nbsp;&nbsp;Sign in as guest&nbsp;&nbsp;</a></div>
  
         <div id="logininfo" style="display:none;"> <div style="width:45%;">
-<div style="float:right;padding-bottom:10px;padding-top:10px;">Nickname: <input id='nickname' type="text">  </div>
-<div></div>
-<div style="float:right;">Email: <input id='email' type="email"> </div>
-<div></div>
-<div style="float:right;padding-top:10px;"><input id="gobutton" type="submit" value="Submit"></div>
+<div style="float:left;padding-bottom:10px;padding-top:10px;">Nickname: <input id='nickname' type="text"><center><div style="font-size:14px; float:left; padding-left:100px">This will be visible to other viewers.</div></center></div>
+
+<center><div style="padding-top:10px;"><input id="gobutton" type="submit" value="Submit"></div></center>
 </div>
 
       </div>
