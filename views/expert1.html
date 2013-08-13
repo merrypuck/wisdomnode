@@ -26,7 +26,6 @@ wisdom = {
 		userId : '<%= user.userId %>',
 		'firstName' : '<%= user.firstName %>',
 		'lastName' : '<%= user.lastName %>',
-		'email' : '<%= user.email %>',
 		profileImageUrl : '<%= user.profilePic %>'
 	},
 	talk : {
@@ -285,18 +284,17 @@ agenda.changeTopic = function(topicId) {
 
 };
 profile.updateSpectators = function(users) {
+
 	for(var i = 0; i < users.length; i++) {
-		if($("#" + userData.userId).length == 0) {
 		$('#spectatorsList').prepend('<a href=><li id=\'' + users[i].userId + '\'><img src=\'' + users[i].profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + users[i].linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
 	};
 
 		/**$('#spectatorsList').append('<li><img src=\'' + users[i].profileImageUrl + '\'/><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + spectatorSocial + '\' + users[i].linkedinUrl + '\'><div id=\'' + spectatorSocial + '\'></div></a>' );*/
-	}
 
 };
 
 profile.newSpectator = function(userData) {
-	if($("#" + userData.userId).length == 0) {
+	if($("#" + userData.userId).length < 1) {
 	$('#spectatorsList').prepend('<li id=\'' + userData.userId + '\'><a><img src=\'' + userData.profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + userData.firstName + ' ' + userData.lastName + '</div><a href=\'' + userData.linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
 };
 };

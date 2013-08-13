@@ -19,6 +19,7 @@
 
 var express = require('express');
 var http = require('http');
+var https = require('https');
 var fs = require('fs');
 var path = require('path');
 var crypto = require('crypto');
@@ -45,18 +46,26 @@ var LocalStrategy = require('passport-local').Strategy;
 
 // Configuration settings.
 var app = express();
+
+var options = {
+	key: fs.readFileSync('livewisdomlykey.key'),
+	cert: fs.readFileSync('livewisdomly.crt'),
+	ca: fs.readFileSync('livewisdomlyca.pem')
+}
+
 var server = http.createServer(app);
 
 mongoose.connect('mongodb://localhost/wisdom1');
 var db = mongoose.connection;
 var fileServer = new nodestatic.Server(__dirname + '/public/static');
 
-
+var port =8002;
+var serverAddr = "http://127.0.0.1"
 
 app.engine('html', require('ejs').renderFile);
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 8002);
+  app.set('port', process.env.PORT || port);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'html');
   app.set('view options', {layout: false});
@@ -196,6 +205,31 @@ var userSchema = new Schema({
 	password : { type: String, required: true },
 }, {collection : 'users1'});
 
+// Bcrypt middleware
+userSchema.pre('save', function(next) {
+	var user = this;
+
+	if(!user.isModified('password')) return next();
+
+	bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+		if(err) return next(err);
+
+		bcrypt.hash(user.password, salt, function(err, hash) {
+			if(err) return next(err);
+			user.password = hash;
+			next();
+		});
+	});
+});
+
+// Password verification
+userSchema.methods.comparePassword = function(candidatePassword, cb) {
+	bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+		if(err) return cb(err);
+		cb(null, isMatch);
+	});
+};
+
 // TODO(mj): Move this to another file that would contain all the schemas.
 /*var userSchema = new Schema({
 	firstName : String,
@@ -268,13 +302,14 @@ app.get('/', function(req, res) {
 		
 app.get('/expert1', function(req, res) {
 	ensureAuthenticated(req, res, function() {
-		if(req.user.provider === 'twitter') {
-			userCred = {
-				userId : req.user.id,
-				firstName : req.user.displayName.split(' ')[0],
-				lastName : req.user.displayName.split(' ')[1],
-				profilePic : req.user.photos[0].value
-	      	};
+	console.log(JSON.stringify(req.body));
+	if(req.user.provider === 'twitter') {
+	userCred = {
+		userId : req.user.id,
+		firstName : req.user.displayName.split(' ')[0],
+		lastName : req.user.displayName.split(' ')[1],
+		profilePic : req.user.photos[0].value
+	      };
 	/*var user = new User1();
 		user.userId = userCred.userId;
 		user.firstName = userCred.firstName;
@@ -285,25 +320,25 @@ app.get('/expert1', function(req, res) {
 			console.log('error');
 		}
 	});*/
-    	}
-		else if(req.user.provider === 'linkedin') {
-			userCred = {
-				userId : req.user.id,
-				firstName : req.user.name.givenName,
-				lastName : req.user.name.familyName,
-				profilePic : req.user._json.pictureUrl
-			};
-			var user = new User1();
-			user.userId = userCred.userId;
-			user.firstName = userCred.firstName;
-			user.lastName = userCred.lastName;
-			user.profilePic = userCred.profilePic;
-			user.save(function(err) {
-				if (err){
-					console.log('error');
-				}
-			});
+    }
+	else if(req.user.provider === 'linkedin') {
+		userCred = {
+			userId : req.user.id,
+			firstName : req.user.name.givenName,
+			lastName : req.user.name.familyName,
+			profilePic : req.user._json.pictureUrl
+		};
+		var user = new User1();
+		user.userId = userCred.userId;
+		user.firstName = userCred.firstName;
+		user.lastName = userCred.lastName;
+		user.profilePic = userCred.profilePic;
+		user.save(function(err) {
+		if (err){
+			console.log('error');
 		}
+		});
+	}
 		res.render('expert1', {
 			user: userCred
 		});
@@ -323,34 +358,36 @@ app.get('/login', function(req, res) {
 	});
 });
 
-var generateRandomToken = function () {
-  var user = this,
-      chars = "_!abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-      token = new Date().getTime() + '_';
-  for ( var x = 0; x < 10; x++ ) {
-    var i = Math.floor( Math.random() * 62 );
-    token += chars.charAt( i );
-  }
-  return token;
-};
+app.get('/moderator', function(req, res){
 
+	res.render('moderator',{
+		user: "kevin@wisdom.ly"
+	});
+
+});
+
+app.get('/signup', function(req, res) {
+	res.render('login')
+});
 app.post('/signup', function(req, res) {
-	if(!session.userId) {}
 	userCred = {
-			userId : generateRandomToken(),
-			firstName : '(Guest) ' + req.body.nickname,
-			lastName : '',
-			profilePic : 'http://leadersinheels.com/wp-content/uploads/facebook-default.jpg',
-	};
+			firstName : req.body.firstName,
+			lastName : req.body.lastName,
+			email : req.body.email,
+			profilePic : 'http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-2.jpg',
+			password : req.body.password
+		};
 		var user = new User1();
-		user.nickname = userCred.nickname;
+		user.firstName = userCred.firstName;
+		user.lastName = userCred.lastName;
 		user.email = userCred.email;
+		user.password = userCred.password;
 		user.save(function(err) {
 		if (err){
 			console.log('error');
 		}
 	});
-
+	
     res.render('expert1', {
     	user : userCred
     });
@@ -578,4 +615,4 @@ wtwitter.init(io,
 
 	});
 
-server.listen(8002);
+server.listen(port);
