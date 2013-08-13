@@ -67,7 +67,6 @@ var USER_UPDATE = "wprofile-user-update";
 	
 });*/
 socket.on('connect', function() {
-	console.log('hola');
 	socket.emit(USER_UPDATE, wisdom.user);
 });
 
@@ -183,9 +182,12 @@ $('#information-tab').click( function(){
 
 
 
+
+
 		// when the client clicks SEND
 		$('#enterchat').click( function() {
 			var message = $('#chatdata').val();
+			if(message.length > 0 || message === 'Submit a Message') {
 			$('#chatdata').val('');
 			// tell server to execute 'sendchat' and send along message as parameter
 			console.log("wisdom : " +  JSON.stringify(wisdom));
@@ -195,13 +197,16 @@ $('#information-tab').click( function(){
 			}
 			console.log('this data is ' + JSON.stringify(data));
 			newChat.sendMessage(data);
+		}
 		});
 
 		// when the client hits ENTER on their keyboard
 		$('#enterchat').keypress(function(e) {
+			alert('asd');
 			if(e.which == 13) {
+				alert('enter ');
 				$(this).blur();
-				$('#chatdata').focus().click();
+				$('#enterchat').focus().click();
 			}
 		});
 		// when client first clicks on chat box, remove value
@@ -257,19 +262,22 @@ newChat.displayChat = function(username, message) {
 
 
 profile.updateSpectators = function(users) {
-	console.log(users);
+
 	for(var i = 0; i < users.length; i++) {
 		$('#spectatorsList').prepend('<a href=><li id=\'' + users[i].userId + '\'><img src=\'' + users[i].profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + users[i].linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
+	};
 
 		/**$('#spectatorsList').append('<li><img src=\'' + users[i].profileImageUrl + '\'/><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + spectatorSocial + '\' + users[i].linkedinUrl + '\'><div id=\'' + spectatorSocial + '\'></div></a>' );*/
-	}
 
 };
 
 profile.newSpectator = function(userData) {
-	console.log('step 4 adding new user to everyones screen :' + JSON.stringify(userData));
+	if($("#" + userData.userId).length < 1) {
 	$('#spectatorsList').prepend('<li id=\'' + userData.userId + '\'><a><img src=\'' + userData.profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + userData.firstName + ' ' + userData.lastName + '</div><a href=\'' + userData.linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
 };
+};
+
+
 
 profile.spectatorLeft = function(userId) {
 	$('#' + userId).remove();
@@ -481,13 +489,16 @@ profile.spectatorLeft = function(userId) {
 	
 
 <div id="information1" style="display: none;">
+	<ul>
+	<li>
 	<div class="wastewiseInfo">
 		<div class="wastewiseTitle">WasteWise</div>
 		<div class="wastewiseText">
 			Waste Wise is a simple idea: Use 21st century tools to share expertise globally, opening up high-quality, leading edge thinking to those who have not had access to this expertise, while also eliminating the environmental and financial costs of global conferences. Waste Wise will conduct online video panels with experts from across the waste spectrum using Google+ Hangouts, broadcast them live, and then publish content for ready use by decision makers, policy analysts, experts and advocates.
 		</div>
 	</div>
-
+</li>
+<li>
 	<div class="discussionInfo">
 		<div class="discussionTitle">Roundtable Background</div>
 		<div class="discussionText">
@@ -495,7 +506,8 @@ profile.spectatorLeft = function(userId) {
 		</div>
 	</div>
 	
-
+</li>
+<li>
 	<div id="resources">
 		<div class="panelTitle">Resources</div>
         <div id="#bottomResourcesText" style="margin-top: 5px;">
@@ -513,7 +525,7 @@ profile.spectatorLeft = function(userId) {
 			</div>
 		</div>
 	</div>
-
+<li>
 </div>
 	</div>
 </body>
