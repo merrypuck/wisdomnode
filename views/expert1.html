@@ -297,7 +297,7 @@ profile.spectatorLeft = function(userId) {
 	<div id='main-container' class='backgroundClass'>
 		<div id='header'>
 			<div id='hostLogo'>
-				<img src="images/wastewiselogo.png"/>
+				<a href='http://www.wastewise.be' target="_target"><img src="images/wastewiselogo.png"/></a>
 			</div>
 			<h1>WasteWise Roundtable</h1>
 		</div>
@@ -306,8 +306,10 @@ profile.spectatorLeft = function(userId) {
 			<div id="social-tab" class="tabs-schema"><i class="icon-twitter"></i>Social</div>
 			<div id='social-feed'></div>
 			<div class='inputComponent'>
-				<input type="text" id="newTweetbox" value="#bewastewise" onFocus="this.value='#bewastewise'"  />
-				<input type="button" id='submitnewquestion' value="TWEET" onclick='proposeQuestion();'/><br>
+				<!--<input type="text" id="newTweetbox" value="#bewastewise" onFocus="this.value='#bewastewise'"  />
+				<a href="https://twitter.com/share" class="twitter-share-button" data-via="bewastewise" data-count="none" data-hashtags="wastewise">Tweet</a>-->
+<a href="https://twitter.com/intent/tweet?button_hashtag=wastewise" class="twitter-hashtag-button" data-size="large" data-related="bewastewise">Tweet #wastewise</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 			</div>
 
 		</div>
@@ -331,6 +333,9 @@ profile.spectatorLeft = function(userId) {
 				}
 
 			.menu {
+				position: absolute;
+				top:62px;
+				left:20.1%;
 				margin-left:9px;
 				float:left;
 				width:58%;
@@ -365,6 +370,16 @@ profile.spectatorLeft = function(userId) {
 				-webkit-transition: background-color 0.3s linear;
 				-o-transition: background-color 0.3s linear;
 				}
+			#video {
+				margin-top:30px;
+			}
+
+			@media screen and (max-width: 1000px) {
+				video {
+					margin-top: 50px;
+				}
+			}
+
 		</style>
 		<div class="menu">
 

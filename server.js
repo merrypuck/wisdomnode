@@ -76,6 +76,20 @@ app.configure(function(){
   app.use(app.router);
   app.use(require('stylus').middleware(__dirname + '/public'));
   app.use(express.static(path.join(__dirname, 'public')));
+
+  app.use(function(req, res, next){
+  res.status(404);
+  if (req.accepts('html')) {
+    res.render('404');
+    return;
+  }
+});
+  app.use(function(err, req, res, next){
+  console.error(err.stack);
+  res.send(500, 'Something broke!');
+  res.render('500');
+});
+
 });
 
 var LINKEDIN_API_KEY = "8rwv6azucv8a";
