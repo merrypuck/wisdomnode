@@ -1,148 +1,82 @@
-<script src="http://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002/socket.io/socket.io.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<html>
 
-<script>
-var socket = io.connect('http://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002');
-	// on connection to server, ask for user's name with an anonymous callback
-	socket.on('connect', function(){
-		// call the server-side function 'adduser' and send one parameter (value of prompt)
-		socket.emit('adduser', prompt("What's your name?"));
-	});
-	// listener, whenever the server emits 'updatechat', this updates the chat body
-	socket.on('updatechat', function (username, data) {
-		$('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
-	});
-	// listener, whenever the server emits 'updateusers', this updates the username list
-	socket.on('updateusers', function(data) {
-		$('#users').empty();
-		$.each(data, function(key, value) {
-			$('#users').append('<div>' + key + '</div>');
-		});
-	});
-	// listener, for updateAgenda, this changes agenda item color to green
-	socket.on('updateAgenda', function(data) {
-		$('#' + data).css('background-color', 'green')
-	});
-	socket.on('changeTopic', function(topic, data) {
-		alert(topic + " " + data)
-	})
+<head>
+<title>Login Page</title>
+<link rel="stylesheet" type="text/css" href="style-login.css">
+<link rel="stylesheet" type="text/css" href="social-login/css/zocial.css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800,300' rel='stylesheet' type='text/css'>
 
-	// on load of page
-	$(function(){
-		// when the client clicks SEND
-		$('#enterchat').click( function() {
-			var message = $('#chatdata').val();
-			$('#chatdata').val('');
-			// tell server to execute 'sendchat' and send along one parameter
-			socket.emit('sendchat', message);
-		});
+<script type="text/javascript">
 
-		// when the client hits ENTER on their keyboard
-		$('#enterchat').keypress(function(e) {
-			if(e.which == 13) {
-				$(this).blur();
-				$('#chatdata').focus().click();
-			}
-		});
-	});
+function showhide(divid, state){
+  document.getElementById(divid).style.display=state
+}
 
 </script>
-<html>
-	<head>
 
-		<title>Wastewise</title>
+</head>
 
-		<style>
-			body {
-				margin:0;
-				padding:0;
-			}
-			#header {
-				width:100%;
-				height:50px;
-				background-color:green;
-			}
-			#agenda {
-				height:414px;
-				width:14.5%;
-				border:1px solid black;
-				float:left;
-			}
-			#notes {
-				float:left;
-				height:414px;
-				width:15%;
-				border:1px solid black;
-			}
-			#video {
-				width:40%;
-				height:415px;
-				float:left;
-				margin-left:2px;
-			}
-			#qa {
-				width:15%;
-				height:414px;
-				float:right;
-				border:1px solid black;
-			}
-			#chatroom {
-				width:14.5%;
-				height:414px;
-				float:right;
-				border:1px solid black;
-			}
-			#conversation {
-				height:100px;
-				overflow:auto;
-			}
-			#agenda ul {
-				list-style:none;
-			}
-			.agenda-item {
-				width:100px;
-				height:50px;
-				margin:10px;
-				background-color:red;
-				color:white;
-			}
-		</style>
-	</head>
+<body style="">
 
-	<body>
-		<div id='header'></div>
-		<div id='agenda'>
-			<h3>Agenda</h3>
-			<ul>
-				<li id='agenda-li1' class='agenda-item'>
-					<div id='topic1'>Topic 1</div>
-					</li>
-				<li id='agenda-li2' class='agenda-item' contenteditable>
-					<div id='topic1'>Topic 2</div>
-				</li>
-				<div id="editor" contenteditable>click to edit</div>
-			</ul>
-		</div>
+<div id="header"><h1 class="Title1" style="font-weight:600;font-size:30px;text-transform:uppercase;">Waste Management and Urban Healthcare Reform</h1>
+<div style="position:absolute;top:20;right:10;"><img height="50" src="wastewise-tiny.png"></div>
+</div>
+<div id="sub-header" style="padding-right:0px;"><span style="padding-right:20px;font-weight:600;font-size:10px;">Powered by Wisdom.ly</span></div>
 
 
-		<div id='notes'>
-			<h3>Notes</h3>
-		</div>
+<div class="Container" style="background-image: -webkit-linear-gradient(top, #f2f6fc, #FFFFFF);padding-top: 40px;">
 
-		<div id='video'><iframe width="100%" height="100%" src="//www.youtube.com/embed/RAJgGIQ3JHk" frameborder="0" allowfullscreen></iframe></div>
 
-		<div id='qa'></div>
 
-		<div id='chatroom'>
-			<h3>Chatroom</h3>
-			<input id="chatdata" style="width:100px;" />
-			<input type="button" id="enterchat" value="send" />
-			<div id="conversation"></div>
-			<div id="users"></div>
-		</div>
+      <div class="Center-Block Absolute-Center is-Responsive" style="background-color: transparent;text-align:center;color:#000;border-radius: 15px;">
+        
+        <center>
 
-	</div>
 
-	</body>
+
+<div class="Center-Block Absolute-Center is-Responsive" style="
+width: 60%;
+background-color: rgba(97, 255, 110, 0.14);
+box-shadow: 1px 3px 8px rgba(0,0,0,0.2);
+margin-bottom: 30px;
+padding: 0px;
+font-size: 16px;
+padding-top: 10px;
+padding-bottom: 10px;
+font-weight: 600;
+opacity: 0.6;">"Welcome to our WasteWise Discussion powered by Wisdom.ly. We are trying out this new platform for talk delivery to provide our viewers with a much more engaging experience." <Br> <span style="font-size: 11px;
+font-weight: 500;
+text-transform: uppercase;">Katrina Mitchell and Ranjith Annepu, Founders of WasteWise<span></div>
+
+
+        <div style="width:60%;border-radius:0px;background-color: rgba(218, 234, 255, 0.39);padding-top:3%;padding-bottom:11%;box-shadow: 1px 3px 8px rgba(0,0,0,0.2);">
+        	<h1 class="Title" style="font-size:30px;font-weight:400;">Welcome to the WasteWise Talk!</h1>
+
+        <p style="padding-top:10px;padding-bottom:15px;font-size:14px;font-weight:500;">Click to Login with Linkedin or Twitter below</p>
+        <a href="#" class="zocial linkedin" style="font-size:15px;margin-right:10px;">Sign in with LinkedIn</a>
+        <a href="#" class="zocial twitter"  style="font-size:15px;margin-right:20px;">Sign in with Twitter</a><div>
+
+       <div style="width:500px;padding-top:10px;font-size:12px;line-height:14px;"> Please Note that other viewers will be able to see that you are viewing this talk. We believe this enhances your experience and allows you to better connect with the WasteWise community.</div>
+
+        <div style="padding-top:30px;">
+        <a href="#" class="zocial guest" style="font-size:15px"  onClick="showhide('logininfo', 'block'); return false" >&nbsp;&nbsp;Sign in as guest&nbsp;&nbsp;</a></div>
+ 
+        <div id="logininfo" style="display:none;"> <div style="width:45%;">
+<div style="float:right;padding-bottom:10px;padding-top:10px;">Nickname: <input id='nickname' type="text">  </div>
+<div></div>
+<div style="float:right;">Email: <input id='email' type="email"> </div>
+<div></div>
+<div style="float:right;padding-top:10px;"><input id="gobutton" type="submit" value="Submit"></div>
+</div>
+
+      </div>
+  </div>
+    </div>
+ </center>
+<div id="bottom"><span style="padding-right:20px;font-weight: 500;font-size:10px;float:right;padding-top:10px;padding-top:10px;font-weight:600;text-transform:uppercase;">About Us | Support | Contact Us </span><span style="position: absolute;
+bottom: 4;
+left: 5;"><img height="30" src="wisdomly-tiny.jpg"></span></div>
+
+</body>
 
 </html>

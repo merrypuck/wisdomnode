@@ -18,12 +18,12 @@
 // Required dependencies. 
 
 var express = require('express');
-//var http = require('http');
+var http = require('http');
 var https = require('https');
 var fs = require('fs');
 var path = require('path');
 var crypto = require('crypto');
-var bcrypt = require('bcrypt');
+//var bcrypt = require('bcrypt');
 var SALT_WORK_FACTOR = 10;
 var mongoose = require('mongoose');
 var mime  = require('mime');
@@ -53,7 +53,7 @@ var options = {
 	ca: fs.readFileSync('livewisdomlyca.pem')
 }
 
-var server = https.createServer(options, app);
+var server = http.createServer(app);
 
 mongoose.connect('mongodb://localhost/wisdom1');
 var db = mongoose.connection;
@@ -64,7 +64,7 @@ var fileServer = new nodestatic.Server(__dirname + '/public/static');
 app.engine('html', require('ejs').renderFile);
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 443);
+  app.set('port', process.env.PORT || 8002);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'html');
   app.set('view options', {layout: false});
@@ -107,7 +107,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new LinkedInStrategy({
     consumerKey: LINKEDIN_API_KEY,
     consumerSecret: LINKEDIN_SECRET_KEY,
-    callbackURL: "https://live.wisdom.ly/auth/linkedin/callback",
+    callbackURL: "http://localhost:8002/auth/linkedin/callback",
     profileFields: ['id', 'first-name', 'last-name', 'email-address', 'headline','picture-url'] 
   },
   function(token, tokenSecret, profile, done) {
@@ -189,7 +189,7 @@ app.get('/logout', function(req, res){
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login');
+  res.redirect('/');
 }
 
 // Defining Database
@@ -263,40 +263,28 @@ var dummyTalk = {
 	status : 'LIVE', // this should be an enum.
 	info : {numSpeakers : 3},
 }
- app.get('/', function(req, res) {
-	res.render('index1', {
+
+
+app.get('/', function(req, res) {
+	res.render('index', {
 		
 		user:req.user,
 
 	})
 });
- 		/*userCred = {
-			firstName : req.user.name.givenName,
-			lastName : req.user.name.familyName,
-			pic : req.user._json.pictureUrl,
-			email : req.user._json.emailAdress,
-		};
-		var user = new User1();
-			user.firstName = userCred.firstName;
-			user.lastName = userCred.lastName;
-			user.pic = userCred.pic;
-			user.email = userCred.email;
-			user.save(function(err) {
-			if (err){
-			console.log('error');
-			}
-			});*/
+
 		
 app.get('/expert1', function(req, res) {
-	console.log(JSON.stringify(req.user));
+	ensureAuthenticated(req, res, function() {
+	console.log(JSON.stringify(req.body));
 	if(req.user.provider === 'twitter') {
 	userCred = {
 		userId : req.user.id,
 		firstName : req.user.displayName.split(' ')[0],
 		lastName : req.user.displayName.split(' ')[1],
 		profilePic : req.user.photos[0].value
-	};
-	var user = new User1();
+	      };
+	/*var user = new User1();
 		user.userId = userCred.userId;
 		user.firstName = userCred.firstName;
 		user.lastName = userCred.lastName;
@@ -305,8 +293,8 @@ app.get('/expert1', function(req, res) {
 		if (err){
 			console.log('error');
 		}
-	});
-}
+	});*/
+    }
 	else if(req.user.provider === 'linkedin') {
 		userCred = {
 			userId : req.user.id,
@@ -323,11 +311,12 @@ app.get('/expert1', function(req, res) {
 		if (err){
 			console.log('error');
 		}
+		});
+	}
+		res.render('expert1', {
+			user: userCred
+		});
 	});
-	res.render('expert1', {
-		user: userCred
-	});
-}
 });
 
 app.get('/expert', function(req, res) {
@@ -598,4 +587,4 @@ wtwitter.init(io,
 
 	});
 
-server.listen(443);
+server.listen(8002);
