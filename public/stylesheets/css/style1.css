@@ -42,10 +42,9 @@ body {
 }
 
 #video {
-	width:55%;
+	width:58%;
 	height:384px;
 	float:left;
-	margin-right:5px;
 	margin-top: 2px;
 }
 			
@@ -59,7 +58,7 @@ body {
 #rightBar {
 	float:right;
 	height:450px;
-	width:263px;
+	width:20%;
 	border: 1px solid #E0E0E0;
 	
 }
@@ -93,7 +92,7 @@ body {
 }
 
 #conversation {
-	height: 88%;
+	height: 390px;
 	width: 100%;
 	margin: 1px;
 	border: 1px solid gray;
@@ -149,7 +148,7 @@ body {
 #leftBar {
 	float:left;
 	height:450px;
-	width:277px;
+	width:20%;
 	border: 1px solid #E0E0E0;
 }
 
@@ -174,7 +173,7 @@ body {
 }
 
 #social-tab {
-width: 99%;
+width: 100%;
 height: 20px;
 border-left: none;
 border-right: none;
@@ -191,8 +190,8 @@ color: #2A3C57;
 
 }
 #social-feed {
-	width:276px;
-	height:400px;
+	width:100%;
+	height:390px;
 	background: #fbfbfc;
 }
 /**
@@ -1007,10 +1006,16 @@ font-size: 26px;
 @media screen and (max-height:565px) {
 
 }
-@media screen and (max-width:600px) {
-	#video {
-		width:350px;
+@media screen and (max-width:1000px) {
+	/*#video {
+		width:550px;
 	} 
+	#leftBar {
+		width:200px;
+	}
+	#rightBar {
+		width:200px;
+	}*/
 }
 
 @media screen and (max-width:500px) {
