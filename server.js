@@ -36,6 +36,7 @@ var agenda = require('./lib/agenda');
 var profile = require('./lib/profile')
 var mongooseWrapper = require('./lib/mongooseWrapper');
 var authentication = require('./lib/authentication');
+var wtwitter = require('./lib/node-wisdom-twitter');
 var qnaModule = require('./lib/QnAModule');
 var nodestatic = require('node-static');
 var passport = require('passport');
@@ -544,7 +545,7 @@ app.get('/hangout', function(req, res){
 
 });
 
-
+*/
 
 wtwitter.init(io,
 	{
@@ -554,7 +555,6 @@ wtwitter.init(io,
 		access_token_secret: 'fopvDihR38yNASI4QMmo5FRJifa61z5M0dGafDc'
 	}, 'mysession',
 	["dropbox"], ["mukundjha"]);
-	*/
 
 //initalize chat session
 	var thisChatSession = wGroupChat.newChatroom(221);
@@ -596,7 +596,7 @@ wtwitter.init(io,
 
 			//Connect to spectators
 			thisSpectatorSession.joinSpectators(socket);
-/*
+
 			socket.on(wtwitter.SUBSCRIBE, function(data) {
 				wtwitter.subscribe(socket);
 			});
@@ -604,7 +604,6 @@ wtwitter.init(io,
 			socket.on(wtwitter.UNSUBSCRIBE, function(data) {
 				wtwitter.unsubscribe(socket);
 			});
-*/
 			socket.on('disconnect', function() {
 				// Unsubscribe from twitter feed.
 				
