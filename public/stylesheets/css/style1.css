@@ -921,22 +921,6 @@ display: none;
 	margin-top: -5px;display:none;
 }
 
-/*.tabs-schema{
-	background-color: #3399FF
-	background-color:#4873E1 ;
-	color: #000099; 
-	font-weight: bold;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	border-left: 2px solid #000099 ;
-	border-right: 2px solid #000099 ;
-	text-align: center;
-	cursor: pointer; 
-	cursor: hand;
-	text-transform: uppercase;
-	font-family: Helvetica;
-	font-size: 11px;
-}*/
-
 .backgroundClass{
 	background-color: #E9E9E9;
 }
