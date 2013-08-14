@@ -243,7 +243,7 @@ newChat.displayChat = function(username, message) {
 profile.updateSpectators = function(users) {
 
 	for(var i = 0; i < users.length; i++) {
-		$('#spectatorsList').prepend('<a href=\'' + users[i].profileUrl + '\'' + 'target=\'' + '_blank \'><li id=\'' + users[i].userId + '\'><img src=\'' + users[i].profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + users[i].linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
+		$('#spectatorsList').prepend('<li id=\'' + users[i].userId + '\'><img src=\'' + users[i].profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + users[i].linkedinUrl + '\'><div id=\'spectatorSocial\'></div>');
 	};
 	var numSpectators = $('#spectatorsList li').length;
 	var newWidth = 131.5 * numSpectators;
@@ -490,7 +490,7 @@ profile.spectatorLeft = function(userId) {
 					<div class="panelistAvatar" id="avatar-themelis"></div>	
 					<div class="panelistTitle">Panelist</div>	
 					<div class="panelistSocial">
-						<a href="http://www.linkedin.com/pub/nickolas-themelis/16/b26/60a"><i class="icon-linkedin-sign" style="text-decoration: none;"></i></a>
+						<a href="http://www.linkedin.com/pub/nickolas-themelis/16/b26/60a" target='_blank'><i class="icon-linkedin-sign" style="text-decoration: none;"></i></a>
 						<a href="#"><i class="icon-twitter-sign" style="text-decoration: none;"></i></a>
 						<a href="#"><i class="icon-facebook-sign" style="text-decoration: none;"></i></a>
 					</div>
@@ -531,7 +531,7 @@ profile.spectatorLeft = function(userId) {
 					<div class="panelistAvatar" id="avatar-brunner"></div>	
 					<div class="panelistTitle">Panelist</div>	
 					<div class="panelistSocial">
-						<a href="http://at.linkedin.com/pub/paul-h-brunner/52/b71/51b"><i class="icon-linkedin-sign" style="text-decoration: none;"></i></a>
+						<a href="http://at.linkedin.com/pub/paul-h-brunner/52/b71/51b" target='_blank'><i class="icon-linkedin-sign" style="text-decoration: none;"></i></a>
 						<a href="#"><i class="icon-twitter-sign" style="text-decoration: none;"></i></a>
 						<a href="#"><i class="icon-facebook-sign" style="text-decoration: none;"></i></a>
 					</div>

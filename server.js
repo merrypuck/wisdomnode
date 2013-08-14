@@ -75,7 +75,7 @@ if (serverPort != "80") {
 }
 
 
-var iframeUrl = "http://";
+var iframeUrl = "/placeholder";
 
 console.log("HostName " + hostName +
 	" Port " + serverPort);
@@ -87,13 +87,14 @@ app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'html');
   app.set('view options', {layout: false});
-  app.use(express.favicon());
   app.use(express.cookieParser());
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.session({ secret: 'keyboard cat' }));
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(express.favicon("http://www.wastewise.be/wp-content/uploads/2013/05/beWasteWise_icon.png")); 
+
   
   // Add a secret code for cookie parser and session.
   app.use(flash());
@@ -106,7 +107,7 @@ app.configure(function(){
   app.use(function(req, res, next){
   	res.status(404);
   	if (req.accepts('html')) {
-  		res.render('404');
+  		res.redirect('/error');
   		return;
   	}
   });
@@ -114,7 +115,7 @@ app.configure(function(){
   app.use(function(err, req, res, next){
   	console.error(err.stack);
   	res.send(500, 'Something broke!');
-  	res.render('500');
+  	res.redirect('/error');
   });
 
 }); // configure
@@ -222,6 +223,16 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
+
+app.get('/error', function(req, res){
+	res.render('404', {});
+});
+
+
+app.get('/placeholder', function(req, res){
+	res.render('placeholder', {});
+});
+
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/');
@@ -245,9 +256,17 @@ var userSchema = new Schema({
 var User1 = mongoose.model('User1', userSchema);
 
 var io = require('socket.io').listen(server);
+io.set('log level', 1);
 
 app.get('/setvideo', function(req,res){
 	res.render('setvideo',{
+		hostUrl : hostName
+	});
+
+});
+
+app.get('/help', function(req,res){
+	res.render('help',{
 		hostUrl : hostName
 	});
 
@@ -319,7 +338,11 @@ var generateRandomToken = function () {
 };
 
 app.post('/bewastewise', function(req, res) {
-	if(req.body.nickname.length > 19) {
+	if(req.body.nickname.indexOf("'") >= 0) {
+		res.render('index', {
+			message : 'Sorry, invalid nickname (Special characters are not allowed).',
+		});
+	} else if(req.body.nickname.length > 19) {
 		res.render('index', {
 			message : 'Sorry, that nickname is too long (max 20).'
 		});
@@ -352,7 +375,6 @@ app.post('/bewastewise', function(req, res) {
 	}
 });
 
-
 wtwitter.init(io,
 	{
 		consumer_key: '5BF7XxniredSxapGu7LWQ',
@@ -360,7 +382,7 @@ wtwitter.init(io,
 		access_token_key: '74211576-VRsXMuX2QB3a4LSMv0uEEU5YsfBLFB6p0HV9V8pM',
 		access_token_secret: 'fopvDihR38yNASI4QMmo5FRJifa61z5M0dGafDc'
 	}, 'mysession',
-	["dropbox"], ["mukundjha"]);
+	["dropbox","apple"], ["mukundjha"]);
 
 //initalize chat session
 	var thisChatSession = wGroupChat.newChatroom(221);
@@ -423,7 +445,8 @@ wtwitter.init(io,
 			socket.on('disconnect', function() {
 
 				delete clients[socket.id];
-				
+				var datetime = new Date();
+				console.log(datetime);
 				console.log(socket.userId  + 'just disconnected!!!!!!!!!!!!!!!!!!!!!!!!!!!');
 				thisSpectatorSession.userLeaving(socket);
 			});
