@@ -118,6 +118,7 @@ app.configure(function(){
 
 var LINKEDIN_API_KEY = "8rwv6azucv8a";
 var LINKEDIN_SECRET_KEY = "EmxI0a4AIIP9Pwjj";
+
 var TWITTER_CONSUMER_KEY = "HBM4WcoQALBZKS3kGj4A";
 var TWITTER_CONSUMER_SECRET = "xImFOpHBteRDlmPnmTByKCJtVCGktc8OwTnb10Enlk";
 
@@ -264,10 +265,12 @@ app.get('/bewastewise', function(req, res) {
 				userId : req.user.id,
 				firstName : req.user.displayName.split(' ')[0],
 				lastName : req.user.displayName.split(' ')[1],
+				profileUrl : 'https://twitter.com/' + req.user.username,
 				profilePic : req.user.photos[0].value
 	      	};
     	}
 		else if(req.user.provider === 'linkedin') {
+			console.log(req.user);
 			userCred = {
 				userId : req.user.id,
 				firstName : req.user.name.givenName,
@@ -316,8 +319,9 @@ app.post('/bewastewise', function(req, res) {
 	} else  {
 		userCred = {
 			userId : generateRandomToken(),
-			firstName : '(Guest) ' + req.body.nickname,
+			firstName : req.body.nickname,
 			lastName : '',
+			profileUrl : '',
 			profilePic : 'http://leadersinheels.com/wp-content/uploads/facebook-default.jpg',
 		};
 		var user = new User1();
