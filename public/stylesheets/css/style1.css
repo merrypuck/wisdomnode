@@ -20,6 +20,15 @@ body {
 	margin-bottom: 10px;
 }
 
+input#gobutton {
+background: #1b4d6d;
+color: #fff;
+font-size: 14px;
+text-transform:uppercase;
+padding-top: 10px;
+height: 36px;
+}
+
 #header h1 {
 	color: #2A3C57;
 	font-size: 22px;
