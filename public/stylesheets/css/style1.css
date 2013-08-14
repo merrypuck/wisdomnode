@@ -30,10 +30,10 @@ body {
 }
 #hostLogo {
 	position: absolute;
-	left:0px; 
-	top:0px;
-	height:50px;
-	width:120px;
+	left:5px; 
+	top:3px;
+	height:45px;
+	width:108px;
 }
 #hostLogo img {
 	width:100%;
