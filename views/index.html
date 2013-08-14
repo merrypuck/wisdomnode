@@ -1,6 +1,7 @@
 <html>
 
 <head>
+  <link rel="shortcut icon" href="http://www.wastewise.be/wp-content/uploads/2013/05/beWasteWise_icon.png"/>
 <title>Login Page</title>
 <link rel="stylesheet" type="text/css" href="stylesheets/css/style-login.css">
 <link rel="stylesheet" type="text/css" href="stylesheets/social-login/css/zocial.css">
@@ -18,16 +19,13 @@ function showhide(divid, state){
 
 <body style="">
 
-<div id="header" style="background-color:#fff"><h1 class="Title1" style="font-weight:600;font-size:30px;text-transform:uppercase;">Solid Waste Management and Climate Change</h1>
+<div id="header" style="background-color:#fff"><h1 class="Title1" style="font-weight:600;font-size:30px;text-transform:uppercase;">Solid Waste Management and Climate Change<br><span style="font-size:18px; padding-top=1px">by waste wise panel</span></h1>
 <div style="position:absolute;top:5;left:10;"><img height="80"  src="images/wastewise-tiny.png"></div>
 <div style="position:absolute;top:5;right:10;"><img height="80"  src="images/wisdomly-tiny.jpg"></div>
 </div>
 <div id="sub-header" style="padding-right:0px;"><span style="padding-right:20px;font-weight:600;font-size:10px;">Powered by Wisdom.ly</span></div>
 
-
-<div class="Container" style="background-image: -webkit-linear-gradient(top, #f2f6fc, #FFFFFF);padding-top: 40px;">
-
-
+<div class="Container" style="background-image: -webkit-linear-gradient(top, #f2f6fc, #FFFFFF);padding-top: 10px;">
 
       <div class="Center-Block Absolute-Center is-Responsive" style="background-color: transparent;text-align:center;color:#000;border-radius: 15px;">
         
@@ -36,39 +34,44 @@ function showhide(divid, state){
 
 
 <div class="Center-Block Absolute-Center is-Responsive" style="
-width: 60%;
+width: 50%;
 background-color: rgba(97, 255, 110, 0.14);
 box-shadow: 1px 3px 8px rgba(0,0,0,0.2);
 margin-bottom: 30px;
-padding: 0px;
+padding: 5%;
 font-size: 16px;
 padding-top: 10px;
-padding-bottom: 10px;
+padding-bottom: 28px;
 font-weight: 600;
-opacity: 0.6;">"Today for our talk we are experimenting with a new platform, <a href="http://www.wisdom.ly" target="_blank" style="text-decoration: none">Wisdom.ly</a><br> We believe this will provide a much more enriching and engaging experience for our users." <Br> <span style="font-size: 11px;
+opacity: 0.6;">"To provide you an engaging experience, we teamed up with <a href="http://www.wisdom.ly" target="_blank" style="text-decoration: none">Wisdom.ly</a> for delivering our panels. We hope that this will add value to your time." <Br> <span style="font-size: 11px;
 font-weight: 500;
-text-transform: uppercase;">Katrina Mitchell and Ranjith Annepu, Founders of WasteWise<span></div>
+text-transform: uppercase;">- BE WASTE WISE TEAM<span></div>
 
 
-        <div style="width:60%;border-radius:0px;background-color: rgba(218, 234, 255, 0.39);padding-top:3%;padding-bottom:11%;box-shadow: 1px 3px 8px rgba(0,0,0,0.2);">
-        	<h1 class="Title" style="font-size:30px;font-weight:400;">Welcome to the WasteWise Talk!</h1>
+        <div style="width:60%;border-radius:0px;background-color: rgba(218, 234, 255, 0.39);padding-top: 1%;padding-bottom: 1%;box-shadow: 1px 3px 8px rgba(0,0,0,0.2);">
+        	<h1 class="Title" style="font-size: 25px;font-weight:400;padding-bottom:10px;">Welcome to the Be Waste Wise Panel!</h1>
 
         <p style="padding-top:10px;padding-bottom:15px;font-size:14px;font-weight:500;">Click to Login with Linkedin or Twitter below</p>
         <a href="/auth/linkedin" class="zocial linkedin" style="font-size:15px;margin-right:10px;">Sign in with LinkedIn</a>
         <a href="/auth/twitter" class="zocial twitter"  style="font-size:15px;margin-right:20px;">Sign in with Twitter</a><div>
 
-       <div style="width:500px;padding-top:10px;font-size:12px;line-height:14px;"> Please Note that other viewers will be able to see that you are viewing this talk. We believe this enhances your experience and allows you to better connect with the WasteWise community.</div>
+       <div style="width: 540px;padding-top: 15px;font-size: 12px;line-height:14px;"> Please Note that other viewers will be able to see that you are viewing this talk. We believe this enhances your experience and allows you to better connect with the WasteWise community.</div>
 
-        <div style="padding-top:30px;">
-        <a href="#" class="zocial guest" style="font-size:15px"  onClick="showhide('logininfo', 'block'); return false" >&nbsp;&nbsp;Sign in as guest&nbsp;&nbsp;</a></div>
+        
+        <div style="padding-top: 15px;">
+        <a href="#" id="zguest" class="zocial guest" style="font-size:15px;" onclick="showhide('zguest', 'none');showhide('logininfo', 'block'); return false">&nbsp;&nbsp;Sign in as guest&nbsp;&nbsp;</a></div>
         <div id='error'><h5><%=message %></h5></div>
+<div id="logininfo" style="display: none;"> <div style="width: 71%;">
+<form action="/bewastewise" method="post">
+<div style="float:left;padding-bottom:10px;padding-top:10px;padding-left: 10px;padding-right: 10px;margin-top: 10px;margin-bottom: 10px;background-color: #E8F3FF;">Nickname: <input id="nickname" name="nickname" type="text"><span style="font-size: 13px; /* float:left; */ padding-left: 25px;">This will be visible to other viewers.</span><center></center></div>
 
-        <div id="logininfo" style="display:none;"> <div style="width:45%;">
-
-<form action='/bewastewise' method='post'>
-<div style="float:left;padding-bottom:10px;padding-top:10px;">Nickname: <input id='nickname' name='nickname' type="text"><center><div style="font-size:14px; float:left; padding-left:100px">This will be visible to other viewers.</div></center></div>
-
-<center><div style="padding-top:10px;"><input id="gobutton" type="submit" value="Submit"></div></center>
+<center><div style="padding-top:5px;"><input id="gobutton" type="submit" value="Submit" class="zocial" style="
+background: #1b4d6d;
+color: #fff;
+font-size: 14px;
+text-transform:uppercase;
+padding-top: 0px;
+height: 36px;"></div></center>
 </form>
 </div>
 
@@ -76,7 +79,7 @@ text-transform: uppercase;">Katrina Mitchell and Ranjith Annepu, Founders of Was
   </div>
     </div>
  </center>
-<div id="bottom"><span style="padding-right:20px;font-weight: 500;font-size:10px;float:right;padding-top:10px;padding-top:10px;font-weight:600;text-transform:uppercase;">About Us | Support | Contact Us </span><span style="position: absolute;
+<div id="bottom"><span style="padding-right:20px;font-weight: 500;font-size:10px;float:right;padding-top:10px!important;font-weight:600;text-transform:uppercase;">About Us | Support | Contact Us </span><span style="position: absolute;
 bottom: 4;
 left: 5;"></span></div>
 

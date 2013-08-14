@@ -74,6 +74,9 @@ if (serverPort != "80") {
 	hostName += ":" + serverPort;
 }
 
+
+var iframeUrl = "http://";
+
 console.log("HostName " + hostName +
 	" Port " + serverPort);
 
@@ -243,6 +246,12 @@ var User1 = mongoose.model('User1', userSchema);
 
 var io = require('socket.io').listen(server);
 
+app.get('/setvideo', function(req,res){
+	res.render('setvideo',{
+		hostUrl : hostName
+	});
+
+});
 
 app.get('/', function(req, res) {
 	res.render('index', {
@@ -290,7 +299,8 @@ app.get('/bewastewise', function(req, res) {
 		}
 		res.render('expert1', {
 			user: userCred,
-			hostUrl : hostName
+			hostUrl : hostName,
+			vidUrl : iframeUrl
 		});
 	});
 });
@@ -335,7 +345,8 @@ app.post('/bewastewise', function(req, res) {
 
     	res.render('expert1', {
     		user : userCred,
-    		hostUrl : hostName
+    		hostUrl : hostName,
+    		vidUrl : iframeUrl
     	});
 	}
 });
@@ -400,6 +411,14 @@ wtwitter.init(io,
 			socket.on(wtwitter.UNSUBSCRIBE, function(data) {
 				wtwitter.unsubscribe(socket);
 			});
+
+			socket.on("set-video-URL", function(data){
+				console.log("******** SETTING VIDEO ***** " + 
+					data['url']);
+				iframeUrl = data['url'];
+				this.broadcast.emit("new-video-URL", data);
+			});
+
 			socket.on('disconnect', function() {
 
 				delete clients[socket.id];
