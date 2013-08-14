@@ -336,7 +336,11 @@ var generateRandomToken = function () {
 };
 
 app.post('/bewastewise', function(req, res) {
-	if(req.body.nickname.length > 19) {
+	if(req.body.nickname.indexOf("'") >= 0) {
+		res.render('index', {
+			message : 'Sorry, invalid nickname (Special characters are not allowed).',
+		});
+	} else if(req.body.nickname.length > 19) {
 		res.render('index', {
 			message : 'Sorry, that nickname is too long (max 20).'
 		});
@@ -369,7 +373,6 @@ app.post('/bewastewise', function(req, res) {
 	}
 });
 
-
 wtwitter.init(io,
 	{
 		consumer_key: '5BF7XxniredSxapGu7LWQ',
@@ -377,7 +380,7 @@ wtwitter.init(io,
 		access_token_key: '74211576-VRsXMuX2QB3a4LSMv0uEEU5YsfBLFB6p0HV9V8pM',
 		access_token_secret: 'fopvDihR38yNASI4QMmo5FRJifa61z5M0dGafDc'
 	}, 'mysession',
-	["dropbox"], ["mukundjha"]);
+	["bewastewise","wastewise"], ["mukundjha"]);
 
 //initalize chat session
 	var thisChatSession = wGroupChat.newChatroom(221);
