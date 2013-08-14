@@ -18,12 +18,28 @@
 		</div>
 		<br />
 		<br />
+
+		<script>
+			$('#signup').click(function() {
+				alert('s');
+				var nickname = $('#nickname').val();
+				if(nickname.length === 0) {
+					alert('aa');
+					//$('#error').append('<h3>Please type in a nickname</h3>');
+					//event.preventDefault();
+				}
+			});
+		
+
+		</script>
+
 		<form action='/signup' method='post'>
+			<div id='error'></div>
 			<label>Nickname:</label>
-			<input name='nickname' type='text'/>
+			<input name='nickname' id='nickname' type='text'/>
 			<label>Email:</label>
 			<input name='email' type='text' />
-			<input value='Sign up' type='submit' />
+			<input value='Sign up' id='signup' type='submit' />
 		</form>
 
 			</div></center>

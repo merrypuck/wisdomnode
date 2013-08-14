@@ -228,6 +228,18 @@ $('#information-tab').click( function(){
 			stoppedTyping = setTimeout(notebook.updateNotes(notes), 5000);
 		});
 
+		$('#chatdata').keypress(function() {
+			var counter = $('#chatdata').val().length;
+			$('#chatCounter').html(counter + '/250');
+			if(counter.length > 250) {
+				$('#chatCounter').css({'color':'red'})
+			}
+			else {
+				$('#chatCounter').css({'color':'black'})
+
+			}
+		});
+
 	});
 
 // Twitter updateTweet overloading.
@@ -410,6 +422,7 @@ profile.spectatorLeft = function(userId) {
 				<div class='inputComponent'>
 				<input id='chatdata' value="Submit a Message"/>
 				<input id='enterchat' type='button' value='SEND'/>
+				<div id='chatCounter'>0/250</div>
 				</div>
 			</div>
 		</div>

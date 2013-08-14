@@ -274,7 +274,7 @@ var dummyTalk = {
 
 app.get('/', function(req, res) {
 	res.render('index', {
-		
+		message : '',
 		user:req.user,
 
 	})
@@ -350,6 +350,7 @@ var generateRandomToken = function () {
 };
 
 app.post('/signup', function(req, res) {
+	if(req.body.nickname.length > 0) {
 	userCred = {
 			userId : generateRandomToken(),
 			firstName : '(Guest) ' + req.body.nickname,
@@ -369,7 +370,17 @@ app.post('/signup', function(req, res) {
     	user : userCred
     });
 
-
+}
+	else if(req.body.nickname.length > 9) {
+		res.render('index', {
+			message : 'Sorry, that nickname is too long (max 10).'
+		});
+	}
+	else {
+		res.render('index', {
+			message : 'Please enter a nickname.'
+		});
+	}
 });
 
 /*
