@@ -45,7 +45,7 @@
 	};
 
 	//var socket = io.connect('https://live.wisdom.ly');
-	var socket = io.connect('http://localhost:8002');
+	var socket = io.connect('<%= hostUrl %>');
 
 	var newChat = ChatClient();
 	newChat.init(socket, wisdom);

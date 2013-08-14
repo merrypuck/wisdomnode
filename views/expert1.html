@@ -1,16 +1,11 @@
 <!--<script src="http://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002/socket.io/socket.io.js"></script>-->
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/clientside_groupchat.js"></script>
-<script src="js/clientside_notes.js"></script>
-<script src="js/clientside_agenda.js"></script>
-<!--<script src="js/clientside_qna.js"></script>-->
 <script src="js/clientside_profile.js"></script>
 <script src="js/wisdom-twitter-client.js"></script>
-<script src="js/script.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code
-.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="stylesheets/css/style1.css">
 <link rel="stylesheet" type="text/css" href="stylesheets/font-awesome/css/font-awesome.css">
 
@@ -30,7 +25,7 @@ wisdom = {
 	},
 	talk : {
 		talkId : '883nnew39231nn321',
-		talkTitle : 'Waste Management in Urban settings.',
+		talkTitle : 'Solid Waste Management in Urban settings.',
 		startTime : 1375763389,
 		status : 'LIVE',
 		info : {
@@ -42,16 +37,10 @@ wisdom = {
 
 
 //var socket = io.connect('http://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002');
-var socket = io.connect('http://127.0.0.1:8002');
+var socket = io.connect('<%= hostUrl %>');
 
 var newChat = ChatClient();
 newChat.init(socket, wisdom);
-
-var notebook = NoteClient();
-notebook.init(socket)
-
-var agenda = AgendaClient();
-agenda.init(socket);
 
 var twit = TwitterClient();
 twit.init(socket, $);
@@ -112,30 +101,6 @@ $('#panelists-tab1').click( function(){
 
 });
 
-	$('#currentTopic').hover( function() {
-		if($('#agenda').css('display') === 'none') {
-			$('#agenda').css({'display':'block'});
-		}
-		else {
-			$('#agenda').css({'display': 'none'});
-		};
-	});
-
-	$('#agenda').hover( function() {
-		if($('#agenda').css('display') === 'none') {
-			$('#agenda').css({'display':'block'});
-		}
-		else {
-			$('#agenda').css({'display': 'none'});
-		};
-
-	})
-
-		/*$('.agenda-item').click( function() {
-			var topicId = this.id;
-			alert(topicId);	
-			//agenda.changeMainTopic(thisItem);
-		});*/
 
 $('#chat-tab').click( function() {
 	if($('#chatroom').css('display') === 'none' ) {
@@ -210,6 +175,14 @@ $('#information-tab').click( function(){
 			}
 		});
 		// when client first clicks on chat box, remove value
+		$('#chatdata').keypress(function(e) {
+                       if(e.which == 13) {
+                               $(this).blur();
+                               $('#enterchat').focus().click();
+                       }
+               });
+
+		// when client first clicks on chat box, remove value
 		var ifClicked = false;
 		$('#chatdata').click(function() {
 			if(ifClicked === false) {
@@ -218,15 +191,6 @@ $('#information-tab').click( function(){
 			}
 		});
 
-		//send and save notes after 5 second after user stops typing
-		//5 second timer doesn't work...
-		var stoppedTyping;
-		$('#notesarea').keypress(function() {
-			var notes = $('#notesarea').val();
-			if (stoppedTyping) clearTimeout(stoppedTyping);
-
-			stoppedTyping = setTimeout(notebook.updateNotes(notes), 5000);
-		});
 
 		$('#chatdata').keypress(function() {
 			var counter = $('#chatdata').val().length;
@@ -302,16 +266,16 @@ profile.spectatorLeft = function(userId) {
 </script>
 <html>
 <head>
-	<title>Wastewise</title>
+	<title>Be Waste Wise Talk</title>
 </head>
 
 <body>
 	<div id='main-container' class='backgroundClass'>
 		<div id='header'>
 			<div id='hostLogo'>
-				<a href='http://www.wastewise.be' target="_target"><img src="images/wastewiselogo.png"/></a>
+				<a href='http://www.wastewise.be' target="_blank"><img src="images/wastewiselogo.png"/></a>
 			</div>
-			<h1>WasteWise Roundtable</h1>
+			<h1>Solid Waste Management and Climate Change</h1>
 		</div>
 
 		<div id='leftBar' class='backgroundClass'>
