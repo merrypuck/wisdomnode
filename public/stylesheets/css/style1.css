@@ -541,7 +541,6 @@ font-size: 26px;
 	border-radius:20px;
 }
 #information1 {
-	float:relative;
 	height:100%;
 	width:100%;
 	display:none;
@@ -578,7 +577,7 @@ font-size: 26px;
 	display: block;
 	float: left;
 	overflow: auto;
-	overflow-y:hidden;
+	overflow-y:auto;
 	overflow-x:auto;
 	height: 100%;
 	width: 100%;
@@ -590,7 +589,7 @@ font-size: 26px;
 	display: inline-block;
 	height: 110px;
   	/* Max width here, for users without Javascript */
-  	width: 1412px;
+  	width: 2000px;
 }
 #panelists ul li {
 	display:block;
@@ -967,8 +966,10 @@ display: none;
 #chatdata{
 	float: left;
 	border: 1px solid #E0E0E0;
-	width: 70%;
-	height: 30px;
+	float:left;
+	height: 20px;
+	width: 140px;
+	margin-top: 1px;
 }
 #submitnewquestion{
 	width: 24%;
@@ -987,12 +988,12 @@ display: none;
 }
 
 #enterchat{
-	width: 27%;
+	width: 50px;
 	float: left;
 	background-color: navy;
 	color: white;
 	border: 0;
-	height: 29px;
+	height: 20px;
 	margin-top: 2px;
 	margin-left:2px;
 }
