@@ -63,7 +63,7 @@ text-transform: uppercase;">- BE WASTE WISE TEAM<span></div>
         <div id='error'><h5><%=message %></h5></div>
 <div id="logininfo" style="display: none;"> <div style="width: 71%;">
 <form action="/bewastewise" method="post">
-<div style="float:left;padding-bottom:10px;padding-top:10px;padding-left: 10px;padding-right: 10px;margin-top: 10px;margin-bottom: 10px;background-color: #E8F3FF;">Nickname: <input id="nickname" name="nickname" type="text"><span style="font-size: 13px; /* float:left; */ padding-left: 25px;">This will be visible to other viewers.</span><center></center></div>
+<div style="float:left;padding-bottom:10px;padding-top:10px;padding-left: 10px;padding-right: 10px;margin-top: 10px;margin-bottom: 10px;background-color: #E8F3FF;">Nickname: <input id="nickname" name="nickname" type="text"><span style="font-size: 13px; /* float:left; */ padding-left: 25px;">This will be visible to other viewers.<br>Nickname can be a maximum of 20 alphanumeric characters.</span><center></center></div>
 
 <center><div style="padding-top:5px;"><input id="gobutton" type="submit" value="Submit" class="zocial" style="
 background: #1b4d6d;
@@ -79,9 +79,19 @@ height: 36px;"></div></center>
   </div>
     </div>
  </center>
-<div id="bottom"><span style="padding-right:20px;font-weight: 500;font-size:10px;float:right;padding-top:10px!important;font-weight:600;text-transform:uppercase;">About Us | Support | Contact Us </span><span style="position: absolute;
+<div id="bottom"><span style="padding-right:20px;font-weight: 500;font-size:10px;float:right;padding-top:10px!important;font-weight:600;text-transform:uppercase;"><a href='http://wisdom.ly'>About Us</a> | <a href='mailto:info@wisdom.ly'>Contact Us</a> </span><span style="position: absolute;
 bottom: 4;
 left: 5;"></span></div>
+
+<style>
+  #bottom a {
+    color:#000;
+    text-decoration: none;
+  }
+  #bottom a:visited {
+    color:#000;
+  }
+</style>
 
 </body>
 

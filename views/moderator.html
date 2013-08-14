@@ -101,12 +101,10 @@ twit.updateTweet = function(tweet) {
 		tweet.hasOwnProperty('user') &&
 		tweet['user'].hasOwnProperty('screen_name')) {
 		var htm = 
-	'<div class="twitterMessageBox"> <div style="width:80%;float:left;">' + 
-	'<div class="twitterMessage" style="">"' + tweet.text +
-	' "</div> <div class="twitterName">@' + tweet.user.screen_name +
-	'</div> </div> <div class="twitterIcon" style="width:30px;">' + 
-	'<i class="icon-twitter" style="text-decoration: none;">' + 
-	'</i></div></div>';
+	'<div class="twitterMessageBox"> <div style="/* width:80%; */float:left;/* border-radius: 200px; */padding: 5px;">' + 
+	'<div class="twitterName">@' + tweet.user.screen_name +
+	'</div><div class="twitterMessage" style="">"' + tweet.text +
+	' "</div> </div></div>';
 
 	$("#socialFeed").append(htm);
 }
@@ -127,6 +125,15 @@ newChat.displayChat = function(username, message) {
 	$('#conversation').append('<div class=\'chatmessagebox\'><div class=\'chatname\'>' + username + '</div><div class=\'chatmessage\'>' + message + '</div></div>');
 };
 
+profile.newSpectator = function(userData) {
+	if($('#' + userData.userId).length === 0) {
+	$('#supportConversaton').prepend('<li id=\'' + userData.userId + '\'><a><img src=\'' + userData.profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + userData.firstName + ' ' + userData.lastName + '</div><a href=\'' + userData.linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
+}
+};
+
+profile.spectatorLeft = function(userId) {
+	$('#' + userId).remove();
+};
 
 
 </script>
@@ -149,8 +156,8 @@ newChat.displayChat = function(username, message) {
 				<div id="socialFeed"></div>
 			</div>
 			<div class='inputComponent'>
-				<input type="text" id="newquestionbox" value="Send a tweet!" onFocus="this.value=''"  />
-				<input type="button" id='submitnewtweet' value="Tweet" onclick='sendtweet();'/><br>
+				<a href="https://twitter.com/intent/tweet?button_hashtag=wastewise" class="twitter-hashtag-button" data-size="large" data-related="bewastewise">Tweet #wastewise</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 			</div>			
 
 		</div>
@@ -163,7 +170,7 @@ newChat.displayChat = function(username, message) {
 			</div>
 			<div id='conversation'>
 				<div class="chatmessagebox">
-					a few words...
+					
 
 				</div>
 			</div>
@@ -177,7 +184,7 @@ newChat.displayChat = function(username, message) {
 		<div id='rightBar' class='backgroundClass'>
 			
 			<div id='support-tab' >
-				<i class="icon-cog"></i> SUPPORT CHAT
+				<i class="icon-cog"></i> Users
 			</div>
 			<div id='supportConversaton'>
 				<div class="chatmessagebox">

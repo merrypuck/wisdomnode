@@ -648,35 +648,35 @@ font-size: 26px;
 
 
 .chatmessagebox {
-	float: left;
-	height: auto;
-	width:inherit;
-
-	background: #fbfbfc;
-	border: 1px solid #E0E0E0;
-	word-wrap: break-word;
-}
-
-.chatmessage {
-width: 190px;
-height: auto;
-line-height: 12px;
-font-size: 10px;
-font-family: Helvetica;
-color: #2A3C57;
-font-size: 12px;
 float: left;
+height: auto;
+width: 100%;
+margin: -2px;
+padding: 4px;
+background: #fbfbfc;
 word-wrap: break-word;
 }
 
-.chatname {
-text-transform: uppercase;
-line-height: 12px;
-font-size: 10px;
-font-family: Helvetica;
+.chatmessage {
+width: 180px;
+height: auto;
+line-height: 13px;
+font-family:Helvetica;
 color: #2A3C57;
-font-weight: 900;
-width: 50px;
+font-size: 10px;
 float: left;
-padding-top: 2px;
+padding-left: 14px;
+}
+
+.chatname {
+text-transform:uppercase;
+line-height: 12px;
+font-size: 9px;
+font-family:Helvetica;
+color: #3A5E94;
+font-weight: 900;
+width: 200px;
+float: left;
+padding-top: 1px;
+padding-left: 10px;
 }

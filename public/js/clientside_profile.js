@@ -16,11 +16,14 @@ var ProfileClient = (function() {
 
 		this.mySocket.on(this.USER_JOINING, function(userData) {
 			self.newSpectator(userData);
+			//in moderator
+			self.newUser(userData);
 		});
 			
 
 		this.mySocket.on(this.USER_LEAVING, function(userId) {
 			self.spectatorLeft(userId);
+			self.userLeft(userId);
 		});
 
 	}

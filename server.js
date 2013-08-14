@@ -284,6 +284,7 @@ app.get('/bewastewise', function(req, res) {
 				userId : req.user.id,
 				firstName : req.user.name.givenName,
 				lastName : req.user.name.familyName,
+				profileUrl : '',
 				profilePic : req.user._json.pictureUrl
 			};
 			var user = new User1();
