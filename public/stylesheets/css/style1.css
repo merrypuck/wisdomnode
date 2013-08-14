@@ -65,14 +65,14 @@ height: 36px;
 		
 #rightBar {
 	float:right;
-	height:450px;
+	height:421px;
 	width:20%;
 	border: 1px solid #E0E0E0;
 	
 }
 
 #chat-tab {
-	width:99%;
+	width:98%;
 	height: 20px;
 	border: 0px solid #E0E0E0;
 	border-left: none;
@@ -90,7 +90,11 @@ height: 36px;
 	color: #2A3C57;
 }
 
-
+#chatCounter {
+	margin:0;
+	padding:0;
+	float:right;
+}
 #chatroom {
 	height:100%;
 	width:98%;
@@ -99,7 +103,7 @@ height: 36px;
 }
 
 #conversation {
-	height: 390px;
+	height: 363px;
 	width: 100%;
 	margin: 1px;
 	border: 1px solid gray;
@@ -162,7 +166,7 @@ padding-left: 10px;
 #leftBar {
 	margin-left:5px;
 	float:left;
-	height:450px;
+	height:421px;
 	width:20%;
 	border: 1px solid #E0E0E0;
 }
@@ -188,7 +192,7 @@ padding-left: 10px;
 }
 
 #social-tab {
-width: 100%;
+width: 99%;
 height: 20px;
 border-left: none;
 border-right: none;
@@ -205,10 +209,11 @@ color: #2A3C57;
 
 }
 #social-feed {
-	width:99%;
-	height:392px;
+	width:98%;
+	height:363px;
 	background: #fbfbfc;
 	overflow: auto;
+	margin-left: 2px;
 }
 /**
 
@@ -969,6 +974,7 @@ display: none;
 
 
 #chatdata{
+	float: left;
 	border: 1px solid #E0E0E0;
 	width: 70%;
 	height: 30px;
@@ -991,12 +997,13 @@ display: none;
 
 #enterchat{
 	width: 27%;
-	float: right;
+	float: left;
 	background-color: navy;
 	color: white;
 	border: 0;
 	height: 29px;
 	margin-top: 2px;
+	margin-left:2px;
 }
 
 .qnaQuestionBox{

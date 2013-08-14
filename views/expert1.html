@@ -21,6 +21,7 @@ wisdom = {
 		userId : '<%= user.userId %>',
 		'firstName' : '<%= user.firstName %>',
 		'lastName' : '<%= user.lastName %>',
+		'profileUrl' : '<%= user.profileUrl %>',
 		profileImageUrl : '<%= user.profilePic %>'
 	},
 	talk : {
@@ -163,8 +164,9 @@ $('#information-tab').click( function(){
 		// when the client clicks SEND
 		$('#enterchat').click( function() {
 			var message = $('#chatdata').val();
-			if(message.length > 0 || message === 'Submit a Message') {
+			if(message.length > 0 && message != 'Submit a Message') {
 			$('#chatdata').val('');
+			$('#chatCounter').html('0/250');
 			// tell server to execute 'sendchat' and send along message as parameter
 			console.log("wisdom : " +  JSON.stringify(wisdom));
 			var data = {
@@ -206,7 +208,7 @@ $('#information-tab').click( function(){
 		$('#chatdata').keypress(function() {
 			var counter = $('#chatdata').val().length;
 			$('#chatCounter').html(counter + '/250');
-			if(counter.length > 250) {
+			if(counter >= 250) {
 				$('#chatCounter').css({'color':'red'})
 			}
 			else {
@@ -256,7 +258,7 @@ newChat.displayChat = function(username, message) {
 profile.updateSpectators = function(users) {
 
 	for(var i = 0; i < users.length; i++) {
-		$('#spectatorsList').prepend('<a href=><li id=\'' + users[i].userId + '\'><img src=\'' + users[i].profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + users[i].linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
+		$('#spectatorsList').prepend('<a href=\'' + users[i].profileUrl + '\'' + 'target=\'' + '_blank \'><li id=\'' + users[i].userId + '\'><img src=\'' + users[i].profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + users[i].linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
 	};
 
 
@@ -396,9 +398,10 @@ profile.spectatorLeft = function(userId) {
 
 				</div>
 				<div class='inputComponent'>
-				<input id='chatdata' value="Submit a Message"/>
+				<input id='chatdata' value="Submit a Message" maxlength="250" style='float:left'/>
 				<input id='enterchat' type='button' value='SEND'/>
 				<div id='chatCounter'>0/250</div>
+				
 				</div>
 			</div>
 		</div>
