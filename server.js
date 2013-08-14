@@ -264,6 +264,13 @@ app.get('/setvideo', function(req,res){
 
 });
 
+app.get('/help', function(req,res){
+	res.render('help',{
+		hostUrl : hostName
+	});
+
+});
+
 app.get('/', function(req, res) {
 	res.render('index', {
 		message : '',
@@ -433,7 +440,8 @@ wtwitter.init(io,
 			socket.on('disconnect', function() {
 
 				delete clients[socket.id];
-				
+				var datetime = new Date();
+				console.log(datetime);
 				console.log(socket.userId  + 'just disconnected!!!!!!!!!!!!!!!!!!!!!!!!!!!');
 				thisSpectatorSession.userLeaving(socket);
 			});
