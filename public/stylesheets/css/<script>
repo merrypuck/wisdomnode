@@ -1,0 +1,36 @@
+<script>
+	$('#conversation').append('<input type='text' id='dd'/> <input type='submit' id='cdd onClick='var message = $('#dd').val();
+		alert(message);
+		a = a + message;
+		$('#dd').val(a);
+		$('#cdd').focus().click();
+	}' />);
+	var a = '';
+	var il = function() {
+		var message = $('#dd').val();
+		alert(message);
+		a = a + message;
+		$('#dd').val(a);
+		$('#cdd').focus().click();
+	}
+</script>
+
+
+<script>
+"
+	$('enterchat').click(function() {
+		var message = $('#chatdata').val();
+		for(var i = 0; var < 100; i++) {
+			$('#conversation').append('<div class=\'chatMessageBox\'><div class=\'chatName\'>' + wisdom.user.username + '</div><div class=\'chatMessage\'>' + message + '</div></div>');
+		}
+	});
+});
+"
+	
+</script>
+"<script>"
+'var button = getElementById("enterchat")';
+'button.onClick(alert("a"));';
+"</script>"
+
+<script>for(var i=0; i<6; i++) { alert(toString(i) + ' done, ' + toString(10 - i) + 'to go')};</script>
