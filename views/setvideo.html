@@ -1,0 +1,45 @@
+<!--<script src="http://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002/socket.io/socket.io.js"></script>-->
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/clientside_groupchat.js"></script>
+<script src="js/clientside_notes.js"></script>
+<script src="js/clientside_agenda.js"></script>
+<!--<script src="js/clientside_qna.js"></script>-->
+<script src="js/clientside_profile.js"></script>
+<script src="js/wisdom-twitter-client.js"></script>
+<script src="js/script.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code
+.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="stylesheets/css/style1.css">
+<link rel="stylesheet" type="text/css" href="stylesheets/font-awesome/css/font-awesome.css">
+<script type="text/javascript">
+	//var socket = io.connect('http://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002');
+	var socket = io.connect('<%= hostUrl %>');
+
+
+	function submitURL(){
+		var url = $('#videoURL').val();
+		console.log("The video URL is: " + url);
+		socket.emit("set-video-URL", { 'url': url});
+		$('#status').html("<p>Successfully set Video URL.</p>");
+	};
+
+	</script>
+
+	<html>
+	<head>
+		<title>Video URL</title>
+	</head>
+	<body>
+		<h3>Please set the video URL for the talk</h3>
+		<div id='inputcontainer'>
+			<input type="text" id="videoURL" />
+			<input type="button" id='submitvideoURL' value="Submit" onclick='submitURL();'/><br>
+		</div>
+		<div id='status'>
+
+		</div>
+
+	</body>
+	</html>

@@ -75,7 +75,7 @@ if (serverPort != "80") {
 }
 
 
-var iframeUrl = "http://";
+var iframeUrl = "/placeholder";
 
 console.log("HostName " + hostName +
 	" Port " + serverPort);
@@ -106,7 +106,7 @@ app.configure(function(){
   app.use(function(req, res, next){
   	res.status(404);
   	if (req.accepts('html')) {
-  		res.render('404');
+  		res.redirect('/error');
   		return;
   	}
   });
@@ -114,7 +114,7 @@ app.configure(function(){
   app.use(function(err, req, res, next){
   	console.error(err.stack);
   	res.send(500, 'Something broke!');
-  	res.render('500');
+  	res.redirect('/error');
   });
 
 }); // configure
@@ -222,6 +222,16 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
+
+app.get('/error', function(req, res){
+	res.render('404', {});
+});
+
+
+app.get('/placeholder', function(req, res){
+	res.render('placeholder', {});
+});
+
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/');
@@ -245,6 +255,7 @@ var userSchema = new Schema({
 var User1 = mongoose.model('User1', userSchema);
 
 var io = require('socket.io').listen(server);
+io.set('log level', 1);
 
 app.get('/setvideo', function(req,res){
 	res.render('setvideo',{
