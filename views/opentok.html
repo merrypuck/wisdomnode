@@ -1,0 +1,57 @@
+<html>
+
+<script src='https://swww.tokbox.com/v1.1/js/TB.min.js'></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/clientside_groupchat.js"></script>
+<script src="js/clientside_profile.js"></script>
+<script src="js/wisdom-twitter-client.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="stylesheets/css/style1.css">
+<link rel="stylesheet" type="text/css" href="stylesheets/font-awesome/css/font-awesome.css">
+
+<script type="text/javascript">
+	var socket = io.connect('http://127.0.0.1:8002');
+
+	socket.on('connect', function(){
+		console.log("emmitting from clientside");
+		socket.emit('ot-new-subscriber', {role : 'subscriber', userid : '12345', username : 'kevin'});
+	});
+
+	socket.on('ot-new-token', function(data){
+		console.log("Received data from server: " + data['token']);
+	})
+
+</script>
+
+<head>
+	<title>OpenTok Test</title>
+</head>
+<body>
+
+
+<div id="myPublisherDiv"></div>
+        
+
+        <script type="text/javascript">
+          // Initialize API key, session, and token...
+          // Think of a session as a room, and a token as the key to get in to the room
+          // Sessions and tokens are generated on your server and passed down to the client
+          var apiKey = "36283782";
+          var sessionId = "1_MX4zNjI4Mzc4Mn4xMjcuMC4wLjF-U3VuIEF1ZyAxOCAwODoyMDowNyBQRFQgMjAxM34wLjQ3MzYzOTY3fg";
+          var token = "T1==cGFydG5lcl9pZD0zNjI4Mzc4MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz0zNzk0ODNmMWFmYWI0Y2E3ODYzM2U4ZjkyN2RlM2MwZjg5Y2I0ZmVlOnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9MV9NWDR6TmpJNE16YzRNbjR4TWpjdU1DNHdMakYtVTNWdUlFRjFaeUF4T0NBd09Eb3lNRG93TnlCUVJGUWdNakF4TTM0d0xqUTNNell6T1RZM2ZnJmNyZWF0ZV90aW1lPTEzNzY4MzkyMDgmbm9uY2U9MC4zMzQ5MjM2Mjk1MDA5MyZleHBpcmVfdGltZT0xMzc2OTI1NjA5JmNvbm5lY3Rpb25fZGF0YT0=";
+
+          // Initialize session, set up event listeners, and connect
+          var session = TB.initSession(sessionId);
+          session.addEventListener('sessionConnected', sessionConnectedHandler);
+          session.connect(apiKey, token);
+          
+          function sessionConnectedHandler(event) {
+            var publisher = TB.initPublisher(apiKey, 'myPublisherDiv');
+            session.publish(publisher);
+          }
+        </script>
+
+</body>
+</html>

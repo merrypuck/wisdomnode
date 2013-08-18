@@ -43,6 +43,7 @@ var util = require('util');
 var LinkedInStrategy = require('passport-linkedin').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
+var otmodule = require('./lib/opentokModule');
 
 // Configuration settings.
 var app = express();
@@ -147,6 +148,9 @@ passport.use(new LinkedInStrategy({
     profileFields: ['id', 'first-name', 'last-name', 'email-address', 'headline','picture-url'] 
   },
   function(token, tokenSecret, profile, done) {
+
+  	console.log("LinkedIn Profile response: " + JSON.stringify(profile));
+
     // asynchronous verification, for effect...
     process.nextTick(function () {
       // To keep the example simple, the user's LinkedIn profile is returned to
@@ -204,6 +208,17 @@ app.get('/auth/twitter/callback',
   	console.log('user info from twitter: ' + JSON.stringify(req.user));
     res.redirect('/bewastewise');
   });
+
+
+var OT_API_KEY = '36283782';
+var OT_API_SECRET = '65be9fdb4cee759940bbf921bdb6550d034e20ea';
+
+app.get('/opentok', function(req,res){
+
+
+	res.render('opentok',{});
+
+});
 
 app.get('/auth/linkedin',
   passport.authenticate('linkedin', { scope: ['r_basicprofile', 'r_emailaddress'] }),
@@ -403,6 +418,9 @@ wtwitter.init(io,
 	var thisSpectatorSession = wprofile.newProfile(221);
 	thisSpectatorSession.init(io, 'blankForNow', 221);
 
+	var thisOpenTokModule = new otmodule(OT_API_KEY, OT_API_SECRET);
+
+
 		//for(var i = 0; i < req.param('topicAmt'); i++) {
 		//	topic = req.param('topic' + i.toString());
 		//	thisAgendaSession.addTopic(topic);
@@ -426,6 +444,8 @@ wtwitter.init(io,
 
 			//Connect to spectators
 			thisSpectatorSession.joinSpectators(socket);
+
+			thisOpenTokModule.subscribe(socket);
 
 			socket.on(wtwitter.SUBSCRIBE, function(data) {
 				wtwitter.subscribe(socket);
