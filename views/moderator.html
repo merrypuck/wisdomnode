@@ -4,6 +4,7 @@
 	<!--<script src="https://live.wisdom.ly/socket.io/socket.io.js"></script>-->
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="js/clientside_groupchat.js"></script>
+	<script src="js/clientside_support.js"></script>
 	<script src="js/clientside_notes.js"></script>
 	<script src="js/clientside_agenda.js"></script>
 	<script src="js/clientside_qna.js"></script>
@@ -14,6 +15,7 @@
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 	<script src="http://code
 	.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	<script src="js/plugins/jquery.tmpl.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="stylesheets/css/mostyle.css">
 	<link rel="stylesheet" type="text/css" href="stylesheets/font-awesome/css/font-awesome.css">
 	<script>
@@ -43,7 +45,6 @@
 			}
 		}
 	};
-
 	//var socket = io.connect('https://live.wisdom.ly');
 	var socket = io.connect('<%= hostUrl %>');
 
@@ -55,6 +56,9 @@
 
 	var profile = ProfileClient();
 	profile.init(socket);
+
+	var newSupport = SupportClient();
+	newSupport.initAdmin(socket,wisdom);
 
 	var USER_UPDATE = "wprofile-user-update";
 
@@ -78,6 +82,18 @@
 			newChat.sendMessage(data);
 		});
 
+		// $('#supportenterchat').click(function(){
+		// 	var message = $('#supportchatdata').val();
+		// 	if(message.length > 0 && message!='Submit a Message'){
+		// 		$('#supportchatdata').val('');
+		// 		var msg = {
+		// 			firstName : wisdom.user.firstName,
+		// 			payload : message
+		// 		}
+		// 		newSupport.adminSendMsg(msg);
+		// 	}
+		// });
+
 		// when the client hits ENTER on their keyboard
 		$('#enterchat').keypress(function(e) {
 			if(e.which == 13) {
@@ -86,7 +102,7 @@
 			}
 		});
 
-
+		
 	});
 
 // Twitter updateTweet overloading.
@@ -139,7 +155,9 @@ profile.spectatorLeft = function(userId) {
 
 	<div id='main-container' class='backgroundClass'>
 		<div id='header'>
-			<div id='hostLogo'></div>
+			<div id='hostLogo'>
+				<a href='http://www.wastewise.be' target="_blank"><img src="images/wastewiselogo.png"/></a>
+			</div>
 			<h1>Moderator Panel For:<br>Solid Waste Management and Climate Change</h1>
 		</div>
 
@@ -156,39 +174,6 @@ profile.spectatorLeft = function(userId) {
 			</div>			
 
 		</div>
-<style>
-	.twitterMessageBox{
-		float: left;
-		margin: 1px;
-		padding: 4px;
-		border-radius: 3px;
-		background: rgba(255, 255, 255, 0.18);
-		width: 92%;
-		margin-top: -2px;
-		margin-left: 4px;
-		border: 1px solid #e8e8e8;
-	}
-	.twitterName {
-		float:left;
-		color: #000000;
-		line-height: 18px;
-		font-family: Helvetica, Arial, sans-serif;
-		text-transform: none;
-		list-style: none;
-		font-size: 12px;
-		padding-bottom: 1px;
-		font-style: normal;
-		font-weight: bold;
-	}
-	.twitterMessage{
-		text-align: left;
-		float:left;
-		line-height: 14px;
-		font-family: Helvetica;
-		color: #2A3C57;
-		font-size: 12px;
-	}
-</style>
 
 		<div id='middleBar' class='backgroundClass'>
 			
@@ -205,27 +190,21 @@ profile.spectatorLeft = function(userId) {
 					<input id='chatdata' value="Submit a Message" onFocus="this.value=''"/>
 					<input id='enterchat' type='button' value='SEND' />
 				</div>
-
-			
 		</div>
 		<div id='rightBar' class='backgroundClass'>
 			
 			<div id='support-tab' >
 				<i class="icon-cog"></i> Users
 			</div>
-			<div id='supportConversaton'>
-				<div class="chatmessagebox">
-					a few words...
-
-				</div>
+			<!-- <div id='support-jeremy' class="supportConversaton">
+				<div class="chatmessagebox"></div>
 			</div>
 				<div class='inputComponent'>
 					<input id='supportchatdata' value="Submit a Message" onFocus="this.value=''"/>
 					<input id='supportenterchat' type='button' value='SEND' />
-				</div>
+				</div> -->
 
-			
-		</div>
+ 			
 
 
 	</div>

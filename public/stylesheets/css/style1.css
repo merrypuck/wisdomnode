@@ -71,8 +71,38 @@ height: 36px;
 	
 }
 
+#supportBox{
+	height:40%;
+	width: 95%;
+	background: ;
+}
+
+#supportInput{
+	display: none;
+}
+
 #chat-tab {
 	width:98%;
+	height: 20px;
+	border: 0px solid #E0E0E0;
+	border-left: none;
+	border-right: none;
+	border-top: solid #E0E0E0;
+	line-height: 5px;
+	padding-top: 0px;
+	background: #EFF4FA;
+	font-size: 11px;
+	font-weight: 900;
+	font-family: Helvetica;
+	text-transform: uppercase;
+	text-align: center;
+	line-height: 10px;
+	padding-bottom: 0px;
+	color: #2A3C57;
+}
+
+#support-tab {
+	/*width:98%;
 	height: 20px;
 	border: 0px solid #E0E0E0;
 	border-left: none;
@@ -88,6 +118,13 @@ height: 36px;
 	line-height: 10px;
 	padding-bottom: 0px;
 	color: #2A3C57;
+	cursor: pointer;*/
+	float: center;
+	width: 98%;
+	height: 20px;
+	font-size: 11px;
+	font-weight: 900;
+	font-family: Helvetica;
 }
 
 #chatCounter {
@@ -110,7 +147,7 @@ height: 36px;
 }
 
 #conversation {
-	height: 363px;
+	height: 80%;
 	width: 100%;
 	margin: 1px;
 	border: 1px solid gray;
@@ -118,6 +155,18 @@ height: 36px;
 	overflow: auto;
 	border: 1px solid #E0E0E0;
 	background: #fbfbfc;
+}
+
+.supportConversation {
+	height: 117px;
+	width: 100%;
+	margin: 1px;
+	border: 1px solid gray;
+	display: block;
+	overflow: auto;
+	border: 1px solid #E0E0E0;
+	background: #fbfbfc;
+	display: none;
 }
 
 .chatmessagebox {
@@ -154,6 +203,35 @@ padding-top: 1px;
 padding-left: 10px;
 }
 
+.sender{
+	text-transform:uppercase;
+	line-height: 12px;
+	font-size: 9px;
+	font-family:Helvetica;
+	color: #3A5E94;
+	font-weight: 900;
+	/*width: 50px;*/
+	float: left;
+	padding-top: 1px;
+	padding-left: 10px;
+}
+
+.msg{
+	width: 180px;
+	height: auto;
+	line-height: 13px;
+	font-family:Helvetica;
+	color: #2A3C57;
+	font-size: 10px;
+	float: left;
+	padding-left: 14px;
+}
+
+.msgtime{
+	color:#ccc;
+	font-size:12px;
+	float: right;
+}
 		
 
 #qa {

@@ -30,6 +30,7 @@ var io = require('socket.io');
 var parseCookie = require('connect').utils.parseCookie;
 var flash = require('connect-flash');
 var groupchat = require('./lib/groupchat');
+var support = require('./lib/support');
 var notes = require('./lib/notes');
 var agenda = require('./lib/agenda');
 var profile = require('./lib/profile')
@@ -43,6 +44,7 @@ var util = require('util');
 var LinkedInStrategy = require('passport-linkedin').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
+
 
 // Configuration settings.
 var app = express();
@@ -388,6 +390,10 @@ wtwitter.init(io,
 	var thisChatSession = wGroupChat.newChatroom(221);
 	thisChatSession.init(io, 'blankForNow', 221);
 
+//initialize support module
+	var thisSupportModule = wSupportModule;
+	wSupportModule.init(io);
+
 	//initialize note session
 	var thisNoteSession = wNotes.newNote(221);
 	thisNoteSession.init(io, 'blankForNow', 221);
@@ -433,6 +439,16 @@ wtwitter.init(io,
 
 			socket.on(wtwitter.UNSUBSCRIBE, function(data) {
 				wtwitter.unsubscribe(socket);
+			});
+
+			socket.on("admin-subscribe-support",function(data){
+				//call function in support.js to register admin socket
+				thisSupportModule.adminSubscribe(data,socket.id);
+			});
+			socket.on("user-subscribe-support",function(data){
+				console.log("user SKTID is: " + socket.id);
+				//call function in support.js to register user socket
+				thisSupportModule.userSubscribe(data,socket.id);
 			});
 
 			socket.on("set-video-URL", function(data){
