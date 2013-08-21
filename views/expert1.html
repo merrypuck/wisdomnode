@@ -253,14 +253,27 @@ newChat.displayChat = function(username, message) {
 
 profile.updateSpectators = function(users) {
 
-	for(var i = 0; i < users.length; i++) {
-		$('#spectatorsList').prepend('<li id=\'' + users[i].userId + '\'><img src=\'' + users[i].profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + users[i].linkedinUrl + '\'><div id=\'spectatorSocial\'></div>');
+		for(var i = 0; i < users.length; i++) {
+
+		if(users[i].profileUrl !== ""){
+			if(users[i].profileUrl.search('twitter') > 0){
+			var userProfileTag = '<a style=\'margin-left:50px;\' href=\'' + users[i].profileUrl + '\' target=\'_blank\'><i class="icon-twitter-sign" style="text-decoration: none;"></i></a>';
+			}
+			else{
+				var userProfileTag = '<a style=\'margin-left:50px;\' href=\'' + users[i].profileUrl + '\' target=\'_blank\'><i class=\"icon-linkedin-sign\" style=\"text-decoration: none;\"></i></a>';
+			}
+		}
+		else{
+			var userProfileTag = "<div class=\'spectatorSocial\' style=\'margin-left:45px;\'>Guest</div>"
+		}
+
+		$('#spectatorsList').prepend('<li id=\'' + users[i].userId + '\'><a href=\'' + users[i].profileUrl + '\' target=\'_blank\'><img src=\'' + users[i].profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><div class=\'spectatorSocial\'>' + userProfileTag + ' </div>');
 	};
 	var numSpectators = $('#spectatorsList li').length;
 	var newWidth = 131.5 * numSpectators;
 	$('#spectatorsList').css({'width': newWidth + 'px'});
 
-	$('#viewers').html(numSpectators);
+	$('#viewers').html(numSpectators+1);
 
 		/**$('#spectatorsList').append('<li><img src=\'' + users[i].profileImageUrl + '\'/><div id=\'spectatorName\'>' + users[i].firstName + ' ' + users[i].lastName + '</div><a href=\'' + spectatorSocial + '\' + users[i].linkedinUrl + '\'><div id=\'' + spectatorSocial + '\'></div></a>' );*/
 
@@ -268,13 +281,25 @@ profile.updateSpectators = function(users) {
 
 profile.newSpectator = function(userData) {
 	if($("#" + userData.userId).length < 1) {
-	$('#spectatorsList').prepend('<li id=\'' + userData.userId + '\'><a><img src=\'' + userData.profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + userData.firstName + ' ' + userData.lastName + '</div><a href=\'' + userData.linkedinUrl + '\'><div id=\'spectatorSocial\'></div></a>');
+		
+		if(userData.profileUrl !== ""){
+			if(userData.profileUrl.search('twitter') > 0){
+			var userProfileTag = '<a style=\'margin-left:50px;\' href=\'' + userData.profileUrl + '\' target=\'_blank\'><i class="icon-twitter-sign" style="text-decoration: none;"></i></a>';
+			}
+			else{
+				var userProfileTag = '<a style=\'margin-left:50px;\' href=\'' + userData.profileUrl + '\' target=\'_blank\'><i class=\"icon-linkedin-sign\" style=\"text-decoration: none;\"></i></a>';
+			}
+		}
+		else{
+			var userProfileTag = "<div class=\'spectatorSocial\' style=\'margin-left:15px;\'>Guest</div>"
+		}
+	$('#spectatorsList').prepend('<li id=\'' + userData.userId + '\'><a href=\'' + users[i].profileUrl + '\' target=\'_blank\'>><img src=\'' + userData.profileImageUrl + '\'/></a><div id=\'spectatorName\'>' + userData.firstName + ' ' + userData.lastName + '</div><div id=\'spectatorSocial\'>' +userProfileTag + '</div>');
 };
 
 	var numSpectators = $('#spectatorsList li').length;
 	var newWidth = 131.5 * numSpectators;
 	$('#spectatorsList').css({'width': newWidth + 'px'});
-	$('#viewers').html(numSpectators);
+	$('#viewers').html(numSpectators+1);
 
 };
 

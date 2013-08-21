@@ -44,6 +44,7 @@ var LinkedInStrategy = require('passport-linkedin').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 var otmodule = require('./lib/opentokModule');
+var OAuth = require('oauth').OAuth;
 
 // Configuration settings.
 var app = express();
@@ -145,11 +146,13 @@ passport.use(new LinkedInStrategy({
     consumerKey: LINKEDIN_API_KEY,
     consumerSecret: LINKEDIN_SECRET_KEY,
     callbackURL: hostName + "/auth/linkedin/callback",
-    profileFields: ['id', 'first-name', 'last-name', 'email-address', 'headline','picture-url'] 
+    profileFields: ['id', 'first-name', 'last-name', 'email-address', 'headline','picture-url', 'public-profile-url'] 
   },
   function(token, tokenSecret, profile, done) {
 
   	console.log("LinkedIn Profile response: " + JSON.stringify(profile));
+
+
 
     // asynchronous verification, for effect...
     process.nextTick(function () {
@@ -318,7 +321,7 @@ app.get('/bewastewise', function(req, res) {
 				userId : req.user.id,
 				firstName : req.user.name.givenName,
 				lastName : req.user.name.familyName,
-				profileUrl : '',
+				profileUrl : req.user._json.publicProfileUrl,
 				profilePic : req.user._json.pictureUrl
 			};
 			var user = new User1();
