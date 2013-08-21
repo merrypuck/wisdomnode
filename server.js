@@ -382,7 +382,7 @@ wtwitter.init(io,
 		access_token_key: '74211576-VRsXMuX2QB3a4LSMv0uEEU5YsfBLFB6p0HV9V8pM',
 		access_token_secret: 'fopvDihR38yNASI4QMmo5FRJifa61z5M0dGafDc'
 	}, 'mysession',
-	["dropbox","apple"], ["mukundjha"]);
+	["dropbox"], ["mukundjha"]);
 
 //initalize chat session
 	var thisChatSession = wGroupChat.newChatroom(221);
