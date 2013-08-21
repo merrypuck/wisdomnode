@@ -2,10 +2,12 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/clientside_groupchat.js"></script>
 <script src="js/clientside_profile.js"></script>
+<script src="js/clientside_support.js"></script>
 <script src="js/wisdom-twitter-client.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="js/plugins/jquery.tmpl.min.js"></script>
 <link rel="stylesheet" type="text/css" href="stylesheets/css/style1.css">
 <link rel="stylesheet" type="text/css" href="stylesheets/font-awesome/css/font-awesome.css">
 
@@ -55,6 +57,9 @@ newChat.init(socket, wisdom);
 var twit = TwitterClient();
 twit.init(socket, $);
 
+var newSupport = SupportClient();
+
+
 /*var QnAModule = QnAClient();
 QnAModule.initialize(socket,wisdom.global.sessionid,wisdom.global.userid,wisdom.user.firstName,renderQnA);
 */
@@ -83,6 +88,11 @@ $(function(){
 
 		};
 	};*/
+	newSupport.initUser(socket,wisdom);
+
+	//support module
+	//change suport conversation id
+	$('.supportConversation').attr('id','support-'+wisdom.user.firstName);
 
 $('#spectators-tab1').click( function(){
 	if($('#spectators1').css('display') === 'none'){
@@ -110,6 +120,23 @@ $('#panelists-tab1').click( function(){
 	}
 
 });
+
+$('#support-tab').click(function(){
+	
+	if($(".supportConversation").css('display')==='none'){
+		$(".supportConversation").css('display','block');
+	} else {
+		$(".supportConversation").css('display','none');
+	}
+
+	if($("#supportInput").css('display')==='none'){
+		$("#supportInput").css('display','block');
+		$("#chatroom").css('height','55%');
+	} else {
+		$("#supportInput").css('display','none');
+		$("#chatroom").css('height','100%');
+	}
+})
 
 
 $('#chat-tab').click( function() {
@@ -162,7 +189,7 @@ $('#information-tab').click( function(){
 		// when the client clicks SEND
 		$('#enterchat').click( function() {
 			var message = $('#chatdata').val();
-			if(message.length > 0 && message != 'Submit a Message') {
+			if(message.length > 0 ) {
 			$('#chatdata').val('');
 			$('#chatCounter').html('0/250');
 			// tell server to execute 'sendchat' and send along message as parameter
@@ -175,6 +202,25 @@ $('#information-tab').click( function(){
 			newChat.sendMessage(data);
 		}
 		});
+		
+		//when client click send of support chat
+		$('#entersupport').click(function(){
+			var message = $('#supportdata').val();
+			$('#supportdata').val('');
+			if(message.length > 0 ){
+				$('#supportCounter').html('0/250');
+				var msg = {
+					firstName : wisdom.user.firstName,
+					payload : message
+				}
+				//update self view
+				var selfname = wisdom.user.firstName;
+				newSupport.insertMessage(selfname,selfname,message,true);
+
+				newSupport.userSendMessage(msg);
+			}
+		});
+
 		window.setTimeout(function() { var elem = document.getElementById('chatroom'); elem.scrollTop = elem.scrollHeight; }, 2000)
 
 
@@ -429,9 +475,52 @@ profile.spectatorLeft = function(userId) {
 		</div>
 
 		<div id='rightBar' class='backgroundClass'>
+			<input type="button" id='support-tab' value="Support">
+			
+			<div class='supportConversation'></div>
+<div id="supportInput" class="inputComponent">
+				<span style="
+    margin-top: 15px;
+"><input id="supportdata" placeholder="Submit a Message" style="
+    height: 30px;
+    /* margin-top: 10px; */
+    /* padding-top: 9px; */
+    margin-top: 0px;
+    margin-bottom: 8px;
+    font-family: Helvetica;
+    width: 115px;
+    margin-right: 4px;
+    margin-left: 5px;
+"><input id="entersupport" type="button" value="SEND" style="
+    /* width: 27%; */ 
+    /* float: left; */ background-color: navy; color: white; border: 0; 
+    height: 29px; 
+    margin-top: -8px; font-family: helvetica;
+    padding: -5px -10px -18px;
+"></span>
+				<span style="
+    margin-top: -1px;
+    padding-top: -5px;
+"></span>
+				<span id="supportCounter" style="
+    background-color: rgb(242, 242, 247); 
+    color: black; border: 0; 
+    height: 31px; 
+    margin-top: -6px; font-family: helvetica;
+    font-size: 11px;
+    padding: 2px;
+    padding-top: 7px;
+    padding-bottom: 8px;
+    padding-left: 3px;
+    padding-right: 3px;
+">0/250</span>
+				</div>
+			
 			<div id='chat-tab' class='tabs-schema'>
 				<i class="icon-comments"></i> CHAT
 			</div>
+
+
 
 			<div id='chatroom'>
 				<div id='conversation'>
@@ -441,7 +530,7 @@ profile.spectatorLeft = function(userId) {
 				<div class="inputComponent">
 				<span style="
     margin-top: 15px;
-"><input id="chatdata" value="Submit a Message" style="
+"><input id="chatdata" placeholder="Submit a Message" style="
     height: 30px;
     /* margin-top: 10px; */
     /* padding-top: 9px; */
