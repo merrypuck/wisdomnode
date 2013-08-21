@@ -35,7 +35,8 @@ var TwitterClient = (function() {
     OUTGOING_RETWEET : "send-retweet",
     OUTGOING_REPLY : "send-tweet-reply",
     SUBSCRIBE : 'subscribe-to-twitter',
-    UNSUBSCRIBE : 'unsubscribe-to-twitter',                                       
+    UNSUBSCRIBE : 'unsubscribe-to-twitter', 
+    NEW_SOCIAL_STREAM : 'wisdom-new-social',                                      
     // JQUERY HANDLER
     $ : undefined, 
     init : function (socket, $) {
@@ -47,8 +48,21 @@ var TwitterClient = (function() {
         //console.log('Incoming mesage' + JSON.stringify(data));
         self.updateTweet(data);
       });
+
+      this.mySocket.on(this.NEW_SOCIAL_STREAM, function(data){
+        self.populateSocial(data);
+      });
     },
    
+    populateSocial : function(data) {
+      // TO BE FILLED BY THE CLIENT.
+      if (data != undefined && data != null) {
+        for( var i = 0; i < data.length; i++) {
+          this.updateTweet(data[i]);
+        }
+      }
+    },
+
     subscribe : function() {
       console.log('subscribing');
       this.mySocket.emit(this.SUBSCRIBE, "dummyData");
