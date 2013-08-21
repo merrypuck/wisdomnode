@@ -38,6 +38,17 @@ wisdom = {
 //var socket = io.connect('http://ec2-54-218-74-52.us-west-2.compute.amazonaws.com:8002');
 var socket = io.connect('<%= hostUrl %>');
 
+function setVideoURL(url){
+	console.log("Setting video url to: " + url);
+	$('#hangoutVideo').attr('src', url);
+};
+
+socket.on('new-video-URL', function(data){
+	console.log("Setting video URL within socket.on");
+	setVideoURL(data['url']);
+});
+
+
 var newChat = ChatClient();
 newChat.init(socket, wisdom);
 
@@ -389,7 +400,7 @@ profile.spectatorLeft = function(userId) {
 
 
 		<div id='video'>
-			<iframe width="560" height="315" src="//www.youtube.com/embed/YcxmpE0QoH8" frameborder="0" allowfullscreen></iframe>
+			<iframe id="hangoutVideo" width="560" height="315" src="<%= vidUrl %>" frameborder="0" allowfullscreen></iframe>
 		</div>
 
 		<div id='rightBar' class='backgroundClass'>
@@ -486,11 +497,11 @@ profile.spectatorLeft = function(userId) {
 		<div id="panelist1" style="">
 			<div id="panelist1InfoBox" class="panelistInfoBox" style="margin-right: 0px; display: block;">
 				<center>
-					<div class="panelistName">Nickolas Themelis</div>
+					<div class="panelistName">Mike Biddle</div>
 					<div class="panelistAvatar" id="avatar-themelis"></div>	
 					<div class="panelistTitle">Panelist</div>	
 					<div class="panelistSocial">
-						<a href="http://www.linkedin.com/pub/nickolas-themelis/16/b26/60a" target='_blank'><i class="icon-linkedin-sign" style="text-decoration: none;"></i></a>
+						<a href="#" target='_blank'><i class="icon-linkedin-sign" style="text-decoration: none;"></i></a>
 						<a href="#"><i class="icon-twitter-sign" style="text-decoration: none;"></i></a>
 						<a href="#"><i class="icon-facebook-sign" style="text-decoration: none;"></i></a>
 					</div>
@@ -500,7 +511,7 @@ profile.spectatorLeft = function(userId) {
 			<div id="panelist1BioBox" class="panelistBioBox" style="margin-left: 0px; margin-right: 0px; display: block;">
 				<div class="panelistTextBlock">
 					<div class="panelistBioTitle">Panelist Bio</div>
-					Prof. Nickolas Themelis is the Founder and Director of the Earth Engineering Center at Columbia University and the Global Waste-to-Energy Research and Technology Council, an international consortium with sister organizations in fourteen countries. In 1997, Dr. Themelis led the transformation of Columbia University's historic Henry Krumb School of Mines to the Earth and Environmental Engineering department.
+					Mike Biddle is the Founder and President of MBA Polymers, President of Waste Free Oceans Americas and well known TED Speaker (his TED talk). He is the recipient of 2012 Gothenburg Award for Sustainable Development, sometimes called the Nobel Prize for Environment and many other awards. MBA Polymers is a world leading recycler of plastics from complex waste streams.
 				</div>
 				<div id="panelist1AddlBlock" style="display: none;">
 	        		<div class="panelistTextBlock">
@@ -527,11 +538,11 @@ profile.spectatorLeft = function(userId) {
 		<div id="panelist2" style="">
 			<div id="panelist2InfoBox" class="panelistInfoBox" style="margin-right: 0px; display: block;">
 				<center>
-					<div class="panelistName">Paul Brunner</div>
+					<div class="panelistName">Luis Diaz</div>
 					<div class="panelistAvatar" id="avatar-brunner"></div>	
 					<div class="panelistTitle">Panelist</div>	
 					<div class="panelistSocial">
-						<a href="http://at.linkedin.com/pub/paul-h-brunner/52/b71/51b" target='_blank'><i class="icon-linkedin-sign" style="text-decoration: none;"></i></a>
+						<a href="http://www.linkedin.com/pub/luis-diaz/7/385/b86" target='_blank'><i class="icon-linkedin-sign" style="text-decoration: none;"></i></a>
 						<a href="#"><i class="icon-twitter-sign" style="text-decoration: none;"></i></a>
 						<a href="#"><i class="icon-facebook-sign" style="text-decoration: none;"></i></a>
 					</div>
@@ -542,7 +553,7 @@ profile.spectatorLeft = function(userId) {
 					<div class="panelistBioTitle">
 					Panelist Bio
 					</div>
-					Prof. Paul H. Brunner is considered to be the father of material flow analysis methodology in urban metabolism and industrial ecology. He is the Head of the Institute for Water Quality, Resource and Waste Management at Vienna University of Technology. He is the Co-author of the book Metabolism of the Anthroposphere: Analysis, Evaluation, Design. 
+					Luis Diaz is the President of CalRecovery Inc. During over 30 years in the solid waste management field, Dr. Diaz pioneered the integration of solid waste systems, which is now the standard for all new waste management systems. Dr. Diaz has more than 350 publications and has co-authored 15 books. He is the Editor-in-Chief of Waste Management, Consulting Editor for BioCycle, and Chair of the Working Group on Developing Countries of the International Solid Waste Association (ISWA).
 				</div> 
 				<div id="panelist2AddlBlock" style="display: none;">
 	        		<div class="panelistTextBlock">
@@ -572,18 +583,18 @@ profile.spectatorLeft = function(userId) {
 		<div id="panelist3" style="">
 		<div id="panelist3InfoBox" class="panelistInfoBox" style="margin-right: 0px; display: block;">
 			<center>
-				<div class="panelistName">Perinaz Bhada-Tata</div>
+				<div class="panelistName">Jill Boughton</div>
 				<div class="panelistAvatar" id="avatar-perinaz"></div>	
 				<div class="panelistTitle">Moderator</div>	
 				<div class="panelistSocial">
-					<a href="http://www.linkedin.com/pub/perinaz-bhada-tata/2/34/946" target='_blank'><i class="icon-linkedin-sign" style="text-decoration: none;"></i></a>
+					<a href="http://www.linkedin.com/pub/jill-boughton/5/84b/b4" target='_blank'><i class="icon-linkedin-sign" style="text-decoration: none;"></i></a>
 					<a href="#"><i class="icon-twitter-sign" style="text-decoration: none;"></i></a>
 					<a href="#"><i class="icon-facebook-sign" style="text-decoration: none;"></i></a>
 				</div>
 	    	</center>
 		</div> <!-- info box -->
 		<div id="panelist3BioBox" class="panelistBioBox" style="margin-left: 0px; margin-right: 0px; display: block;">
-			<div class="panelistTextBlock"><div class="panelistBioTitle">Moderator Bio</div>Perinaz Bhada-Tata is the Editor of World Bank's publication Cities and Climate Change: Responding to an Urgent Agenda and is the Co-author of What a Waste - A Global Review of Solid Waste Management. Perinaz worked as a Solid Waste Management Consultant at the World Bank and is a Research Associate at Columbia University's Earth Engineering Center.
+			<div class="panelistTextBlock"><div class="panelistBioTitle">Moderator Bio</div>Jill Boughton is the President and CEO of W2Worth Innovations. She was also the President and CEO of Sustainable WasteResources International (SWRI), before which, she led a corporate-wide effort called “Waste-to-Worth” at Procter and Gamble’s global product development team emphasizing on disruptive and transformational innovation. She is some times referred to as the “Queen of Waste”.
 			</div> 
 			<div id="panelist3AddlBlock" style="display: none;">
 	        	<div class="panelistTextBlock">
@@ -607,6 +618,7 @@ profile.spectatorLeft = function(userId) {
 		</div> <!-- style closing -->
 		</div> <!-- panelist 3 closing -->
 	</li>
+
 </ul>
 	</div> <!-- panelists closing -->
 </div>
@@ -626,7 +638,7 @@ profile.spectatorLeft = function(userId) {
 	<div class="discussionInfo">
 		<div class="discussionTitle">Roundtable Background</div>
 		<div class="discussionText">
-			A recent World Bank report on waste management and climate change co-authored by our moderator Perinaz Bhada-Tata estimates that current waste management methods, specifically emissions from landfill, account for almost five per cent of total global greenhouse gas emissions and 12 per cent of the world's emissions of methane (CO4), a greenhouse gas with an impact more than 20 times that of carbon dioxide (CO2). According to the CDM and JI of the Kyoto protocol, there is a great potential for addressing methane emissions by reducing the amount of waste that ends up in a landfill. Globally nearly 70% of our solid waste is landfilled, a meagre 19% is recovered through composting or recycling, the remaining 11% is converted to energy through incineration or other waste-to-energy technologies. <a style="text-transform:uppercase;font-size:9px;font-weight:700;text-decoration:none;" href="http://wastewise.be/" target='_blank'>More Info</a>
+			The global waste management world and those working in it are a small group. Everyone appears to know everyone else. Further, most are associated with some sort of “agenda” or have a “tag” of sorts. There are “composters”, bio guys, landfillers, waste to energy guys, anti-waste to energy guys, recyclers/zero-wasters, social mitigators, etc. Further, it is relatively rare when those from different specialties reach out across the table and attempt to work with counterparts with different specialties. As solid waste is one of the most complex and heterogeneous entities known to man, it stands to reason that a “one size fits all” solution is likely not practical. However, in some instances, we can seen attitudes bordering on animosity when suggesting those with differing technology agendas consider working together. <a style="text-transform:uppercase;font-size:9px;font-weight:700;text-decoration:none;" href="http://wastewise.be/" target='_blank'>More Info</a>
 		</div>
 	</div>
 	
